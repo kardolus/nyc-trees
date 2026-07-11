@@ -1,11 +1,41 @@
 {
   "platanus-acerifolia": {
-    "form": ["File:Platanus London Plane Tree Main Street Marthas Vineyard Edgartown.jpg"],
-    "leaf": ["File:(ms) Platanus × hispanica 10.jpg"],
-    "fruit": ["File:(ms) Platanus × hispanica 1.jpg", "File:(ms) Platanus × hispanica 7.jpg"]
+    "form": [
+      "File:Platanus London Plane Tree Main Street Marthas Vineyard Edgartown.jpg"
+    ],
+    "leaf": [
+      "File:(ms) Platanus × hispanica 10.jpg"
+    ],
+    "fruit": [
+      "File:(ms) Platanus × hispanica 1.jpg",
+      "File:(ms) Platanus × hispanica 7.jpg"
+    ]
   },
   "acer-platanoides": {
-    "form": ["File:Acer platanoides Marki 2.JPG"],
-    "inat_leaf": [1, 2]
+    "form": [
+      "File:Acer platanoides Marki 2.JPG"
+    ],
+    "leaf": [
+      "File:Acer platanoides 2 RF.jpg"
+    ]
+  },
+  "pyrus-calleryana": {
+    "form": [
+      "File:Pyrus Calleryana tree.jpg"
+    ],
+    "leaf": [
+      "File:Pyrus calleryana leaf s2.jpg"
+    ],
+    "inat": {
+      "leaf": [
+        0
+      ],
+      "fruit": [
+        1
+      ],
+      "flower": [
+        3
+      ]
+    }
   }
 }

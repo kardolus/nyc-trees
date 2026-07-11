@@ -229,7 +229,9 @@ def main():
                             seen[c["title"]] = 1; out.append(c)
             out.sort(key=lambda c: c["score"])
             return out
-        def emit(part, c, n, source_label):
+        partn = {}
+        def emit(part, c, source_label):
+            n = partn[part] = partn.get(part, 0) + 1   # auto-number per part (multiple sources ok)
             base = os.path.join(IMGDIR, sid, f"{part}-{n:02d}")
             to_webp(http(c["thumburl"]), base + ".webp", base + ".thumb.webp")
             attribution = f"{c['creator']}, {c['license']}, via {source_label}"
@@ -240,18 +242,19 @@ def main():
                            "source": source_label, "sourceUrl": c["sourceUrl"], "attribution": attribution})
             credits.append({"speciesId": sid, "part": part, "attribution": attribution, "sourceUrl": c["sourceUrl"]})
 
+        pk = picks.get(sid, {}) or {}
         got, done = 0, set()
-        # 1. explicit photo_picks overrides win for ANY part (incl. leaf/form)
-        for part, titles in (picks.get(sid, {}) or {}).items():
+        # 1. explicit photo_picks Commons overrides win for their part (incl. leaf/form)
+        for part, titles in pk.items():
             if part not in PARTS:
-                continue                                   # skip directives like inat_leaf/inat_form
-            for i, t in enumerate(titles[:2], 1):
+                continue                                   # skip directives like "inat"
+            for t in titles[:2]:
                 c = commons_by_title(t)
                 if not c:
                     misses.append(f"{sid}:{part} pick-not-found ({t})")
                     continue
                 try:
-                    emit(part, c, i, "Wikimedia Commons"); got += 1; done.add(part)
+                    emit(part, c, "Wikimedia Commons"); got += 1; done.add(part)
                 except Exception as e:
                     misses.append(f"{sid}:{part} pick ({e})")
         # 2. bark / fruit / flower from Commons (the filename reliably names the part)
@@ -264,25 +267,27 @@ def main():
                     misses.append(f"{sid}:{part}")
                 continue
             try:
-                emit(part, cands[0], 1, cands[0]["source"]); got += 1
+                emit(part, cands[0], cands[0]["source"]); got += 1
             except Exception as e:
                 misses.append(f"{sid}:{part} ({e})")
-        # 3. leaf + form from iNaturalist (unless supplied by a Commons pick). By default the top
-        #    votes-ordered CC photos map indices [0,1]->leaf and [2,3]->form; photo_picks
-        #    "inat_leaf"/"inat_form" (lists of 0-based indices) override which iNat photos become
-        #    which part — for hand-curation (e.g. "photo #2 is actually a great leaf").
-        pk = picks.get(sid, {}) or {}
-        leaf_idx = (pk.get("inat_leaf", [0, 1]) if "leaf" not in done else [])
-        form_idx = (pk.get("inat_form", [2, 3]) if "form" not in done else [])
-        want_n = max([-1] + leaf_idx + form_idx) + 1
-        if want_n > 0:
+        # 3. iNaturalist photos of the plant (always the right species). By default indices
+        #    [0,1]->leaf and [2,3]->form fill parts not supplied by a Commons pick. photo_picks
+        #    "inat" (a {part: [indices]} map) overrides which iNat photos become which part —
+        #    e.g. {"leaf":[0], "fruit":[1], "flower":[3]} to hand-relabel mis-classified shots.
+        inat_map = pk.get("inat")
+        if inat_map is None:
+            inat_map = {}
+            if "leaf" not in done: inat_map["leaf"] = [0, 1]
+            if "form" not in done: inat_map["form"] = [2, 3]
+        idxs_all = [i for v in inat_map.values() for i in v]
+        if idxs_all:
             try:
-                inat = inat_photos(sp.get("inaturalistTaxonId"), want_n)
-                for part, idxs in (("leaf", leaf_idx), ("form", form_idx)):
-                    for n, i in enumerate(idxs, 1):
+                inat = inat_photos(sp.get("inaturalistTaxonId"), max(idxs_all) + 1)
+                for part, idxs in inat_map.items():
+                    for i in idxs:
                         if i < len(inat):
                             try:
-                                emit(part, inat[i], n, "iNaturalist"); got += 1
+                                emit(part, inat[i], "iNaturalist"); got += 1
                             except Exception:
                                 pass
             except Exception:
