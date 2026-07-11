@@ -261,5 +261,24 @@
         "https://www.inaturalist.org/observations/21793178"
       ]
     }
+  },
+  "liquidambar-styraciflua": {
+    "form": [
+      "File:Liquidambar styraciflua in Golden Valley Tree Park, May 2022 02.jpg",
+      "File:Liquidambar styraciflua - La Hulpe (1).JPG"
+    ],
+    "leaf": [
+      "File:American sweetgum leaves, Brookfield Stream Reserve.jpg",
+      "File:Backlit American sweetgum (Liquidambar styraciflua) ref leaf, Lisbon, Portugal (approx. GPS location) julesvernex2.jpg"
+    ],
+    "bark": [
+      "File:American Sweetgum Liquidambar styraciflua Bark Closeup.JPG"
+    ],
+    "fruit": [
+      "File:Sweetgum fruits, West Park, 2022-01-13, 01.jpg"
+    ],
+    "flower": [
+      "File:Liquidambar styraciflua bloom.JPG"
+    ]
   }
 }
