@@ -299,5 +299,19 @@
         "https://www.inaturalist.org/observations/90724613"
       ]
     }
+  },
+  "acer-saccharum": {
+    "leaf": [
+      "File:Acer saccharum leaves.jpg",
+      "File:Acer saccharum (4976751017).jpg"
+    ],
+    "inat": {
+      "form": [
+        "https://www.inaturalist.org/observations/141023115"
+      ],
+      "bark": [
+        "https://www.inaturalist.org/observations/265289492"
+      ]
+    }
   }
 }
