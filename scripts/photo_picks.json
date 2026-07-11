@@ -239,5 +239,27 @@
         "https://www.inaturalist.org/observations/152069762"
       ]
     }
+  },
+  "quercus-rubra": {
+    "form": [
+      "File:Quercus Rubra Sambuy.jpg"
+    ],
+    "bark": [
+      "File:Quercus rubra N red oak bark.jpg"
+    ],
+    "fruit": [
+      "File:Quercus rubra-Acorn R 84 k edit (23871483189).jpg"
+    ],
+    "flower": [
+      "File:Blooming of Red oak (Quercus rubra).jpg"
+    ],
+    "inat": {
+      "leaf": [
+        "https://www.inaturalist.org/observations/8477937"
+      ],
+      "form": [
+        "https://www.inaturalist.org/observations/21793178"
+      ]
+    }
   }
 }
