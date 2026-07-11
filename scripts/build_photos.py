@@ -170,6 +170,20 @@ def inat_photos(taxon_id, n=3):
     return out
 
 
+def inat_by_obs(url):
+    """Fetch the default photo of a specific iNaturalist observation URL (a drift-proof pin)."""
+    m = re.search(r"/observations/(\d+)", url)
+    if not m:
+        return None
+    o = (get_json(f"https://api.inaturalist.org/v1/observations/{m.group(1)}").get("results") or [{}])[0]
+    ph = (o.get("photos") or [{}])[0]
+    if not ph.get("url"):
+        return None
+    return {"thumburl": ph["url"].replace("square", "large"), "license": ph.get("license_code", ""),
+            "creator": strip_html(ph.get("attribution", "")).split(",")[0] or "iNaturalist user",
+            "sourceUrl": url, "source": "iNaturalist"}
+
+
 def to_webp(raw, path_full, path_thumb):
     im = Image.open(io.BytesIO(raw)).convert("RGB")
     for path, w in ((path_full, FULL_W), (path_thumb, THUMB_W)):
@@ -257,9 +271,11 @@ def main():
                     emit(part, c, "Wikimedia Commons"); got += 1; done.add(part)
                 except Exception as e:
                     misses.append(f"{sid}:{part} pick ({e})")
-        # 2. bark / fruit / flower from Commons (the filename reliably names the part)
+        # 2. bark / fruit / flower from Commons (the filename reliably names the part).
+        #    photo_picks "skip": ["fruit"] suppresses the auto-fetch (e.g. when the good fruit
+        #    photo comes from iNat instead and the Commons one is wrong).
         for part in ["bark", "fruit", "flower"]:
-            if part in done:
+            if part in done or part in pk.get("skip", []):
                 continue
             cands = part_cands(part)
             if not cands:
@@ -272,22 +288,24 @@ def main():
                 misses.append(f"{sid}:{part} ({e})")
         # 3. iNaturalist photos of the plant (always the right species). By default indices
         #    [0,1]->leaf and [2,3]->form fill parts not supplied by a Commons pick. photo_picks
-        #    "inat" (a {part: [indices]} map) overrides which iNat photos become which part —
-        #    e.g. {"leaf":[0], "fruit":[1], "flower":[3]} to hand-relabel mis-classified shots.
+        #    "inat" (a {part: [item,...]} map) overrides which iNat photos become which part. Each
+        #    item is a 0-based index into the votes-ordered CC photos OR an iNat observation URL
+        #    (a drift-proof pin — index order shifts over time; URLs don't).
         inat_map = pk.get("inat")
         if inat_map is None:
             inat_map = {}
             if "leaf" not in done: inat_map["leaf"] = [0, 1]
             if "form" not in done: inat_map["form"] = [2, 3]
-        idxs_all = [i for v in inat_map.values() for i in v]
-        if idxs_all:
+        int_idx = [i for v in inat_map.values() for i in v if isinstance(i, int)]
+        if inat_map:
             try:
-                inat = inat_photos(sp.get("inaturalistTaxonId"), max(idxs_all) + 1)
-                for part, idxs in inat_map.items():
-                    for i in idxs:
-                        if i < len(inat):
+                inat = inat_photos(sp.get("inaturalistTaxonId"), max(int_idx) + 1) if int_idx else []
+                for part, items in inat_map.items():
+                    for it in items:
+                        c = inat[it] if (isinstance(it, int) and it < len(inat)) else (inat_by_obs(it) if isinstance(it, str) else None)
+                        if c:
                             try:
-                                emit(part, inat[i], "iNaturalist"); got += 1
+                                emit(part, c, "iNaturalist"); got += 1
                             except Exception:
                                 pass
             except Exception:

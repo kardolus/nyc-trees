@@ -75,5 +75,32 @@
         2
       ]
     }
+  },
+  "tilia-cordata": {
+    "form": [
+      "File:Tilia cordata tree, Ada Ciganlija.jpg"
+    ],
+    "leaf": [
+      "File:2020 year. Herbarium. Tilia cordata. img-012.jpg",
+      "File:2020 year. Herbarium. Tilia cordata. img-008.jpg"
+    ],
+    "bark": [
+      "File:2021-03-04 11 15 31 Little-leaf Linden bark along Virginia Willow Drive in the Franklin Glen section of Chantilly, Fairfax County, Virginia.jpg"
+    ],
+    "flower": [
+      "File:Tilia cordata flowers.jpg"
+    ],
+    "skip": [
+      "fruit"
+    ],
+    "inat": {
+      "fruit": [
+        "https://www.inaturalist.org/observations/70549314",
+        "https://www.inaturalist.org/observations/73856345"
+      ],
+      "form": [
+        "https://www.inaturalist.org/observations/99783330"
+      ]
+    }
   }
 }
