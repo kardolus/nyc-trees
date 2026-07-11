@@ -51,12 +51,45 @@
 
   // ---- lightbox ---------------------------------------------------------------
   function openLightbox(photo, sp) {
+    // Cycle through every photo of this tree (form/leaf/bark/fruit/flower) with ← → keys or the
+    // on-screen arrows, so you can compare the parts of one species without leaving the lightbox.
+    var list = sp ? (photosBySpecies[sp.id] || []) : [];
+    if (list.indexOf(photo) < 0) list = [photo];
+    var idx = Math.max(0, list.indexOf(photo)), multi = list.length > 1;
     var lb = document.createElement("div"); lb.className = "lb";
-    lb.innerHTML = '<div class="lb-win"><div class="lb-img"><img src="' + esc(photo.src) + '" alt="' + esc((sp ? sp.common : "") + " " + photo.part) + '"></div>' +
+    lb.innerHTML = '<div class="lb-win">' +
+      '<div class="lb-img">' + (multi ? '<button class="lb-nav prev" aria-label="Previous photo">‹</button>' : '') +
+      '<img alt="">' + (multi ? '<button class="lb-nav next" aria-label="Next photo">›</button>' : '') + '</div>' +
       '<div class="lb-side"><button class="lb-close" aria-label="Close">×</button>' +
-      (sp ? '<span class="part-tag">' + esc(photo.part) + '</span><h2>' + esc(sp.common) + '</h2><p class="meta"><i>' + esc(sp.scientific) + '</i></p>' : '') +
-      '<p class="cred meta">' + esc(photo.attribution || "") + (photo.sourceUrl ? ' · <a href="' + esc(photo.sourceUrl) + '" target="_blank" rel="noopener">source</a>' : '') + '</p></div></div>';
-    lb.addEventListener("click", function (e) { if (e.target === lb || e.target.className === "lb-close") document.body.removeChild(lb); });
+      (sp ? '<span class="part-tag"></span><h2>' + esc(sp.common) + '</h2><p class="meta"><i>' + esc(sp.scientific) + '</i></p>' : '') +
+      (multi ? '<p class="meta mono lb-count"></p>' : '') +
+      '<p class="cred meta"></p></div></div>';
+    var img = lb.querySelector(".lb-img img"), tag = lb.querySelector(".part-tag"),
+        cred = lb.querySelector(".cred"), count = lb.querySelector(".lb-count");
+    function paint() {
+      var p = list[idx];
+      img.src = p.src; img.alt = (sp ? sp.common + " " : "") + p.part;
+      if (tag) tag.textContent = p.part;
+      if (count) count.textContent = (idx + 1) + " / " + list.length;
+      cred.innerHTML = esc(p.attribution || "") + (p.sourceUrl ? ' · <a href="' + esc(p.sourceUrl) + '" target="_blank" rel="noopener">source</a>' : '');
+      // preload neighbours for snappy stepping
+      [list[(idx + 1) % list.length], list[(idx - 1 + list.length) % list.length]].forEach(function (n) { if (n) { var i = new Image(); i.src = n.src; } });
+    }
+    function go(d) { idx = (idx + d + list.length) % list.length; paint(); }
+    function close() { document.removeEventListener("keydown", onKey); if (lb.parentNode) document.body.removeChild(lb); }
+    function onKey(e) {
+      if (e.key === "ArrowRight") { go(1); e.preventDefault(); }
+      else if (e.key === "ArrowLeft") { go(-1); e.preventDefault(); }
+      else if (e.key === "Escape") close();
+    }
+    lb.addEventListener("click", function (e) {
+      var c = typeof e.target.className === "string" ? e.target.className : "";
+      if (e.target === lb || c.indexOf("lb-close") >= 0) close();
+      else if (c.indexOf("next") >= 0) go(1);
+      else if (c.indexOf("prev") >= 0) go(-1);
+    });
+    document.addEventListener("keydown", onKey);
+    paint();
     document.body.appendChild(lb);
   }
   window.addEventListener("click", function (e) {

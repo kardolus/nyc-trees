@@ -412,3 +412,10 @@ html.dark .fab{color:#0d1117}
 .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .empty { color: var(--meta); }
 @media (max-width: 480px) { .pr-row { grid-template-columns: 1fr 80px 40px; } .ph, .ph img { width: 104px; } }
+
+/* lightbox photo navigation (arrow keys + on-screen arrows) */
+.lb-img { position: relative; }
+.lb-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 42px; height: 60px; border: none; border-radius: 8px; background: #000a; color: #fff; font: 32px/1 var(--font-ui); cursor: pointer; }
+.lb-nav:hover { background: #000d; }
+.lb-nav.prev { left: 8px; } .lb-nav.next { right: 8px; }
+.lb-count { margin: 4px 0 0; }
