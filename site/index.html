@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f8f9fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+<title>NYC Trees — learn to recognize the trees on your block</title>
+<meta name="description" content="A gamified field guide to the common street and park trees of New York City. Learn to recognize them by leaf, bark, and fruit with real photos, a recognition quiz, a visual key, and a tree-walk spotting game.">
+<meta property="og:title" content="NYC Trees — learn the trees on your block">
+<meta property="og:description" content="Recognize NYC's common street and park trees by leaf, bark, and fruit — real photos, a recognition quiz, a visual key, and a tree-walk spotting game.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://trees.kardol.us">
+<meta property="og:image" content="https://trees.kardol.us/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NYC Trees — learn the trees on your block">
+<meta name="twitter:description" content="A real-photo recognition trainer for the common trees of New York City.">
+<meta name="twitter:image" content="https://trees.kardol.us/img/og.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css?v=1">
+<script>
+  // apply saved theme before paint to avoid a flash
+  var _t = localStorage.getItem('theme'); document.documentElement.classList.toggle('dark', _t ? _t === 'dark' : (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches));
+  function toggleDark(){
+    document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+  }
+</script>
+<script defer src="https://analytics.kardol.us/script.js" data-website-id="3d3e2025-249e-4e14-b854-6bc30f202853"></script>
+</head>
+<body>
+<div class="top-bar">
+  <div class="top-utility">
+    <div class="brand" onclick="location.hash='#/home'" title="NYC Trees">
+      <svg class="logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 22v-6"/><path d="M12 16c-3.5 0-6-2.4-6-5.4 0-1.5.7-2.9 1.8-3.9C7.3 4.7 9.4 2.5 12 2.5s4.7 2.2 4.2 4.2C17.3 7.7 18 9.1 18 10.6c0 3-2.5 5.4-6 5.4z"/>
+      </svg>
+      NYC&nbsp;Trees
+    </div>
+    <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode" aria-label="Toggle dark mode">◐</button>
+  </div>
+  <nav class="top-nav" id="nav">
+    <a href="#/home"     data-route="home">Drill</a>
+    <a href="#/guide"    data-route="guide">Guide</a>
+    <a href="#/key"      data-route="key">Key</a>
+    <a href="#/walk"     data-route="walk">Walk</a>
+    <a href="#/now"      data-route="now">Now</a>
+    <a href="#/progress" data-route="progress">Progress</a>
+  </nav>
+</div>
+
+<main id="app"><!-- rendered by app.js --></main>
+
+<footer class="foot">
+  <span class="meta">common NYC street &amp; park trees · photos <a href="#/credits">CC-licensed</a> · all progress stays in this browser · <svg class="foot-mark" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M12 1.6l1.9 8.5 8.5 1.9-8.5 1.9-1.9 8.5-1.9-8.5-8.5-1.9 8.5-1.9z"/></svg><a href="https://kardol.us">kardol.us</a> homelab</span>
+  <span class="meta mono" id="foot-count"></span>
+</footer>
+
+<button id="fab" class="fab" title="Quick recognition drill" aria-label="Quick drill">🌳 Drill me</button>
+
+<script src="/species.js?v=1"></script>
+<script src="/photos.js?v=1"></script>
+<script src="/quiz.js?v=1"></script>
+<script src="/app.js?v=1"></script>
+</body>
+</html>

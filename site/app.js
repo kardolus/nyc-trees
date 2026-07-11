@@ -1,0 +1,299 @@
+/* NYC Trees — client app. Static, no backend; all state in localStorage. */
+(function () {
+  "use strict";
+  var SPECIES = (window.NYCTREES_SPECIES || []).slice();
+  var PHOTOS = (window.NYCTREES_PHOTOS || []).slice();
+  var CREDITS = window.NYCTREES_CREDITS || [];
+
+  // ---- indexes ----------------------------------------------------------------
+  var byId = {}; SPECIES.forEach(function (s) { byId[s.id] = s; });
+  var photosBySpecies = {}, photosByKey = {};
+  PHOTOS.forEach(function (p) {
+    (photosBySpecies[p.speciesId] = photosBySpecies[p.speciesId] || []).push(p);
+    var k = p.speciesId + ":" + p.part;
+    (photosByKey[k] = photosByKey[k] || []).push(p);
+  });
+  var PARTS = ["form", "leaf", "bark", "fruit", "flower"];
+  function photosFor(id, part) { return part ? (photosByKey[id + ":" + part] || []) : (photosBySpecies[id] || []); }
+  function heroPhoto(id) { var p = photosBySpecies[id] || []; return (photosByKey[id + ":leaf"] || photosByKey[id + ":form"] || p)[0] || p[0]; }
+
+  // ---- state / Leitner --------------------------------------------------------
+  var KEY = "nyctrees.v1";
+  var INTERVALS = [0, 1, 2, 4, 8, 16]; // days by mastery 0..5
+  function blank() { return { progress: {}, settings: { area: "all" }, stats: { streak: { count: 0, last: "" }, seen: 0, walk: {}, badges: {} } }; }
+  var S = blank();
+  try { var sv = JSON.parse(localStorage.getItem(KEY) || "{}"); S.progress = sv.progress || {}; S.settings = Object.assign(S.settings, sv.settings || {}); S.stats = Object.assign(S.stats, sv.stats || {}); } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  function todayStr() { return new Date().toISOString().slice(0, 10); }
+  function addDays(d, n) { var t = new Date(d + "T00:00:00"); t.setDate(t.getDate() + n); return t.toISOString().slice(0, 10); }
+  function prog(k) { return (S.progress[k] = S.progress[k] || { mastery: 0, due: "", hits: 0, misses: 0 }); }
+  function bumpStreak() { var t = todayStr(), st = S.stats.streak; if (st.last === t) return; st.count = st.last === addDays(t, -1) ? st.count + 1 : 1; st.last = t; }
+  function grade(k, result) {
+    var p = prog(k);
+    if (result === "right") { p.mastery = Math.min(5, p.mastery + 1); p.hits++; }
+    else { p.mastery = Math.max(1, p.mastery - 2); p.misses++; }
+    p.due = addDays(todayStr(), INTERVALS[p.mastery]); bumpStreak(); S.stats.seen++; save();
+  }
+  // per-species mastery = mean mastery over its seen keys (0..5)
+  function speciesMastery(id) {
+    var ks = Object.keys(S.progress).filter(function (k) { return k.indexOf(id + ":") === 0; });
+    if (!ks.length) return 0;
+    return ks.reduce(function (a, k) { return a + S.progress[k].mastery; }, 0) / ks.length;
+  }
+
+  // ---- dom helpers ------------------------------------------------------------
+  var APP = document.getElementById("app");
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function on(sel, ev, fn) { Array.prototype.forEach.call(APP.querySelectorAll(sel), function (n) { n.addEventListener(ev, fn); }); }
+  function track(name, data) { try { if (window.umami) umami.track(name, data); } catch (e) {} }
+  function month() { return new Date().getMonth() + 1; }
+
+  // ---- lightbox ---------------------------------------------------------------
+  function openLightbox(photo, sp) {
+    var lb = document.createElement("div"); lb.className = "lb";
+    lb.innerHTML = '<div class="lb-win"><div class="lb-img"><img src="' + esc(photo.src) + '" alt="' + esc((sp ? sp.common : "") + " " + photo.part) + '"></div>' +
+      '<div class="lb-side"><button class="lb-close" aria-label="Close">×</button>' +
+      (sp ? '<span class="part-tag">' + esc(photo.part) + '</span><h2>' + esc(sp.common) + '</h2><p class="meta"><i>' + esc(sp.scientific) + '</i></p>' : '') +
+      '<p class="cred meta">' + esc(photo.attribution || "") + (photo.sourceUrl ? ' · <a href="' + esc(photo.sourceUrl) + '" target="_blank" rel="noopener">source</a>' : '') + '</p></div></div>';
+    lb.addEventListener("click", function (e) { if (e.target === lb || e.target.className === "lb-close") document.body.removeChild(lb); });
+    document.body.appendChild(lb);
+  }
+  window.addEventListener("click", function (e) {
+    var t = e.target.closest && e.target.closest("[data-photo]");
+    if (t) { var ph = PHOTOS.find(function (p) { return p.id === t.getAttribute("data-photo"); }); if (ph) openLightbox(ph, byId[ph.speciesId]); }
+  });
+
+  // ---- quiz session (Drill + Now) ---------------------------------------------
+  var QZ = null;
+  function startQuiz(opts) {
+    opts = opts || {};
+    var ctx = { species: SPECIES, byId: byId, photosBySpecies: photosBySpecies, photosByKey: photosByKey, month: month() };
+    var qs = window.NYCTREES_QUIZ.build(ctx, opts);
+    if (!qs.length) { APP.innerHTML = '<div class="wrap"><p class="empty">No photos loaded yet.</p></div>'; return; }
+    QZ = { qs: qs, i: 0, answered: false, chosen: null, right: 0, wrong: 0, label: opts.label || "Recognition drill" };
+    track("drill_start", { scope: opts.scope || "mixed", n: qs.length });
+    if ((location.hash || "").indexOf("home") < 0 && (location.hash || "").indexOf("now") < 0) location.hash = "#/home";
+    else drawQuiz();
+  }
+  function drawQuiz() {
+    var q = QZ.qs[QZ.i];
+    var body = '<div class="wrap quiz">';
+    body += '<div class="qz-top"><span class="meta mono">' + esc(QZ.label) + ' · ' + (QZ.i + 1) + '/' + QZ.qs.length + '</span>' +
+      '<span class="meta mono">✓ ' + QZ.right + ' · ✗ ' + QZ.wrong + '</span></div>';
+    body += '<div class="qz-card"><h2 class="qz-q">' + esc(q.prompt) + '</h2>';
+    if (q.photo) body += '<div class="qz-photo"><img loading="eager" src="' + esc(q.photo.src) + '" alt="tree photo"><span class="qz-cred meta">' + esc(q.photo.attribution || "") + '</span></div>';
+    if (q.photoOptions) {
+      body += '<div class="qz-photogrid">' + q.options.map(function (o, idx) {
+        return '<button class="qz-opt-photo" data-i="' + idx + '"><img loading="lazy" src="' + esc(o.photo.thumb || o.photo.src) + '" alt="option"></button>';
+      }).join("") + '</div>';
+    } else {
+      body += '<div class="qz-opts">' + q.options.map(function (o, idx) {
+        return '<button class="qz-opt" data-i="' + idx + '">' + esc(o.label) + '</button>';
+      }).join("") + '</div>';
+    }
+    body += '<div class="qz-feedback" id="qz-fb"></div>';
+    body += '<div class="qz-actions" id="qz-actions"></div>';
+    body += '</div></div>';
+    APP.innerHTML = body;
+    on(".qz-opt,.qz-opt-photo", "click", function () { if (!QZ.answered) answer(parseInt(this.getAttribute("data-i"), 10)); });
+  }
+  function answer(idx) {
+    var q = QZ.qs[QZ.i]; QZ.answered = true; QZ.chosen = idx;
+    var ok = q.options[idx].value === q.correct;
+    if (ok) QZ.right++; else QZ.wrong++;
+    grade(q.key, ok ? "right" : "wrong");
+    track("drill_answer", { type: q.type, ok: ok });
+    var opts = APP.querySelectorAll(".qz-opt,.qz-opt-photo");
+    Array.prototype.forEach.call(opts, function (n, i) {
+      if (q.options[i].value === q.correct) n.classList.add("right");
+      else if (i === idx) n.classList.add("wrong");
+      n.disabled = true;
+    });
+    $("qz-fb").innerHTML = '<div class="fb ' + (ok ? "good" : "bad") + '">' + (ok ? "✓ " : "✗ ") + esc(q.explain) + '</div>';
+    var last = QZ.i >= QZ.qs.length - 1;
+    $("qz-actions").innerHTML = '<button class="btn primary" id="qz-next">' + (last ? "See score" : "Next →") + '</button>';
+    $("qz-next").addEventListener("click", function () { if (last) endQuiz(); else { QZ.i++; QZ.answered = false; drawQuiz(); } });
+  }
+  function endQuiz() {
+    var pct = Math.round(100 * QZ.right / QZ.qs.length);
+    var verd = pct >= 80 ? "sharp eye 🌳" : pct >= 55 ? "getting there" : "keep drilling";
+    APP.innerHTML = '<div class="wrap"><div class="scorecard"><div class="verdict">' + esc(verd) + '</div>' +
+      '<div class="kpis"><div class="kpi"><b>' + QZ.right + '/' + QZ.qs.length + '</b><span>correct</span></div>' +
+      '<div class="kpi"><b>' + pct + '%</b><span>score</span></div>' +
+      '<div class="kpi"><b>' + S.stats.streak.count + '</b><span>day streak</span></div></div>' +
+      '<div class="row"><button class="btn primary" onclick="location.hash=\'#/home\'">Again</button>' +
+      '<button class="btn" onclick="location.hash=\'#/guide\'">Field guide</button></div></div></div>';
+    track("drill_done", { pct: pct });
+  }
+
+  // ---- Home / Daily Drill -----------------------------------------------------
+  function renderHome() {
+    if (QZ && !QZ.done && QZ.i < QZ.qs.length) { drawQuiz(); return; }
+    var mastered = SPECIES.filter(function (s) { return speciesMastery(s.id) >= 4; }).length;
+    APP.innerHTML = '<div class="wrap home">' +
+      '<h1>Recognition drill</h1>' +
+      '<p class="sub">Photo in, tree out. ' + SPECIES.length + ' common NYC trees · ' + mastered + ' well-known · ' + S.stats.streak.count + '-day streak.</p>' +
+      '<div class="drill-cta"><button class="btn primary big" id="d-mixed">Start a 10-question drill</button></div>' +
+      '<div class="drill-modes">' +
+      '<button class="chip" id="d-conf">Look-alikes</button>' +
+      '<button class="chip" id="d-parts">Bark / leaf / fruit</button>' +
+      '<button class="chip" id="d-feat">By features</button>' +
+      '<button class="chip" onclick="location.hash=\'#/now\'">What’s out now</button>' +
+      '</div></div>';
+    $("d-mixed").onclick = function () { startQuiz({ scope: "mixed", count: 10, label: "Recognition drill" }); };
+    $("d-conf").onclick = function () { startQuiz({ scope: "confusable", count: 10, label: "Look-alikes" }); };
+    $("d-parts").onclick = function () { startQuiz({ scope: "parts", count: 10, label: "Bark / leaf / fruit" }); };
+    $("d-feat").onclick = function () { startQuiz({ scope: "feature", count: 10, label: "By features" }); };
+  }
+
+  // ---- Field Guide ------------------------------------------------------------
+  function statusTag(s) { return (s.nycStatus || []).indexOf("invasive") >= 0 ? '<span class="tag bad">invasive</span>' : (s.native ? '<span class="tag good">native</span>' : ''); }
+  function renderGuide() {
+    var list = SPECIES.slice().sort(function (a, b) { return (a.nycRank || 99) - (b.nycRank || 99); });
+    APP.innerHTML = '<div class="wrap"><h1>Field guide</h1><p class="sub">The common trees, roughly by how often you’ll see them on NYC streets. Tap a photo to enlarge.</p>' +
+      '<div class="species-list">' + list.map(guideCard).join("") + '</div></div>';
+  }
+  function guideCard(s) {
+    var strip = PARTS.map(function (part) {
+      var ph = photosFor(s.id, part)[0]; if (!ph) return "";
+      return '<figure class="ph" data-photo="' + esc(ph.id) + '"><img loading="lazy" src="' + esc(ph.thumb || ph.src) + '" alt="' + esc(s.common + " " + part) + '"><figcaption>' + esc(part) + '</figcaption></figure>';
+    }).join("");
+    var conf = (s.confusableWith || []).map(function (c) { var o = byId[c.id]; return o ? '<li><b>' + esc(o.common) + '</b> — ' + esc(c.tell) + '</li>' : ''; }).join("");
+    var t = s.traits;
+    return '<article class="sp-card"><header><div><h2>' + esc(s.common) + ' ' + statusTag(s) + '</h2>' +
+      '<p class="meta"><i>' + esc(s.scientific) + '</i> · ' + esc(s.family) + '</p></div>' +
+      '<div class="mastery-dot m' + Math.round(speciesMastery(s.id)) + '" title="familiarity"></div></header>' +
+      '<div class="strip">' + strip + '</div>' +
+      '<ul class="fastid">' + (s.fastId || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' +
+      '<p class="traits meta">' + esc(t.arrangement) + ' · ' + esc(t.leafType) + ' · ' + esc(t.margin) + ' · ' + esc((t.bark || []).join("/")) + ' bark · ' + esc(t.fruit.replace(/-/g, " ")) + '</p>' +
+      (conf ? '<details class="confuse"><summary>Don’t confuse with…</summary><ul>' + conf + '</ul></details>' : '') +
+      '</article>';
+  }
+
+  // ---- Feature Key ------------------------------------------------------------
+  var KEYF = { arrangement: "", leafType: "", fruit: "", bark: "" };
+  function renderKey() {
+    function optset(name, label, values) {
+      return '<div class="kf"><span class="kf-l">' + label + '</span><div class="kf-opts">' +
+        '<button class="chip' + (KEYF[name] === "" ? " on" : "") + '" data-kf="' + name + '" data-v="">any</button>' +
+        values.map(function (v) { return '<button class="chip' + (KEYF[name] === v ? " on" : "") + '" data-kf="' + name + '" data-v="' + v + '">' + esc(v) + '</button>'; }).join("") + '</div></div>';
+    }
+    var matches = SPECIES.filter(function (s) {
+      return (!KEYF.arrangement || s.traits.arrangement === KEYF.arrangement) &&
+        (!KEYF.leafType || s.traits.leafType === KEYF.leafType) &&
+        (!KEYF.fruit || s.traits.fruit === KEYF.fruit) &&
+        (!KEYF.bark || (s.traits.bark || []).indexOf(KEYF.bark) >= 0);
+    });
+    APP.innerHTML = '<div class="wrap"><h1>Visual key</h1><p class="sub">Narrow it down by what you can see. This is how you ID a tree you’ve never met.</p>' +
+      '<div class="keyfilters">' +
+      optset("arrangement", "Leaves", ["opposite", "alternate"]) +
+      optset("leafType", "Leaf type", ["simple", "compound", "needle", "scale", "fan"]) +
+      optset("bark", "Bark", ["smooth", "furrowed", "ridged", "plated", "exfoliating", "mottled", "scaly"]) +
+      optset("fruit", "Fruit / nut", ["acorn", "samara", "double-samara", "pod", "drupe", "pome", "cone", "seed-ball", "nut", "capsule", "ginkgo-seed"]) +
+      '</div>' +
+      '<p class="meta count">' + matches.length + ' of ' + SPECIES.length + ' match</p>' +
+      '<div class="key-grid">' + matches.map(function (s) { var ph = heroPhoto(s.id);
+        return '<button class="key-tile"' + (ph ? ' data-photo="' + esc(ph.id) + '"' : '') + '>' + (ph ? '<img loading="lazy" src="' + esc(ph.thumb || ph.src) + '" alt="' + esc(s.common) + '">' : '') + '<span>' + esc(s.common) + '</span></button>';
+      }).join("") + '</div></div>';
+    on("[data-kf]", "click", function () { KEYF[this.getAttribute("data-kf")] = this.getAttribute("data-v"); renderKey(); });
+  }
+
+  // ---- Tree Walk (seasonal spotting) -----------------------------------------
+  function walkTargets() {
+    var m = month(), t = [
+      { id: "opp", label: "A tree with OPPOSITE branches/leaves (maple, ash, horse chestnut)" },
+      { id: "compound", label: "A compound leaf (honeylocust, ash, pagoda tree)" },
+      { id: "exfol", label: "Exfoliating / mottled bark (London planetree)" },
+      { id: "fan", label: "A ginkgo fan-shaped leaf" },
+      { id: "samara", label: "A winged samara (maple or ash)" },
+      { id: "acorn", label: "An oak with acorns" },
+      { id: "star", label: "A star-shaped sweetgum leaf (or its spiky ball)" }
+    ];
+    if ([9, 10, 11].indexOf(m) >= 0) t.push({ id: "fall-fruit", label: "Fall fruit/nut on the ground: acorn, ginkgo, conker, or honeylocust pod" });
+    if ([4, 5].indexOf(m) >= 0) t.push({ id: "spring-flower", label: "Spring blossom: Callery pear, cherry, or redbud" });
+    return t;
+  }
+  function renderWalk() {
+    var tg = walkTargets(), w = S.stats.walk || (S.stats.walk = {}), done = tg.filter(function (x) { return w[x.id]; }).length;
+    APP.innerHTML = '<div class="wrap"><h1>Tree walk</h1><p class="sub">Take this outside. Spot each one on a real NYC block or in a park — tap when you find it. ' + done + '/' + tg.length + ' this season.</p>' +
+      '<ul class="walk">' + tg.map(function (x) {
+        return '<li class="walk-item' + (w[x.id] ? " done" : "") + '" data-w="' + x.id + '"><span class="tick">' + (w[x.id] ? "✓" : "○") + '</span>' + esc(x.label) + '</li>';
+      }).join("") + '</ul>' +
+      (done === tg.length ? '<p class="badge">🏅 Season complete — you found them all!</p>' : '') +
+      '<button class="btn" id="walk-reset">Reset walk</button></div>';
+    on(".walk-item", "click", function () { var k = this.getAttribute("data-w"); S.stats.walk[k] = !S.stats.walk[k]; save(); track("walk_spot", { t: k }); renderWalk(); });
+    $("walk-reset").onclick = function () { S.stats.walk = {}; save(); renderWalk(); };
+  }
+
+  // ---- Seasonal (What's out now) ---------------------------------------------
+  function renderNow() {
+    var m = month(), names = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var flowering = SPECIES.filter(function (s) { return (s.season && s.season.flower || []).indexOf(m) >= 0; });
+    var fruiting = SPECIES.filter(function (s) { return (s.season && s.season.fruit || []).indexOf(m) >= 0; });
+    function grid(list, label) {
+      if (!list.length) return '<p class="meta">Nothing notable ' + label + ' in ' + names[m] + '.</p>';
+      return '<div class="now-grid">' + list.map(function (s) { var ph = photosFor(s.id, "fruit")[0] || heroPhoto(s.id);
+        return '<button class="key-tile"' + (ph ? ' data-photo="' + esc(ph.id) + '"' : '') + '>' + (ph ? '<img loading="lazy" src="' + esc(ph.thumb || ph.src) + '" alt="' + esc(s.common) + '">' : '') + '<span>' + esc(s.common) + '</span></button>';
+      }).join("") + '</div>';
+    }
+    var poolIds = {}; flowering.concat(fruiting).forEach(function (s) { poolIds[s.id] = 1; });
+    APP.innerHTML = '<div class="wrap"><h1>What’s out now</h1><p class="sub">In NYC, ' + names[m] + ':</p>' +
+      '<h3>Flowering</h3>' + grid(flowering, "flowering") +
+      '<h3>Fruiting / nuts</h3>' + grid(fruiting, "fruiting") +
+      '<div class="row"><button class="btn primary" id="now-quiz">Quiz me on what’s out now</button></div></div>';
+    $("now-quiz").onclick = function () {
+      var pool = SPECIES.filter(function (s) { return poolIds[s.id]; });
+      if (pool.length < 4) pool = SPECIES;
+      startQuiz({ scope: "mixed", count: 8, speciesPool: pool, label: names[m] + " trees" });
+    };
+  }
+
+  // ---- Progress ---------------------------------------------------------------
+  function renderProgress() {
+    var rows = SPECIES.slice().sort(function (a, b) { return speciesMastery(b.id) - speciesMastery(a.id); }).map(function (s) {
+      var m = speciesMastery(s.id), pc = Math.round(100 * m / 5);
+      return '<div class="pr-row"><span>' + esc(s.common) + '</span><div class="bar"><i style="width:' + pc + '%"></i></div><span class="meta mono">' + Math.round(m * 20) + '%</span></div>';
+    }).join("");
+    var weak = SPECIES.filter(function (s) { return speciesMastery(s.id) > 0 && speciesMastery(s.id) < 3; });
+    APP.innerHTML = '<div class="wrap"><h1>Progress</h1>' +
+      '<div class="kpis"><div class="kpi"><b>' + S.stats.streak.count + '</b><span>day streak</span></div>' +
+      '<div class="kpi"><b>' + (S.stats.seen || 0) + '</b><span>drilled</span></div>' +
+      '<div class="kpi"><b>' + SPECIES.filter(function (s) { return speciesMastery(s.id) >= 4; }).length + '/' + SPECIES.length + '</b><span>solid</span></div></div>' +
+      (weak.length ? '<div class="row"><button class="btn primary" id="pr-weak">Drill your ' + weak.length + ' weak spots</button></div>' : '') +
+      '<div class="pr-list">' + rows + '</div>' +
+      '<div class="row"><button class="btn" id="pr-export">Export</button><button class="btn" id="pr-import">Import</button><button class="btn bad" id="pr-reset">Reset all</button></div></div>';
+    if (weak.length) $("pr-weak").onclick = function () { startQuiz({ scope: "mixed", count: 10, speciesPool: weak, label: "Weak spots" }); };
+    $("pr-export").onclick = function () { var b = new Blob([JSON.stringify(S)], { type: "application/json" }); var a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "nyc-trees-progress.json"; a.click(); };
+    $("pr-import").onclick = function () { var i = document.createElement("input"); i.type = "file"; i.accept = "application/json"; i.onchange = function () { var f = i.files[0]; if (!f) return; var r = new FileReader(); r.onload = function () { try { var d = JSON.parse(r.result); S.progress = d.progress || {}; S.stats = Object.assign(S.stats, d.stats || {}); save(); renderProgress(); } catch (e) { alert("Bad file"); } }; r.readAsText(f); }; i.click(); };
+    $("pr-reset").onclick = function () { if (confirm("Erase all progress?")) { S = blank(); save(); renderProgress(); } };
+  }
+
+  // ---- Credits ----------------------------------------------------------------
+  function renderCredits() {
+    var byS = {}; CREDITS.forEach(function (c) { (byS[c.speciesId] = byS[c.speciesId] || []).push(c); });
+    APP.innerHTML = '<div class="wrap"><h1>Photo credits</h1><p class="sub">Every photo is Creative-Commons or public-domain, from Wikimedia Commons and iNaturalist. Thank you to the photographers.</p>' +
+      Object.keys(byS).map(function (id) {
+        return '<div class="cred-block"><h3>' + esc((byId[id] || {}).common || id) + '</h3><ul class="meta">' +
+          byS[id].map(function (c) { return '<li>' + esc(c.part) + ': ' + esc(c.attribution) + (c.sourceUrl ? ' · <a href="' + esc(c.sourceUrl) + '" target="_blank" rel="noopener">source</a>' : '') + '</li>'; }).join("") + '</ul></div>';
+      }).join("") + '</div>';
+  }
+
+  // ---- router -----------------------------------------------------------------
+  var ROUTES = { home: renderHome, guide: renderGuide, key: renderKey, walk: renderWalk, now: renderNow, progress: renderProgress, credits: renderCredits };
+  function route() {
+    var name = (location.hash.replace(/^#\//, "") || "home").split("/")[0];
+    if (!ROUTES[name]) name = "home";
+    if (name !== "home") QZ = null;
+    Array.prototype.forEach.call(document.querySelectorAll("#nav a"), function (a) { a.classList.toggle("active", a.getAttribute("data-route") === name); });
+    ROUTES[name](); window.scrollTo(0, 0);
+    track("mode_enter", { mode: name });
+  }
+  window.addEventListener("hashchange", route);
+  var fab = document.getElementById("fab"); if (fab) fab.onclick = function () { startQuiz({ scope: "mixed", count: 5, label: "Quick drill" }); };
+
+  // ---- boot -------------------------------------------------------------------
+  var fc = document.getElementById("foot-count"); if (fc) fc.textContent = SPECIES.length + " NYC trees";
+  if (!location.hash) location.hash = "#/home";
+  route();
+})();
