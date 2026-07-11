@@ -372,8 +372,10 @@ html.dark .fab{color:#0d1117}
 .ph { margin: 0; flex: 0 0 auto; width: 128px; cursor: zoom-in; }
 .ph img { width: 128px; height: 96px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--border); display: block; }
 .ph figcaption { font-family: var(--font-mono); font-size: 10px; color: var(--meta); text-align: center; margin-top: 2px; text-transform: capitalize; }
-.fastid { margin: 6px 0; padding-left: 18px; }
-.fastid li { margin: 2px 0; }
+.fastid { margin: 8px 0 0; padding-left: 2px; list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.fastid li { font-size: 13px; color: var(--meta); padding-left: 16px; position: relative; }
+.fastid li::before { content: "↳"; position: absolute; left: 0; color: var(--accent); }
+.fastid li b { color: var(--fg); font-weight: 600; }
 .traits { font-family: var(--font-mono); font-size: 11px; }
 .confuse summary { cursor: pointer; color: var(--accent); font-size: 13px; font-family: var(--font-ui); font-weight: 600; }
 .confuse ul { margin: 6px 0; padding-left: 18px; }
