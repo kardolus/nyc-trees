@@ -280,5 +280,24 @@
     "flower": [
       "File:Liquidambar styraciflua bloom.JPG"
     ]
+  },
+  "styphnolobium-japonicum": {
+    "form": [
+      "File:Styphnolobium japonicum UW.JPG"
+    ],
+    "bark": [
+      "File:2024-01-27 14 58 42 Pagoda tree bark on the grounds of the Mountain View Golf Course in Ewing Township, Mercer County, New Jersey.jpg"
+    ],
+    "fruit": [
+      "File:2024-01-27 14 57 42 Pagoda tree fruit on the grounds of the Mountain View Golf Course in Ewing Township, Mercer County, New Jersey.jpg"
+    ],
+    "flower": [
+      "File:2023-07-21 16 08 58 Japanese pagoda tree flowers along Willis Drive in the Mountainview section of Ewing Township, Mercer County, New Jersey.jpg"
+    ],
+    "inat": {
+      "leaf": [
+        "https://www.inaturalist.org/observations/90724613"
+      ]
+    }
   }
 }
