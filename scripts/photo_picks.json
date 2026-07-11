@@ -150,5 +150,27 @@
         "https://www.inaturalist.org/observations/33459054"
       ]
     }
+  },
+  "acer-saccharinum": {
+    "form": [
+      "File:Acer saccharinum habitus F of F Belgrade.jpg"
+    ],
+    "leaf": [
+      "File:Silver Maple Acer saccharinum leaf, St Louis MO.jpg"
+    ],
+    "bark": [
+      "File:Acer saccharinum bark.jpg"
+    ],
+    "fruit": [
+      "File:Acer saccharinum samaras Churchill Woods Glen Ellyn Illinois.jpg"
+    ],
+    "flower": [
+      "File:Acer-saccharinum-flowering.JPG"
+    ],
+    "inat": {
+      "bark": [
+        "https://www.inaturalist.org/observations/188364169"
+      ]
+    }
   }
 }
