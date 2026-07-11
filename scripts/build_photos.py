@@ -243,6 +243,8 @@ def main():
         got, done = 0, set()
         # 1. explicit photo_picks overrides win for ANY part (incl. leaf/form)
         for part, titles in (picks.get(sid, {}) or {}).items():
+            if part not in PARTS:
+                continue                                   # skip directives like inat_leaf/inat_form
             for i, t in enumerate(titles[:2], 1):
                 c = commons_by_title(t)
                 if not c:
@@ -265,17 +267,26 @@ def main():
                 emit(part, cands[0], 1, cands[0]["source"]); got += 1
             except Exception as e:
                 misses.append(f"{sid}:{part} ({e})")
-        # 3. leaf + whole-tree form from iNaturalist (unless a pick already supplied them).
-        #    iNat's top-voted CC shots are real photos of the right species (mostly foliage/habit).
-        try:
-            plan = [(p, n) for (p, n) in [("leaf", 1), ("leaf", 2), ("form", 1), ("form", 2)] if p not in done]
-            for (part, n), c in zip(plan, inat_photos(sp.get("inaturalistTaxonId"), len(plan))):
-                try:
-                    emit(part, c, n, "iNaturalist"); got += 1
-                except Exception:
-                    pass
-        except Exception:
-            pass
+        # 3. leaf + form from iNaturalist (unless supplied by a Commons pick). By default the top
+        #    votes-ordered CC photos map indices [0,1]->leaf and [2,3]->form; photo_picks
+        #    "inat_leaf"/"inat_form" (lists of 0-based indices) override which iNat photos become
+        #    which part — for hand-curation (e.g. "photo #2 is actually a great leaf").
+        pk = picks.get(sid, {}) or {}
+        leaf_idx = (pk.get("inat_leaf", [0, 1]) if "leaf" not in done else [])
+        form_idx = (pk.get("inat_form", [2, 3]) if "form" not in done else [])
+        want_n = max([-1] + leaf_idx + form_idx) + 1
+        if want_n > 0:
+            try:
+                inat = inat_photos(sp.get("inaturalistTaxonId"), want_n)
+                for part, idxs in (("leaf", leaf_idx), ("form", form_idx)):
+                    for n, i in enumerate(idxs, 1):
+                        if i < len(inat):
+                            try:
+                                emit(part, inat[i], n, "iNaturalist"); got += 1
+                            except Exception:
+                                pass
+            except Exception:
+                pass
         if not any(p["speciesId"] == sid and p["part"] == "leaf" for p in photos):
             misses.append(f"{sid}:leaf")
         print(f"  {sid:<26} {got} photos")
