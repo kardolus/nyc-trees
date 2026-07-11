@@ -131,6 +131,22 @@ def commons_search(term, want_kw, name_tokens=None, n=20, require_kw=True):
     return cands
 
 
+def commons_by_title(title):
+    """Fetch one Commons file by its exact File: title (for photo_picks overrides)."""
+    r = get_json("https://commons.wikimedia.org/w/api.php?action=query&format=json&prop=imageinfo"
+                 "&iiprop=url|extmetadata&iiurlwidth=1200&titles=" + urllib.parse.quote(title))
+    for pg in r.get("query", {}).get("pages", {}).values():
+        ii = (pg.get("imageinfo") or [{}])[0]
+        if not ii.get("thumburl"):
+            continue
+        em = ii.get("extmetadata", {})
+        return {"title": pg["title"], "thumburl": ii["thumburl"],
+                "license": (em.get("LicenseShortName", {}) or {}).get("value", ""),
+                "creator": strip_html((em.get("Artist", {}) or {}).get("value", "")) or "Unknown",
+                "sourceUrl": ii.get("descriptionurl", ""), "source": "Wikimedia Commons"}
+    return None
+
+
 def inat_photos(taxon_id, n=3):
     q = ("https://api.inaturalist.org/v1/observations?"
          f"taxon_id={taxon_id}&photo_license=cc0,cc-by&quality_grade=research"
@@ -158,14 +174,24 @@ def to_webp(raw, path_full, path_thumb):
 
 
 def main():
-    limit = None
-    if "--limit" in sys.argv:
-        limit = int(sys.argv[sys.argv.index("--limit") + 1])
+    limit = int(sys.argv[sys.argv.index("--limit") + 1]) if "--limit" in sys.argv else None
+    only = sys.argv[sys.argv.index("--only") + 1] if "--only" in sys.argv else None
     species = load_species()
-    if limit:
+    if only:
+        species = [s for s in species if s["id"] == only]
+    elif limit:
         species = species[:limit]
     picks = json.load(open(PICKS)) if os.path.exists(PICKS) else {}
     photos, credits, misses = [], [], []
+
+    # --only rebuilds a single species in place: preload the existing manifest (minus that
+    # species) so the other 19 are preserved.
+    if only and os.path.exists(OUT):
+        ex = json.loads(subprocess.check_output(["node", "-e",
+            "global.window={};require(" + json.dumps(os.path.abspath(OUT)) +
+            ");process.stdout.write(JSON.stringify({p:window.NYCTREES_PHOTOS,c:window.NYCTREES_CREDITS}))"]))
+        photos = [p for p in ex["p"] if p["speciesId"] != only]
+        credits = [c for c in ex["c"] if c["speciesId"] != only]
 
     for sp in species:
         sid, sci = sp["id"], sp["scientific"]
@@ -208,29 +234,36 @@ def main():
                            "source": source_label, "sourceUrl": c["sourceUrl"], "attribution": attribution})
             credits.append({"speciesId": sid, "part": part, "attribution": attribution, "sourceUrl": c["sourceUrl"]})
 
-        got = 0
-        # bark / fruit / flower from Commons (the filename reliably names the part)
-        for part in ["bark", "fruit", "flower"]:
-            override = (picks.get(sid, {}) or {}).get(part)
-            cands = part_cands(part)
-            if override:
-                cands = [c for t in override for c in commons_search(t, want[part], require_kw=False) if c["title"] == t] or cands
-            if not cands:
-                if part in ("flower",):
+        got, done = 0, set()
+        # 1. explicit photo_picks overrides win for ANY part (incl. leaf/form)
+        for part, titles in (picks.get(sid, {}) or {}).items():
+            for i, t in enumerate(titles[:2], 1):
+                c = commons_by_title(t)
+                if not c:
+                    misses.append(f"{sid}:{part} pick-not-found ({t})")
                     continue
-                misses.append(f"{sid}:{part}")
+                try:
+                    emit(part, c, i, "Wikimedia Commons"); got += 1; done.add(part)
+                except Exception as e:
+                    misses.append(f"{sid}:{part} pick ({e})")
+        # 2. bark / fruit / flower from Commons (the filename reliably names the part)
+        for part in ["bark", "fruit", "flower"]:
+            if part in done:
+                continue
+            cands = part_cands(part)
+            if not cands:
+                if part not in ("flower",):
+                    misses.append(f"{sid}:{part}")
                 continue
             try:
                 emit(part, cands[0], 1, cands[0]["source"]); got += 1
             except Exception as e:
                 misses.append(f"{sid}:{part} ({e})")
-        # leaf + whole-tree form from iNaturalist: always real photos of the right species, and
-        # iNat's top-voted shots are overwhelmingly foliage/habit (Commons "leaf" text-search was
-        # noisy). Take the 3 most-faved CC observations: 2 as leaf, 1 as form.
+        # 3. leaf + whole-tree form from iNaturalist (unless a pick already supplied them).
+        #    iNat's top-voted CC shots are real photos of the right species (mostly foliage/habit).
         try:
-            inat = inat_photos(sp.get("inaturalistTaxonId"), 4)
-            plan = [("leaf", 1), ("leaf", 2), ("form", 1), ("form", 2)]
-            for (part, n), c in zip(plan, inat):
+            plan = [(p, n) for (p, n) in [("leaf", 1), ("leaf", 2), ("form", 1), ("form", 2)] if p not in done]
+            for (part, n), c in zip(plan, inat_photos(sp.get("inaturalistTaxonId"), len(plan))):
                 try:
                     emit(part, c, n, "iNaturalist"); got += 1
                 except Exception:
