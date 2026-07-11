@@ -195,5 +195,26 @@
         "https://www.inaturalist.org/observations/145577104"
       ]
     }
+  },
+  "zelkova-serrata": {
+    "form": [
+      "File:Zelkova serrata entire.jpg",
+      "File:Zelkova serrata in Golden Valley Tree Park, May 2022 01.jpg"
+    ],
+    "bark": [
+      "File:Japanese Zelkova serrata (81-502-L) Lower Trunk Bark.JPG"
+    ],
+    "fruit": [
+      "File:Zelkova leaves and seeds.jpg"
+    ],
+    "skip": [
+      "flower"
+    ],
+    "inat": {
+      "leaf": [
+        "https://www.inaturalist.org/observations/209875267",
+        "https://www.inaturalist.org/observations/80457006"
+      ]
+    }
   }
 }
