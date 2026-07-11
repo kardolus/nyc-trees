@@ -102,5 +102,30 @@
         "https://www.inaturalist.org/observations/99783330"
       ]
     }
+  },
+  "fraxinus-pennsylvanica": {
+    "form": [
+      "File:Green Ash (Swamp Ash) - Fraxinus pennsylvaniaca P9190050.jpg"
+    ],
+    "leaf": [
+      "File:Fraxinus pennsylvanica leaf.jpg"
+    ],
+    "bark": [
+      "File:2021-03-03 09 16 07 Green Ash bark along Terrace Boulevard in the Parkway Village section of Ewing Township, Mercer County, New Jersey.jpg"
+    ],
+    "fruit": [
+      "File:Fraxinus pennsylvanica foliage seed.jpg"
+    ],
+    "skip": [
+      "flower"
+    ],
+    "inat": {
+      "form": [
+        "https://www.inaturalist.org/observations/127667384"
+      ],
+      "bark": [
+        "https://www.inaturalist.org/observations/114060748"
+      ]
+    }
   }
 }
