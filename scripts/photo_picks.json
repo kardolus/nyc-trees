@@ -217,5 +217,27 @@
         "https://www.inaturalist.org/observations/80457006"
       ]
     }
+  },
+  "ulmus-americana": {
+    "form": [
+      "File:Img ulmus americana 2209.jpg"
+    ],
+    "leaf": [
+      "File:Ulmus americana (5102579562).jpg"
+    ],
+    "bark": [
+      "File:Bark of Ulmus americana.jpg"
+    ],
+    "fruit": [
+      "File:Ulmus americana seeds.jpg"
+    ],
+    "flower": [
+      "File:American Elm - Ulmus americana, Occoquan Regional Park, Lorton, Virginia.jpg"
+    ],
+    "inat": {
+      "form": [
+        "https://www.inaturalist.org/observations/152069762"
+      ]
+    }
   }
 }
