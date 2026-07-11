@@ -127,5 +127,28 @@
         "https://www.inaturalist.org/observations/114060748"
       ]
     }
+  },
+  "acer-rubrum": {
+    "form": [
+      "File:Acer rubrum October Glory 5zz.jpg"
+    ],
+    "bark": [
+      "File:Acer rubrum(Bark).JPG"
+    ],
+    "fruit": [
+      "File:Acer rubrum seed keys.jpg"
+    ],
+    "skip": [
+      "flower"
+    ],
+    "inat": {
+      "leaf": [
+        "https://www.inaturalist.org/observations/34643990",
+        "https://www.inaturalist.org/observations/100358257"
+      ],
+      "form": [
+        "https://www.inaturalist.org/observations/33459054"
+      ]
+    }
   }
 }
