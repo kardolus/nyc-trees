@@ -172,5 +172,28 @@
         "https://www.inaturalist.org/observations/188364169"
       ]
     }
+  },
+  "ginkgo-biloba": {
+    "form": [
+      "File:A golden Ginkgo biloba in autumn.jpg"
+    ],
+    "bark": [
+      "File:2021-03-02 17 19 54 Ginkgo bark along White Barn Court in the Franklin Farm section of Oak Hill, Fairfax County, Virginia.jpg"
+    ],
+    "fruit": [
+      "File:Peeled ginkgo nuts.jpg"
+    ],
+    "flower": [
+      "File:Ginkgo biloba - female flower.JPG"
+    ],
+    "inat": {
+      "leaf": [
+        "https://www.inaturalist.org/observations/97018142",
+        "https://www.inaturalist.org/observations/29818974"
+      ],
+      "form": [
+        "https://www.inaturalist.org/observations/145577104"
+      ]
+    }
   }
 }
