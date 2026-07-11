@@ -20,8 +20,14 @@ An optional scripts/photo_picks.json lets you override the auto-pick per (specie
 
 Run:  python3 scripts/build_photos.py            (add --limit N to test on a few species)
 """
-import io, json, os, re, subprocess, sys, urllib.parse, urllib.request
+import hashlib, io, json, os, re, subprocess, sys, urllib.parse, urllib.request
 from PIL import Image
+
+
+def _fh(path):
+    """8-char content hash — appended to photo URLs so a replaced image (same filename) gets a
+    fresh URL and isn't served stale from a browser's long image cache."""
+    return hashlib.md5(open(path, "rb").read()).hexdigest()[:8]
 
 HERE = os.path.dirname(__file__)
 ROOT = os.path.join(HERE, "..")
@@ -229,7 +235,7 @@ def main():
             attribution = f"{c['creator']}, {c['license']}, via {source_label}"
             rel = f"img/photos/{sid}/{part}-{n:02d}"
             photos.append({"id": f"{sid}-{part}-{n:02d}", "speciesId": sid, "part": part,
-                           "src": rel + ".webp", "thumb": rel + ".thumb.webp",
+                           "src": f"{rel}.webp?h={_fh(base + '.webp')}", "thumb": f"{rel}.thumb.webp?h={_fh(base + '.thumb.webp')}",
                            "license": c["license"], "creator": c["creator"],
                            "source": source_label, "sourceUrl": c["sourceUrl"], "attribution": attribution})
             credits.append({"speciesId": sid, "part": part, "attribution": attribution, "sourceUrl": c["sourceUrl"]})
