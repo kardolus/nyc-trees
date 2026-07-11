@@ -42,5 +42,27 @@
         3
       ]
     }
+  },
+  "gleditsia-triacanthos": {
+    "form": [
+      "File:Gleditsia triacanthos Maryhill Museum 01.jpg"
+    ],
+    "bark": [
+      "File:Gleditsia triacanthos bark.jpg"
+    ],
+    "leaf": [
+      "File:Gleditsia leaf.jpg"
+    ],
+    "inat": {
+      "leaf": [
+        0
+      ],
+      "form": [
+        1
+      ],
+      "fruit": [
+        3
+      ]
+    }
   }
 }
