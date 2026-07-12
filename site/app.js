@@ -275,8 +275,8 @@
           if (((list[i].scientific || "").replace("×", "x").toLowerCase()).indexOf(key) === 0) { m = list[i]; break; }
         }
         if (!m) return;
-        el.textContent = "NYC census · " + m.count.toLocaleString() + " trees · #" + m.rank +
-          " · " + m.pct + "% of city" + (m.borough ? " · most in " + m.borough : "");
+        el.textContent = t("NYC census · {count} trees · #{rank} · {pct}% of city · most in {borough}",
+          { count: m.count.toLocaleString(), rank: m.rank, pct: m.pct, borough: t(m.borough || "—") });
         el.classList.add("show");
       });
     });
@@ -334,14 +334,14 @@
       var ph = photosFor(s.id, part)[0]; if (!ph) return "";
       return '<figure class="ph" data-photo="' + esc(ph.id) + '"><img loading="lazy" src="' + esc(ph.thumb || ph.src) + '" alt="' + esc(s.common + " " + part) + '"><figcaption>' + esc(part) + '</figcaption></figure>';
     }).join("");
-    var conf = (s.confusableWith || []).map(function (c) { var o = byId[c.id]; return o ? '<li><b>' + esc(o.common) + '</b> — ' + esc(c.tell) + '</li>' : ''; }).join("");
-    var t = s.traits;
+    var conf = (s.confusableWith || []).map(function (c) { var o = byId[c.id]; return o ? '<li><b>' + esc(o.common) + '</b> — <span>' + esc(c.tell) + '</span></li>' : ''; }).join("");
+    var tr = s.traits;
     return '<article class="sp-card"><header><div><h2>' + esc(s.common) + ' ' + statusTag(s) + '</h2>' +
       '<p class="meta"><i>' + esc(s.scientific) + '</i> · ' + esc(s.family) + '</p></div>' +
       '<div class="mastery-dot m' + Math.round(speciesMastery(s.id)) + '" title="familiarity"></div></header>' +
       '<div class="strip">' + strip + '</div>' +
       '<ul class="fastid">' + (s.fastId || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' +
-      '<p class="traits meta">' + esc(t.arrangement) + ' · ' + esc(t.leafType) + ' · ' + esc(t.margin) + ' · ' + esc((t.bark || []).join("/")) + ' bark · ' + esc(t.fruit.replace(/-/g, " ")) + '</p>' +
+      '<p class="traits meta">' + esc(t(tr.arrangement)) + ' · ' + esc(t(tr.leafType)) + ' · ' + esc(t(tr.margin)) + ' · ' + esc((tr.bark || []).map(function (b) { return t(b); }).join("/")) + ' ' + t("bark") + ' · ' + esc(t(tr.fruit.replace(/-/g, " "))) + '</p>' +
       '<p class="census" data-census="' + esc((s.scientific || "").replace("×", "x").toLowerCase()) + '"></p>' +
       (conf ? '<details class="confuse"><summary>Don’t confuse with…</summary><ul>' + conf + '</ul></details>' : '') +
       '</article>';

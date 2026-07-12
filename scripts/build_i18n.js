@@ -61,7 +61,13 @@ const FACTS = [
 ];
 // census common names (in the top-species bars) + boroughs not already covered by species.js
 const EXTRA = ["Thornless honeylocust", "'Green leaf' Japanese flowering cherry", "swamp white oak",
-  "Japanese flowering cherry", "Queens", "Brooklyn", "Manhattan", "Staten Island", "Bronx", "the Bronx"];
+  "Japanese flowering cherry", "Queens", "Brooklyn", "Manhattan", "Staten Island", "Bronx", "the Bronx",
+  "NYC census · {count} trees · #{rank} · {pct}% of city · most in {borough}",
+  // trait shorthand vocabulary (shown on the guide/tree-of-day cards)
+  "alternate", "opposite", "simple", "compound", "needle", "scale", "fan",
+  "toothed", "serrated", "lobed", "entire",
+  "smooth", "furrowed", "ridged", "scaly", "exfoliating", "lenticels", "plated", "diamond", "mottled",
+  "seed ball", "double samara", "acorn", "pod", "pome", "drupe", "nut", "samara", "capsule", "ginkgo seed"];
 
 function loadSpecies() {
   const src = fs.readFileSync(path.join(__dirname, "..", "site", "species.js"), "utf8");
