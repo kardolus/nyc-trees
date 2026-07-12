@@ -316,5 +316,27 @@
         "https://www.inaturalist.org/observations/265289492"
       ]
     }
+  },
+  "cercis-canadensis": {
+    "form": [
+      "File:Eastern Redbud Cercis canadensis habit summer.jpg"
+    ],
+    "bark": [
+      "File:Eastern Redbud (Cercis canadensis) Bark and Blooms - Knoxville, Tennessee - April 10, 2020.jpg"
+    ],
+    "fruit": [
+      "File:2021-05-17 16 00 40 Eastern Redbud branch with a heavy load of immature seed pods along Old Dairy Road in the Franklin Farm section of Oak Hill, Fairfax County, Virginia.jpg"
+    ],
+    "flower": [
+      "File:Cercis canadensis tree trunk with flowers.jpg"
+    ],
+    "inat": {
+      "flower": [
+        "https://www.inaturalist.org/observations/72378649"
+      ],
+      "leaf": [
+        "https://www.inaturalist.org/observations/274013164"
+      ]
+    }
   }
 }
