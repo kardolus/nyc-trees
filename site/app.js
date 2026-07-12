@@ -378,7 +378,10 @@
     APP.innerHTML = '<div class="wrap">' +
       '<div class="home-cols">' +
         '<section class="home-col">' + secHero("🌳", "Tree of the day", "A new tree to learn every day") +
-          '<div class="species-list totd">' + guideCard(totd) + '</div></section>' +
+          '<div class="species-list totd">' + guideCard(totd) + '</div>' +
+          secHero("💡", "Did you know?", "a new fact every day") +
+          '<div class="card dyk-card"><p id="dyk-fact" class="dyk-fact">…</p></div>' +
+        '</section>' +
         '<section class="home-col">' + secHero("🌸", "Now", "Flowering &amp; fruiting in " + names[m]) +
           '<h4 class="now-sub">Flowering</h4>' + grid(flowering, "flowering") +
           '<h4 class="now-sub">Fruiting / nuts</h4>' + grid(fruiting, "fruiting") +
@@ -392,7 +395,16 @@
         '<section>' + secHero("📍", "Biggest &amp; notable trees", "the city’s superlatives") + mapPanel + '</section>' +
       '</div></div>';
     fillCensus();
+    fillDyk();
     renderAtlasPanels();
+  }
+  function fillDyk() {
+    var el = document.getElementById("dyk-fact"); if (!el) return;
+    fetch("/atlas/api/facts").then(function (r) { return r.json(); }).then(function (o) {
+      var f = (o && o.data) || []; if (!f.length) { el.textContent = ""; return; }
+      var s = todayStr() + "dyk", h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+      el.textContent = f[h % f.length];
+    }).catch(function () {});
   }
 
   // ---- Progress ---------------------------------------------------------------
