@@ -268,7 +268,7 @@
       _atlasTiles = L.tileLayer(_tileUrl(), { attribution: "&copy; OpenStreetMap &copy; CARTO", subdomains: "abcd", maxZoom: 19 }).addTo(_atlasMap);
       data.forEach(function (t) {
         L.circleMarker([t.lat, t.lon], { radius: 4, color: KIND[t.kind] || "#1da46c", weight: 1, fillOpacity: .8 })
-          .bindPopup('<b>' + esc(t.common || "tree") + '</b><br>' + (t.dbh ? "trunk " + t.dbh + "&Prime; · " : "") + esc(t.borough || "")).addTo(_atlasMap);
+          .bindPopup('<b>' + esc(t.common || "tree") + '</b><br>' + (t.dbh ? "trunk " + t.dbh + "&Prime; · " : "") + esc([t.nta, t.borough].filter(Boolean).join(", "))).addTo(_atlasMap);
       });
     }).catch(function () {});
   }
