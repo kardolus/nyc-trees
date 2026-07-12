@@ -338,5 +338,28 @@
         "https://www.inaturalist.org/observations/274013164"
       ]
     }
+  },
+  "ailanthus-altissima": {
+    "form": [
+      "File:Ailanthus altissima - geograph.org.uk - 6889522.jpg"
+    ],
+    "bark": [
+      "File:Heaventree Ailanthus altissima 150mm bark.jpg"
+    ],
+    "fruit": [
+      "File:Ailanthus altissima, samara.jpg"
+    ],
+    "flower": [
+      "File:Ailanthus altissima flowers (7601188730).jpg"
+    ],
+    "inat": {
+      "leaf": [
+        "https://www.inaturalist.org/observations/91361855",
+        "https://www.inaturalist.org/observations/127112855"
+      ],
+      "form": [
+        "https://www.inaturalist.org/observations/119405889"
+      ]
+    }
   }
 }
