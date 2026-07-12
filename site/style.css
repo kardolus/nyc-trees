@@ -45,6 +45,8 @@ a:hover{text-decoration:underline}
   border-bottom:2px solid transparent;border-radius:var(--radius-sm);white-space:nowrap;flex:0 0 auto}
 .top-nav a:hover{color:var(--fg);text-decoration:none;background:var(--btn-hover)}
 .top-nav a.active{color:var(--fg);border-bottom-color:var(--accent)}
+.top-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.lang-select{font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--fg);background:var(--ctrl-bg);border:1px solid var(--ctrl-border);border-radius:var(--radius-sm);padding:5px 8px;cursor:pointer;max-width:150px}
 .dark-toggle{background:none;border:1px solid var(--ctrl-border);border-radius:var(--radius-sm);cursor:pointer;
   font-size:16px;line-height:1;padding:5px 9px;color:var(--fg);flex-shrink:0}
 .dark-toggle:hover{background:var(--btn-hover)}

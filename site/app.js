@@ -49,6 +49,57 @@
   function track(name, data) { try { if (window.umami) umami.track(name, data); } catch (e) {} }
   function month() { return new Date().getMonth() + 1; }
 
+  // ---- i18n -------------------------------------------------------------------
+  // 13 languages (English + user's 3 + NYC's top spoken). Translations are generated at
+  // build time by GPT-5.5 (scripts/build_i18n.js -> site/i18n.js). t(key, vars) looks up the
+  // current language, falls back to the English key, then fills {placeholders}.
+  var LANGS = [
+    ["en", "English"], ["es", "Español"], ["zh", "中文"], ["ru", "Русский"], ["bn", "বাংলা"],
+    ["ht", "Kreyòl ayisyen"], ["ko", "한국어"], ["ar", "العربية"], ["ur", "اردو"],
+    ["fr", "Français"], ["pl", "Polski"], ["nl", "Nederlands"], ["de", "Deutsch"]
+  ];
+  var RTL = { ar: 1, ur: 1 };
+  var I18N = window.NYCTREES_I18N || {};
+  var LANG = localStorage.getItem("lang");
+  if (!LANG || !LANGS.some(function (l) { return l[0] === LANG; })) LANG = "en";
+  function t(k, vars) {
+    var s = (LANG !== "en" && I18N[LANG] && I18N[LANG][k]) || k;
+    if (vars) for (var p in vars) s = s.split("{" + p + "}").join(vars[p]);
+    return s;
+  }
+  function _applyDir() {
+    document.documentElement.lang = LANG;
+    document.documentElement.dir = RTL[LANG] ? "rtl" : "ltr";
+  }
+  // Translate a subtree in place. Each text node / attribute remembers its English source
+  // (__en) so switching languages re-translates correctly. Only exact matches in the current
+  // language dictionary are replaced — scientific names, numbers, and unknown text are left.
+  function i18nApply(root) {
+    root = root || document.body;
+    var dict = I18N[LANG] || {};
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), n, nodes = [];
+    while ((n = w.nextNode())) nodes.push(n);
+    nodes.forEach(function (tn) {
+      if (tn.__en === undefined) { if (!tn.nodeValue.trim()) return; tn.__en = tn.nodeValue; }
+      var en = tn.__en, key = en.trim();
+      tn.nodeValue = dict[key] ? en.replace(key, dict[key]) : en;
+    });
+    Array.prototype.forEach.call(root.querySelectorAll("[title],[aria-label],[alt]"), function (el) {
+      ["title", "aria-label", "alt"].forEach(function (a) {
+        var v = el.getAttribute(a); if (v == null) return;
+        var sk = "__a_" + a; if (el[sk] === undefined) el[sk] = v;
+        el.setAttribute(a, dict[el[sk].trim()] || el[sk]);
+      });
+    });
+  }
+  function setLang(l) {
+    LANG = l; try { localStorage.setItem("lang", l); } catch (e) {}
+    _applyDir();
+    var sel = document.getElementById("lang-select"); if (sel) sel.value = l;
+    i18nApply(document.body);
+  }
+  window.setLang = setLang;
+
   // ---- lightbox ---------------------------------------------------------------
   function openLightbox(photo, sp) {
     // Cycle through every photo of this tree (form/leaf/bark/fruit/flower) with ← → keys or the
@@ -456,7 +507,25 @@
   var fab = document.getElementById("fab"); if (fab) fab.onclick = function () { startQuiz({ scope: "mixed", count: 5, label: "Quick quiz" }); };
 
   // ---- boot -------------------------------------------------------------------
+  var langSel = document.getElementById("lang-select");
+  if (langSel) {
+    langSel.innerHTML = LANGS.map(function (l) {
+      return '<option value="' + l[0] + '"' + (l[0] === LANG ? " selected" : "") + '>' + l[1] + '</option>';
+    }).join("");
+    langSel.onchange = function () { setLang(this.value); };
+  }
   var fc = document.getElementById("foot-count"); if (fc) fc.textContent = SPECIES.length + " NYC trees";
   if (!location.hash) location.hash = "#/home";
+  _applyDir();
   route();
+  // auto-translate every (re)render + async fill (debounced so Leaflet's tile churn doesn't spam
+  // it); changing text nodes emits characterData mutations, which we don't observe -> no loop.
+  try {
+    var _i18nT;
+    new MutationObserver(function () {
+      if (LANG === "en") return;
+      clearTimeout(_i18nT); _i18nT = setTimeout(function () { i18nApply(APP); }, 120);
+    }).observe(APP, { childList: true, subtree: true });
+  } catch (e) {}
+  i18nApply(document.body);
 })();
