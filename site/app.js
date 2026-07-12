@@ -214,32 +214,25 @@
       '</article>';
   }
 
-  // ---- Feature Key ------------------------------------------------------------
-  var KEYF = { arrangement: "", leafType: "", fruit: "", bark: "" };
-  function renderKey() {
-    function optset(name, label, values) {
-      return '<div class="kf"><span class="kf-l">' + label + '</span><div class="kf-opts">' +
-        '<button class="chip' + (KEYF[name] === "" ? " on" : "") + '" data-kf="' + name + '" data-v="">any</button>' +
-        values.map(function (v) { return '<button class="chip' + (KEYF[name] === v ? " on" : "") + '" data-kf="' + name + '" data-v="' + v + '">' + esc(v) + '</button>'; }).join("") + '</div></div>';
-    }
-    var matches = SPECIES.filter(function (s) {
-      return (!KEYF.arrangement || s.traits.arrangement === KEYF.arrangement) &&
-        (!KEYF.leafType || s.traits.leafType === KEYF.leafType) &&
-        (!KEYF.fruit || s.traits.fruit === KEYF.fruit) &&
-        (!KEYF.bark || (s.traits.bark || []).indexOf(KEYF.bark) >= 0);
-    });
-    APP.innerHTML = '<div class="wrap"><h1>Visual key</h1><p class="sub">Narrow it down by what you can see. This is how you ID a tree you’ve never met.</p>' +
-      '<div class="keyfilters">' +
-      optset("arrangement", "Leaves", ["opposite", "alternate"]) +
-      optset("leafType", "Leaf type", ["simple", "compound", "needle", "scale", "fan"]) +
-      optset("bark", "Bark", ["smooth", "furrowed", "ridged", "plated", "exfoliating", "mottled", "scaly"]) +
-      optset("fruit", "Fruit / nut", ["acorn", "samara", "double-samara", "pod", "drupe", "pome", "cone", "seed-ball", "nut", "capsule", "ginkgo-seed"]) +
-      '</div>' +
-      '<p class="meta count">' + matches.length + ' of ' + SPECIES.length + ' match</p>' +
-      '<div class="key-grid">' + matches.map(function (s) { var ph = heroPhoto(s.id);
-        return '<button class="key-tile"' + (ph ? ' data-photo="' + esc(ph.id) + '"' : '') + '>' + (ph ? '<img loading="lazy" src="' + esc(ph.thumb || ph.src) + '" alt="' + esc(s.common) + '">' : '') + '<span>' + esc(s.common) + '</span></button>';
-      }).join("") + '</div></div>';
-    on("[data-kf]", "click", function () { KEYF[this.getAttribute("data-kf")] = this.getAttribute("data-v"); renderKey(); });
+  // ---- Compare (one feature across every tree) --------------------------------
+  var CMP_PARTS = [["leaf", "Leaf"], ["bark", "Bark"], ["fruit", "Fruit"], ["flower", "Flower"], ["form", "Form / whole tree"]];
+  var CMP = "leaf";
+  function renderCompare() {
+    if (!CMP_PARTS.some(function (p) { return p[0] === CMP; })) CMP = "leaf";
+    var opts = CMP_PARTS.map(function (p) { return '<option value="' + p[0] + '"' + (CMP === p[0] ? " selected" : "") + '>' + p[1] + '</option>'; }).join("");
+    var list = SPECIES.filter(function (s) { return photosFor(s.id, CMP)[0]; })
+      .sort(function (a, b) { return a.common.localeCompare(b.common); });
+    var tiles = list.map(function (s) {
+      var ph = photosFor(s.id, CMP)[0];
+      return '<button class="key-tile" data-photo="' + esc(ph.id) + '"><img loading="lazy" src="' + esc(ph.thumb || ph.src) + '" alt="' + esc(s.common + " " + CMP) + '"><span>' + esc(s.common) + '</span></button>';
+    }).join("");
+    APP.innerHTML = '<div class="wrap"><h1>Compare</h1>' +
+      '<p class="sub">See one feature across every tree, side by side.</p>' +
+      '<div class="cmp-bar"><label class="cmp-l" for="cmp-sel">Compare</label>' +
+      '<select id="cmp-sel" class="cmp-sel">' + opts + '</select>' +
+      '<span class="meta count">' + list.length + ' trees</span></div>' +
+      '<div class="key-grid">' + tiles + '</div></div>';
+    $("cmp-sel").onchange = function () { CMP = this.value; renderCompare(); };
   }
 
   // ---- Tree Walk (seasonal spotting) -----------------------------------------
@@ -334,10 +327,11 @@
   }
 
   // ---- router -----------------------------------------------------------------
-  var ROUTES = { home: renderHome, guide: renderGuide, key: renderKey, walk: renderWalk, quiz: renderQuiz, credits: renderCredits };
+  var ROUTES = { home: renderHome, guide: renderGuide, compare: renderCompare, walk: renderWalk, quiz: renderQuiz, credits: renderCredits };
   function route() {
     var name = (location.hash.replace(/^#\//, "") || "home").split("/")[0];
     if (name === "progress") { location.hash = "#/quiz/progress"; return; }   // legacy deep link
+    if (name === "key") { location.hash = "#/compare"; return; }              // legacy deep link
     if (!ROUTES[name]) name = "home";
     if (name !== "quiz") QZ = null;
     Array.prototype.forEach.call(document.querySelectorAll("#nav a"), function (a) { a.classList.toggle("active", a.getAttribute("data-route") === name); });
