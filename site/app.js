@@ -292,8 +292,7 @@
       return '<div class="sec-hero"><span class="sec-ico">' + ico + '</span><div><h2>' + title + '</h2>' +
         (sub ? '<p class="sec-sub">' + sub + '</p>' : '') + '</div></div>';
     }
-    APP.innerHTML = '<div class="wrap"><h1>NYC Trees</h1>' +
-      '<p class="sub">Learn the trees on your block — a new one each day, plus what’s flowering and fruiting around the city right now.</p>' +
+    APP.innerHTML = '<div class="wrap">' +
       '<div class="home-cols">' +
         '<section class="home-col">' + secHero("🌳", "Tree of the day", "A new tree to learn every day") +
           '<div class="species-list totd">' + guideCard(totd) + '</div></section>' +
