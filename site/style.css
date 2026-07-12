@@ -343,10 +343,7 @@ html.dark .fab{color:#0d1117}
 .now-sub { font-family: var(--font-ui); font-size: 12px; font-weight: 600; color: var(--meta); text-transform: uppercase; letter-spacing: .05em; margin: 16px 0 8px; }
 @media (min-width: 860px) {
   .home-cols { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); align-items: start; }
-  .totd .strip { flex-wrap: wrap; overflow: visible; align-items: flex-start; }
-  /* hero the Form photo (first tile) — 4x area (2x w/h) on desktop */
-  .totd .ph:first-child { width: 256px; }
-  .totd .ph:first-child img { width: 256px; height: 192px; }
+  .totd .strip { flex-wrap: wrap; overflow: visible; }
 }
 /* segmented control (Quiz | Progress) */
 .seg { display: inline-flex; gap: 2px; padding: 3px; margin: 2px 0 18px; background: var(--card); border: 1px solid var(--border-strong); border-radius: 999px; }
