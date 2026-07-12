@@ -4,6 +4,7 @@
   var SPECIES = (window.NYCTREES_SPECIES || []).slice();
   var PHOTOS = (window.NYCTREES_PHOTOS || []).slice();
   var CREDITS = window.NYCTREES_CREDITS || [];
+  var ABOUT = window.NYCTREES_ABOUT || {};
 
   // ---- indexes ----------------------------------------------------------------
   var byId = {}; SPECIES.forEach(function (s) { byId[s.id] = s; });
@@ -344,7 +345,14 @@
       '<p class="traits meta">' + esc(t(tr.arrangement)) + ' · ' + esc(t(tr.leafType)) + ' · ' + esc(t(tr.margin)) + ' · ' + esc((tr.bark || []).map(function (b) { return t(b); }).join("/")) + ' ' + t("bark") + ' · ' + esc(t(tr.fruit.replace(/-/g, " "))) + '</p>' +
       '<p class="census" data-census="' + esc((s.scientific || "").replace("×", "x").toLowerCase()) + '"></p>' +
       (conf ? '<details class="confuse"><summary>Don’t confuse with…</summary><ul>' + conf + '</ul></details>' : '') +
+      aboutBlock(s) +
       '</article>';
+  }
+  function aboutBlock(s) {
+    var a = ABOUT[s.id]; if (!a) return "";
+    function row(label, txt) { return txt ? '<p class="about-row"><b>' + label + '</b> — <span>' + esc(txt) + '</span></p>' : ""; }
+    return '<details class="about"><summary><span class="about-i">ⓘ</span> About this tree</summary>' +
+      row("Name", a.name) + row("Family", a.relatives) + row("Fun fact", a.fact) + '</details>';
   }
 
   // ---- Compare (one feature across every tree) --------------------------------

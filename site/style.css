@@ -417,6 +417,11 @@ html.dark .fab{color:#0d1117}
 .fastid li b { color: var(--fg); font-weight: 600; }
 .traits { font-family: var(--font-mono); font-size: 11px; }
 .confuse summary { cursor: pointer; color: var(--accent); font-size: 13px; font-family: var(--font-ui); font-weight: 600; }
+.about summary { cursor: pointer; color: var(--accent); font-size: 13px; font-family: var(--font-ui); font-weight: 600; margin-top: 6px; list-style: none; }
+.about summary::-webkit-details-marker { display: none; }
+.about-i { font-family: var(--font-ui); }
+.about-row { font-size: 13px; color: var(--meta); margin: 9px 0 0; line-height: 1.55; }
+.about-row b { color: var(--fg); font-weight: 600; }
 .confuse ul { margin: 8px 0 0; padding-left: 2px; list-style: none; display: flex; flex-direction: column; gap: 5px; }
 .confuse li { font-size: 13px; color: var(--meta); padding-left: 16px; position: relative; }
 .confuse li::before { content: "↳"; position: absolute; left: 0; color: var(--accent); }

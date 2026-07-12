@@ -41,7 +41,21 @@ const UI = [
   "🌳 Quiz me", "Quick quiz", "Quick recognition quiz",
   // credits
   "Photo credits", "source",
+  // info panel
+  "About this tree", "Name", "Family", "Fun fact",
 ];
+
+function loadAbout() {
+  const set = new Set();
+  const p = path.join(__dirname, "..", "site", "about.js");
+  if (!fs.existsSync(p)) return set;
+  const g = {};
+  new Function("window", fs.readFileSync(p, "utf8"))(g);
+  Object.values(g.NYCTREES_ABOUT || {}).forEach((a) => {
+    ["name", "relatives", "fact"].forEach((k) => a[k] && set.add(a[k]));
+  });
+  return set;
+}
 
 // interpolated templates + values that render via t() in app.js (keep {placeholders})
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August",
@@ -96,7 +110,13 @@ function loadWalkTargets() {
   return set;
 }
 
-async function translate(langName, strings) {
+async function translate(langName, strings, tries = 3) {
+  for (let i = 1; i <= tries; i++) {
+    try { return await _translate(langName, strings); }
+    catch (e) { if (i === tries) throw e; await new Promise((r) => setTimeout(r, 2000 * i)); }
+  }
+}
+async function _translate(langName, strings) {
   const prompt =
     `You are a professional UI translator for a New York City street-tree learning web app.\n` +
     `Translate each English string into ${langName}. Return ONLY a JSON object mapping each exact ` +
@@ -121,7 +141,7 @@ async function translate(langName, strings) {
 }
 
 (async () => {
-  const strings = Array.from(new Set([...UI, ...MONTHS, ...FACTS, ...EXTRA, ...loadSpecies(), ...loadWalkTargets()]));
+  const strings = Array.from(new Set([...UI, ...MONTHS, ...FACTS, ...EXTRA, ...loadSpecies(), ...loadWalkTargets(), ...loadAbout()]));
   console.log(`translating ${strings.length} strings x ${LANGS.length} languages…`);
   const out = {};
   await Promise.all(LANGS.map(async ([code, name]) => {
