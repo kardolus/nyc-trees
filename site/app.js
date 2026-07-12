@@ -156,16 +156,17 @@
       '<div class="kpi"><b>' + pct + '%</b><span>score</span></div>' +
       '<div class="kpi"><b>' + S.stats.streak.count + '</b><span>day streak</span></div></div>' +
       '<div class="row"><button class="btn primary" onclick="location.hash=\'#/home\'">Again</button>' +
-      '<button class="btn" onclick="location.hash=\'#/guide\'">Field guide</button></div></div></div>';
+      '<button class="btn" onclick="location.hash=\'#/learn\'">Field guide</button></div></div></div>';
     track("drill_done", { pct: pct });
   }
 
   // ---- Quiz (recognition) + Progress, as one tab with a segmented toggle ------
-  function segTabs(active) {
-    return '<div class="seg">' +
-      '<a href="#/quiz" class="seg-btn' + (active === "quiz" ? " active" : "") + '">Quiz</a>' +
-      '<a href="#/quiz/progress" class="seg-btn' + (active === "progress" ? " active" : "") + '">Progress</a>' +
-      '</div>';
+  var QUIZ_SEG = [["#/quiz", "Quiz", "quiz"], ["#/quiz/progress", "Progress", "progress"]];
+  var LEARN_SEG = [["#/learn", "Guide", "guide"], ["#/learn/compare", "Compare", "compare"]];
+  function seg(items, active) {
+    return '<div class="seg">' + items.map(function (it) {
+      return '<a href="' + it[0] + '" class="seg-btn' + (active === it[2] ? " active" : "") + '">' + it[1] + '</a>';
+    }).join("") + '</div>';
   }
   function renderQuiz() {
     var sub = (location.hash.split("/")[2] || "").toLowerCase();
@@ -175,7 +176,7 @@
   }
   function renderQuizStart() {
     var mastered = SPECIES.filter(function (s) { return speciesMastery(s.id) >= 4; }).length;
-    APP.innerHTML = '<div class="wrap home">' + segTabs("quiz") +
+    APP.innerHTML = '<div class="wrap home">' + seg(QUIZ_SEG, "quiz") +
       '<h1>Recognition quiz</h1>' +
       '<p class="sub">Photo in, tree out. ' + SPECIES.length + ' common NYC trees · ' + mastered + ' well-known · ' + S.stats.streak.count + '-day streak.</p>' +
       '<div class="drill-cta"><button class="btn primary big" id="d-mixed">Start a 10-question quiz</button></div>' +
@@ -192,9 +193,15 @@
 
   // ---- Field Guide ------------------------------------------------------------
   function statusTag(s) { return (s.nycStatus || []).indexOf("invasive") >= 0 ? '<span class="tag bad">invasive</span>' : (s.native ? '<span class="tag good">native</span>' : ''); }
+  // Learn = Guide (species cards) + Compare (one feature across all trees), one tab, segmented
+  function renderLearn() {
+    var sub = (location.hash.split("/")[2] || "").toLowerCase();
+    if (sub === "compare") renderCompare(); else renderGuide();
+  }
   function renderGuide() {
     var list = SPECIES.slice().sort(function (a, b) { return (a.nycRank || 99) - (b.nycRank || 99); });
-    APP.innerHTML = '<div class="wrap"><h1>Field guide</h1><p class="sub">The common trees, roughly by how often you’ll see them on NYC streets. Tap a photo to enlarge.</p>' +
+    APP.innerHTML = '<div class="wrap">' + seg(LEARN_SEG, "guide") +
+      '<p class="sub">The common trees, roughly by how often you’ll see them on NYC streets. Tap a photo to enlarge.</p>' +
       '<div class="species-list">' + list.map(guideCard).join("") + '</div></div>';
   }
   function guideCard(s) {
@@ -226,7 +233,7 @@
       var ph = photosFor(s.id, CMP)[0];
       return '<button class="key-tile" data-photo="' + esc(ph.id) + '"><img loading="lazy" src="' + esc(ph.thumb || ph.src) + '" alt="' + esc(s.common + " " + CMP) + '"><span>' + esc(s.common) + '</span></button>';
     }).join("");
-    APP.innerHTML = '<div class="wrap"><h1>Compare</h1>' +
+    APP.innerHTML = '<div class="wrap">' + seg(LEARN_SEG, "compare") +
       '<p class="sub">See one feature across every tree, side by side.</p>' +
       '<div class="cmp-bar"><label class="cmp-l" for="cmp-sel">Compare</label>' +
       '<select id="cmp-sel" class="cmp-sel">' + opts + '</select>' +
@@ -303,7 +310,7 @@
       return '<div class="pr-row"><span>' + esc(s.common) + '</span><div class="bar"><i style="width:' + pc + '%"></i></div><span class="meta mono">' + Math.round(m * 20) + '%</span></div>';
     }).join("");
     var weak = SPECIES.filter(function (s) { return speciesMastery(s.id) > 0 && speciesMastery(s.id) < 3; });
-    APP.innerHTML = '<div class="wrap">' + segTabs("progress") +
+    APP.innerHTML = '<div class="wrap">' + seg(QUIZ_SEG, "progress") +
       '<div class="kpis"><div class="kpi"><b>' + S.stats.streak.count + '</b><span>day streak</span></div>' +
       '<div class="kpi"><b>' + (S.stats.seen || 0) + '</b><span>quizzed</span></div>' +
       '<div class="kpi"><b>' + SPECIES.filter(function (s) { return speciesMastery(s.id) >= 4; }).length + '/' + SPECIES.length + '</b><span>solid</span></div></div>' +
@@ -327,11 +334,12 @@
   }
 
   // ---- router -----------------------------------------------------------------
-  var ROUTES = { home: renderHome, guide: renderGuide, compare: renderCompare, walk: renderWalk, quiz: renderQuiz, credits: renderCredits };
+  var ROUTES = { home: renderHome, learn: renderLearn, walk: renderWalk, quiz: renderQuiz, credits: renderCredits };
   function route() {
     var name = (location.hash.replace(/^#\//, "") || "home").split("/")[0];
-    if (name === "progress") { location.hash = "#/quiz/progress"; return; }   // legacy deep link
-    if (name === "key") { location.hash = "#/compare"; return; }              // legacy deep link
+    if (name === "progress") { location.hash = "#/quiz/progress"; return; }             // legacy deep link
+    if (name === "guide") { location.hash = "#/learn"; return; }                        // legacy deep link
+    if (name === "key" || name === "compare") { location.hash = "#/learn/compare"; return; }  // legacy deep link
     if (!ROUTES[name]) name = "home";
     if (name !== "quiz") QZ = null;
     Array.prototype.forEach.call(document.querySelectorAll("#nav a"), function (a) { a.classList.toggle("active", a.getAttribute("data-route") === name); });
