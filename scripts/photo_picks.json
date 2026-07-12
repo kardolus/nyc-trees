@@ -361,5 +361,29 @@
         "https://www.inaturalist.org/observations/119405889"
       ]
     }
+  },
+  "prunus-serotina": {
+    "form": [
+      "File:Ruhland, Ortrander Str. 9d, Spätblühende Traubenkirsche auf dem Wohnhof Ortrander Str. 8-9, Herbst, 03.jpg",
+      "File:Prunus serotina kz19.jpg"
+    ],
+    "bark": [
+      "File:2021-03-02 17 13 34 Black Cherry bark along Apple Barrel Court in the Franklin Farm section of Oak Hill, Fairfax County, Virginia.jpg"
+    ],
+    "fruit": [
+      "File:Prunus serotina fruit, Netherlands.jpg"
+    ],
+    "flower": [
+      "File:Prunus-serotina-flowers.jpg"
+    ],
+    "inat": {
+      "leaf": [
+        "https://www.inaturalist.org/observations/284688686",
+        "https://www.inaturalist.org/observations/143902806"
+      ],
+      "fruit": [
+        "https://www.inaturalist.org/observations/90837784"
+      ]
+    }
   }
 }
