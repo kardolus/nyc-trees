@@ -231,18 +231,6 @@
   }
   // ---- Atlas panels on Home (compact charts + map from the live /atlas/api) ----
   var _atlasChart = null, _atlasMap = null, _atlasTiles = null;
-  function atlasSection() {
-    return '<div class="sec-hero"><span class="sec-ico">📊</span><div><h2>NYC by the numbers</h2>' +
-      '<p class="sec-sub">the city’s urban forest, from open tree-census data</p></div></div>' +
-      '<h4 class="now-sub">Most common trees</h4><div class="card"><div class="bars" id="atlas-species">…</div></div>' +
-      '<h4 class="now-sub">Planting over time</h4><div class="card"><div class="chartwrap"><canvas id="atlas-planting"></canvas></div></div>' +
-      '<h4 class="now-sub">Biggest &amp; notable trees</h4><div class="card"><div id="atlas-map"></div>' +
-      '<div class="legend"><span><b style="background:#1da46c"></b>biggest</span>' +
-      '<span><b style="background:#d98a00"></b>highest risk</span>' +
-      '<span><b style="background:#8b949e"></b>dead standing</span></div>' +
-      '<p class="disclaimer">A curated sample of notable records — not every tree. For a full per-tree map see the official ' +
-      '<a href="https://tree-map.nycgovparks.org" target="_blank" rel="noopener">NYC Tree Map</a>.</p></div>';
-  }
   function renderAtlasPanels() {
     fetch("/atlas/api/species?limit=8").then(function (r) { return r.json(); }).then(function (o) {
       var sp = (o && o.data) || [], el = document.getElementById("atlas-species"); if (!el) return;
@@ -381,6 +369,12 @@
       return '<div class="sec-hero"><span class="sec-ico">' + ico + '</span><div><h2>' + title + '</h2>' +
         (sub ? '<p class="sec-sub">' + sub + '</p>' : '') + '</div></div>';
     }
+    var mapPanel = '<div class="card"><div id="atlas-map"></div>' +
+      '<div class="legend"><span><b style="background:#1da46c"></b>biggest</span>' +
+      '<span><b style="background:#d98a00"></b>highest risk</span>' +
+      '<span><b style="background:#8b949e"></b>dead standing</span></div>' +
+      '<p class="disclaimer">A curated sample of notable records — for a full per-tree map see the official ' +
+      '<a href="https://tree-map.nycgovparks.org" target="_blank" rel="noopener">NYC Tree Map</a>.</p></div>';
     APP.innerHTML = '<div class="wrap">' +
       '<div class="home-cols">' +
         '<section class="home-col">' + secHero("🌳", "Tree of the day", "A new tree to learn every day") +
@@ -388,8 +382,15 @@
         '<section class="home-col">' + secHero("🌸", "Now", "Flowering &amp; fruiting in " + names[m]) +
           '<h4 class="now-sub">Flowering</h4>' + grid(flowering, "flowering") +
           '<h4 class="now-sub">Fruiting / nuts</h4>' + grid(fruiting, "fruiting") +
+          secHero("🌱", "Planting over time", "new trees recorded per year") +
+          '<div class="card"><div class="chartwrap"><canvas id="atlas-planting"></canvas></div></div>' +
         '</section>' +
-      '</div>' + atlasSection() + '</div>';
+      '</div>' +
+      '<div class="data-cols">' +
+        '<section>' + secHero("🥇", "Most common trees", "living, city-wide · share of all") +
+          '<div class="card"><div class="bars" id="atlas-species">…</div></div></section>' +
+        '<section>' + secHero("📍", "Biggest &amp; notable trees", "the city’s superlatives") + mapPanel + '</section>' +
+      '</div></div>';
     fillCensus();
     renderAtlasPanels();
   }
