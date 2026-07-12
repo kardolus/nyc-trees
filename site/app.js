@@ -203,6 +203,41 @@
     APP.innerHTML = '<div class="wrap">' + seg(LEARN_SEG, "guide") +
       '<p class="sub">The common trees, roughly by how often you’ll see them on NYC streets. Tap a photo to enlarge.</p>' +
       '<div class="species-list">' + list.map(guideCard).join("") + '</div></div>';
+    fillCensus();
+  }
+  // ---- Atlas (live NYC tree-census) hooks — degrade gracefully if /atlas is down ----
+  var _census = null;
+  function censusData(cb) {
+    if (_census) return cb(_census);
+    fetch("/atlas/api/species?limit=100").then(function (r) { return r.json(); })
+      .then(function (o) { _census = (o && o.data) || []; cb(_census); })
+      .catch(function () { _census = []; cb(_census); });
+  }
+  function fillCensus() {
+    var els = APP.querySelectorAll(".census[data-census]");
+    if (!els.length) return;
+    censusData(function (list) {
+      Array.prototype.forEach.call(els, function (el) {
+        var key = el.getAttribute("data-census"), m = null;
+        for (var i = 0; i < list.length; i++) {
+          if (((list[i].scientific || "").replace("×", "x").toLowerCase()).indexOf(key) === 0) { m = list[i]; break; }
+        }
+        if (!m) return;
+        el.textContent = "NYC census · " + m.count.toLocaleString() + " trees · #" + m.rank +
+          " · " + m.pct + "% of city" + (m.borough ? " · most in " + m.borough : "");
+        el.classList.add("show");
+      });
+    });
+  }
+  function fillDyk() {
+    var el = document.getElementById("dyk"); if (!el) return;
+    fetch("/atlas/api/facts").then(function (r) { return r.json(); }).then(function (o) {
+      var facts = (o && o.data) || []; if (!facts.length) return;
+      var s = todayStr() + "f", h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+      el.innerHTML = '<span class="dyk-label">Did you know?</span> ' + esc(facts[h % facts.length]) +
+        ' <a class="dyk-link" href="/atlas">Explore the Atlas →</a>';
+      el.hidden = false;
+    }).catch(function () {});
   }
   function guideCard(s) {
     var strip = PARTS.map(function (part) {
@@ -217,6 +252,7 @@
       '<div class="strip">' + strip + '</div>' +
       '<ul class="fastid">' + (s.fastId || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' +
       '<p class="traits meta">' + esc(t.arrangement) + ' · ' + esc(t.leafType) + ' · ' + esc(t.margin) + ' · ' + esc((t.bark || []).join("/")) + ' bark · ' + esc(t.fruit.replace(/-/g, " ")) + '</p>' +
+      '<p class="census" data-census="' + esc((s.scientific || "").replace("×", "x").toLowerCase()) + '"></p>' +
       (conf ? '<details class="confuse"><summary>Don’t confuse with…</summary><ul>' + conf + '</ul></details>' : '') +
       '</article>';
   }
@@ -297,6 +333,7 @@
         (sub ? '<p class="sec-sub">' + sub + '</p>' : '') + '</div></div>';
     }
     APP.innerHTML = '<div class="wrap">' +
+      '<div id="dyk" class="dyk" hidden></div>' +
       '<div class="home-cols">' +
         '<section class="home-col">' + secHero("🌳", "Tree of the day", "A new tree to learn every day") +
           '<div class="species-list totd">' + guideCard(totd) + '</div></section>' +
@@ -305,6 +342,8 @@
           '<h4 class="now-sub">Fruiting / nuts</h4>' + grid(fruiting, "fruiting") +
         '</section>' +
       '</div></div>';
+    fillDyk();
+    fillCensus();
   }
 
   // ---- Progress ---------------------------------------------------------------

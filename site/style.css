@@ -334,6 +334,12 @@ html.dark .fab{color:#0d1117}
 
 /* ============ NYC Trees additions ============ */
 .home h1, .wrap > h1 { margin: 4px 0 2px; }
+/* Atlas hooks: Home "Did you know" card + per-species NYC census line on Learn cards */
+.dyk { margin: 6px 0 2px; padding: 12px 14px; border: 1px solid var(--accent); background: var(--accent-soft); border-radius: var(--radius-md); font-size: 14px; line-height: 1.5; }
+.dyk-label { font-family: var(--font-ui); font-weight: 700; color: var(--accent); margin-right: 4px; }
+.dyk-link { font-family: var(--font-ui); font-weight: 600; white-space: nowrap; }
+.census { font-family: var(--font-mono); font-size: 11px; color: var(--meta); margin: 8px 0 0; display: none; }
+.census.show { display: block; }
 /* Home: fun section headers + desktop two-column (Tree of the day | Now) */
 .home-cols { display: grid; grid-template-columns: 1fr; gap: 4px 28px; }
 .sec-hero { display: flex; align-items: center; gap: 11px; margin: 22px 0 12px; }
