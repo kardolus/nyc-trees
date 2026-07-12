@@ -281,8 +281,16 @@
         return '<button class="key-tile"' + (ph ? ' data-photo="' + esc(ph.id) + '"' : '') + '>' + (ph ? '<img loading="lazy" src="' + esc(ph.thumb || ph.src) + '" alt="' + esc(s.common) + '">' : '') + '<span>' + esc(s.common) + '</span></button>';
       }).join("") + '</div>';
     }
+    // Tree of the day: a deterministic daily pick that ISN'T already shown in the
+    // seasonal lists (keeps it fresh). Same tree for everyone on a given day; rotates daily.
+    var shown = {}; flowering.concat(fruiting).forEach(function (s) { shown[s.id] = 1; });
+    var pool = SPECIES.filter(function (s) { return !shown[s.id]; });
+    if (!pool.length) pool = SPECIES.slice();
+    var seed = todayStr(), h = 0; for (var i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+    var totd = pool[h % pool.length];
     APP.innerHTML = '<div class="wrap"><h1>NYC Trees</h1>' +
-      '<p class="sub">Learn the trees on your block. Here’s what’s out in ' + names[m] + '.</p>' +
+      '<p class="sub">Learn the trees on your block — a new one each day, plus what’s flowering and fruiting around the city right now.</p>' +
+      '<h3>Tree of the day</h3><div class="species-list">' + guideCard(totd) + '</div>' +
       '<h3>Flowering</h3>' + grid(flowering, "flowering") +
       '<h3>Fruiting / nuts</h3>' + grid(fruiting, "fruiting") +
       '</div>';
