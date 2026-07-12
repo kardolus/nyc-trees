@@ -229,16 +229,65 @@
       });
     });
   }
-  function fillDyk() {
-    var el = document.getElementById("dyk"); if (!el) return;
-    fetch("/atlas/api/facts").then(function (r) { return r.json(); }).then(function (o) {
-      var facts = (o && o.data) || []; if (!facts.length) return;
-      var s = todayStr() + "f", h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
-      el.innerHTML = '<span class="dyk-label">Did you know?</span> ' + esc(facts[h % facts.length]) +
-        ' <a class="dyk-link" href="/atlas">Explore the Atlas →</a>';
-      el.hidden = false;
+  // ---- Atlas panels on Home (compact charts + map from the live /atlas/api) ----
+  var _atlasChart = null, _atlasMap = null, _atlasTiles = null;
+  function atlasSection() {
+    return '<div class="sec-hero"><span class="sec-ico">📊</span><div><h2>NYC by the numbers</h2>' +
+      '<p class="sec-sub">the city’s urban forest, from open tree-census data</p></div></div>' +
+      '<h4 class="now-sub">Most common trees</h4><div class="card"><div class="bars" id="atlas-species">…</div></div>' +
+      '<h4 class="now-sub">Planting over time</h4><div class="card"><div class="chartwrap"><canvas id="atlas-planting"></canvas></div></div>' +
+      '<h4 class="now-sub">Biggest &amp; notable trees</h4><div class="card"><div id="atlas-map"></div>' +
+      '<div class="legend"><span><b style="background:#1da46c"></b>biggest</span>' +
+      '<span><b style="background:#d98a00"></b>highest risk</span>' +
+      '<span><b style="background:#8b949e"></b>dead standing</span></div>' +
+      '<p class="disclaimer">A curated sample of notable records — not every tree. For a full per-tree map see the official ' +
+      '<a href="https://tree-map.nycgovparks.org" target="_blank" rel="noopener">NYC Tree Map</a>.</p></div>';
+  }
+  function renderAtlasPanels() {
+    fetch("/atlas/api/species?limit=8").then(function (r) { return r.json(); }).then(function (o) {
+      var sp = (o && o.data) || [], el = document.getElementById("atlas-species"); if (!el) return;
+      if (!sp.length) { el.textContent = "—"; return; }
+      var max = sp[0].count || 1;
+      el.innerHTML = sp.map(function (x) {
+        return '<div class="bar-row"><span class="nm" title="' + esc(x.scientific || "") + '">' + x.rank + '. ' + esc(x.common || x.scientific) + '</span>' +
+          '<span class="track"><i style="width:' + Math.max(2, 100 * x.count / max) + '%"></i></span>' +
+          '<span class="val">' + x.count.toLocaleString() + ' · ' + x.pct + '%</span></div>';
+      }).join("");
+    }).catch(function () {});
+    fetch("/atlas/api/planting").then(function (r) { return r.json(); }).then(function (o) { atlasPlanting((o && o.data) || []); }).catch(function () {});
+    atlasMap();
+  }
+  function _cssvar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function atlasPlanting(pl) {
+    var ctx = document.getElementById("atlas-planting"); if (!ctx || !window.Chart) return;
+    if (_atlasChart) _atlasChart.destroy();
+    _atlasChart = new Chart(ctx, { type: "bar",
+      data: { labels: pl.map(function (x) { return x.yr; }), datasets: [{ data: pl.map(function (x) { return x.n; }), backgroundColor: _cssvar("--accent"), borderRadius: 4 }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+        scales: { x: { grid: { display: false }, ticks: { color: _cssvar("--meta"), maxRotation: 0 } }, y: { grid: { color: "#8884" }, ticks: { color: _cssvar("--meta") } } } } });
+  }
+  function _tileUrl() { return document.documentElement.classList.contains("dark")
+    ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+    : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"; }
+  function atlasMap() {
+    if (!window.L) return void setTimeout(atlasMap, 200);
+    if (!document.getElementById("atlas-map")) return;
+    if (_atlasMap) { _atlasMap.remove(); _atlasMap = null; }
+    fetch("/atlas/api/notable").then(function (r) { return r.json(); }).then(function (o) {
+      if (!document.getElementById("atlas-map")) return;
+      var data = (o && o.data) || [], KIND = { biggest: "#1da46c", risk: "#d98a00", dead: "#8b949e" };
+      _atlasMap = L.map("atlas-map", { scrollWheelZoom: false }).setView([40.70, -73.92], 10);
+      _atlasTiles = L.tileLayer(_tileUrl(), { attribution: "&copy; OpenStreetMap &copy; CARTO", subdomains: "abcd", maxZoom: 19 }).addTo(_atlasMap);
+      data.forEach(function (t) {
+        L.circleMarker([t.lat, t.lon], { radius: 4, color: KIND[t.kind] || "#1da46c", weight: 1, fillOpacity: .8 })
+          .bindPopup('<b>' + esc(t.common || "tree") + '</b><br>' + (t.dbh ? "trunk " + t.dbh + "&Prime; · " : "") + esc(t.borough || "")).addTo(_atlasMap);
+      });
     }).catch(function () {});
   }
+  window.addEventListener("themechange", function () {
+    if (_atlasTiles) _atlasTiles.setUrl(_tileUrl());
+    if (_atlasChart) fetch("/atlas/api/planting").then(function (r) { return r.json(); }).then(function (o) { atlasPlanting((o && o.data) || []); });
+  });
   function guideCard(s) {
     var strip = PARTS.map(function (part) {
       var ph = photosFor(s.id, part)[0]; if (!ph) return "";
@@ -333,7 +382,6 @@
         (sub ? '<p class="sec-sub">' + sub + '</p>' : '') + '</div></div>';
     }
     APP.innerHTML = '<div class="wrap">' +
-      '<div id="dyk" class="dyk" hidden></div>' +
       '<div class="home-cols">' +
         '<section class="home-col">' + secHero("🌳", "Tree of the day", "A new tree to learn every day") +
           '<div class="species-list totd">' + guideCard(totd) + '</div></section>' +
@@ -341,9 +389,9 @@
           '<h4 class="now-sub">Flowering</h4>' + grid(flowering, "flowering") +
           '<h4 class="now-sub">Fruiting / nuts</h4>' + grid(fruiting, "fruiting") +
         '</section>' +
-      '</div></div>';
-    fillDyk();
+      '</div>' + atlasSection() + '</div>';
     fillCensus();
+    renderAtlasPanels();
   }
 
   // ---- Progress ---------------------------------------------------------------
