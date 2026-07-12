@@ -244,28 +244,32 @@
 
   // ---- Tree Walk (seasonal spotting) -----------------------------------------
   function walkTargets() {
+    // pic = [speciesId, part] -> a representative example photo of the feature to hunt for
     var m = month(), t = [
-      { id: "opp", label: "A tree with OPPOSITE branches/leaves (maple, ash, horse chestnut)" },
-      { id: "compound", label: "A compound leaf (honeylocust, ash, pagoda tree)" },
-      { id: "exfol", label: "Exfoliating / mottled bark (London planetree)" },
-      { id: "fan", label: "A ginkgo fan-shaped leaf" },
-      { id: "samara", label: "A winged samara (maple or ash)" },
-      { id: "acorn", label: "An oak with acorns" },
-      { id: "star", label: "A star-shaped sweetgum leaf (or its spiky ball)" }
+      { id: "opp", label: "A tree with OPPOSITE branches/leaves (maple, ash, horse chestnut)", pic: ["acer-rubrum", "leaf"] },
+      { id: "compound", label: "A compound leaf (honeylocust, ash, pagoda tree)", pic: ["gleditsia-triacanthos", "leaf"] },
+      { id: "exfol", label: "Exfoliating / mottled bark (London planetree)", pic: ["platanus-acerifolia", "bark"] },
+      { id: "fan", label: "A ginkgo fan-shaped leaf", pic: ["ginkgo-biloba", "leaf"] },
+      { id: "samara", label: "A winged samara (maple or ash)", pic: ["acer-platanoides", "fruit"] },
+      { id: "acorn", label: "An oak with acorns", pic: ["quercus-rubra", "fruit"] },
+      { id: "star", label: "A star-shaped sweetgum leaf (or its spiky ball)", pic: ["liquidambar-styraciflua", "leaf"] }
     ];
-    if ([9, 10, 11].indexOf(m) >= 0) t.push({ id: "fall-fruit", label: "Fall fruit/nut on the ground: acorn, ginkgo, conker, or honeylocust pod" });
-    if ([4, 5].indexOf(m) >= 0) t.push({ id: "spring-flower", label: "Spring blossom: Callery pear, cherry, or redbud" });
+    if ([9, 10, 11].indexOf(m) >= 0) t.push({ id: "fall-fruit", label: "Fall fruit/nut on the ground: acorn, ginkgo, conker, or honeylocust pod", pic: ["aesculus-hippocastanum", "fruit"] });
+    if ([4, 5].indexOf(m) >= 0) t.push({ id: "spring-flower", label: "Spring blossom: Callery pear, cherry, or redbud", pic: ["pyrus-calleryana", "flower"] });
     return t;
   }
   function renderWalk() {
     var tg = walkTargets(), w = S.stats.walk || (S.stats.walk = {}), done = tg.filter(function (x) { return w[x.id]; }).length;
     APP.innerHTML = '<div class="wrap"><h1>Tree walk</h1><p class="sub">Take this outside. Spot each one on a real NYC block or in a park — tap when you find it. ' + done + '/' + tg.length + ' this season.</p>' +
       '<ul class="walk">' + tg.map(function (x) {
-        return '<li class="walk-item' + (w[x.id] ? " done" : "") + '" data-w="' + x.id + '"><span class="tick">' + (w[x.id] ? "✓" : "○") + '</span>' + esc(x.label) + '</li>';
+        var ph = x.pic && photosFor(x.pic[0], x.pic[1])[0];
+        return '<li class="walk-item' + (w[x.id] ? " done" : "") + '" data-w="' + x.id + '"><span class="tick">' + (w[x.id] ? "✓" : "○") + '</span>' +
+          (ph ? '<img class="walk-pic" loading="lazy" src="' + esc(ph.thumb || ph.src) + '" alt="" data-photo="' + esc(ph.id) + '">' : '') +
+          '<span class="walk-label">' + esc(x.label) + '</span></li>';
       }).join("") + '</ul>' +
       (done === tg.length ? '<p class="badge">🏅 Season complete — you found them all!</p>' : '') +
       '<button class="btn" id="walk-reset">Reset walk</button></div>';
-    on(".walk-item", "click", function () { var k = this.getAttribute("data-w"); S.stats.walk[k] = !S.stats.walk[k]; save(); track("walk_spot", { t: k }); renderWalk(); });
+    on(".walk-item", "click", function (e) { if (e.target.closest("[data-photo]")) return; var k = this.getAttribute("data-w"); S.stats.walk[k] = !S.stats.walk[k]; save(); track("walk_spot", { t: k }); renderWalk(); });
     $("walk-reset").onclick = function () { S.stats.walk = {}; save(); renderWalk(); };
   }
 
