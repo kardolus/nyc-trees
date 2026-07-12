@@ -104,9 +104,9 @@
     var ctx = { species: SPECIES, byId: byId, photosBySpecies: photosBySpecies, photosByKey: photosByKey, month: month() };
     var qs = window.NYCTREES_QUIZ.build(ctx, opts);
     if (!qs.length) { APP.innerHTML = '<div class="wrap"><p class="empty">No photos loaded yet.</p></div>'; return; }
-    QZ = { qs: qs, i: 0, answered: false, chosen: null, right: 0, wrong: 0, label: opts.label || "Recognition drill" };
+    QZ = { qs: qs, i: 0, answered: false, chosen: null, right: 0, wrong: 0, label: opts.label || "Recognition quiz" };
     track("drill_start", { scope: opts.scope || "mixed", n: qs.length });
-    if ((location.hash || "").indexOf("home") < 0 && (location.hash || "").indexOf("now") < 0) location.hash = "#/home";
+    if ((location.hash || "").indexOf("quiz") < 0) location.hash = "#/quiz";
     else drawQuiz();
   }
   function drawQuiz() {
@@ -160,21 +160,20 @@
     track("drill_done", { pct: pct });
   }
 
-  // ---- Home / Daily Drill -----------------------------------------------------
-  function renderHome() {
+  // ---- Quiz (recognition) -----------------------------------------------------
+  function renderQuiz() {
     if (QZ && !QZ.done && QZ.i < QZ.qs.length) { drawQuiz(); return; }
     var mastered = SPECIES.filter(function (s) { return speciesMastery(s.id) >= 4; }).length;
     APP.innerHTML = '<div class="wrap home">' +
-      '<h1>Recognition drill</h1>' +
+      '<h1>Recognition quiz</h1>' +
       '<p class="sub">Photo in, tree out. ' + SPECIES.length + ' common NYC trees · ' + mastered + ' well-known · ' + S.stats.streak.count + '-day streak.</p>' +
-      '<div class="drill-cta"><button class="btn primary big" id="d-mixed">Start a 10-question drill</button></div>' +
+      '<div class="drill-cta"><button class="btn primary big" id="d-mixed">Start a 10-question quiz</button></div>' +
       '<div class="drill-modes">' +
       '<button class="chip" id="d-conf">Look-alikes</button>' +
       '<button class="chip" id="d-parts">Bark / leaf / fruit</button>' +
       '<button class="chip" id="d-feat">By features</button>' +
-      '<button class="chip" onclick="location.hash=\'#/now\'">What’s out now</button>' +
       '</div></div>';
-    $("d-mixed").onclick = function () { startQuiz({ scope: "mixed", count: 10, label: "Recognition drill" }); };
+    $("d-mixed").onclick = function () { startQuiz({ scope: "mixed", count: 10, label: "Recognition quiz" }); };
     $("d-conf").onclick = function () { startQuiz({ scope: "confusable", count: 10, label: "Look-alikes" }); };
     $("d-parts").onclick = function () { startQuiz({ scope: "parts", count: 10, label: "Bark / leaf / fruit" }); };
     $("d-feat").onclick = function () { startQuiz({ scope: "feature", count: 10, label: "By features" }); };
@@ -259,8 +258,8 @@
     $("walk-reset").onclick = function () { S.stats.walk = {}; save(); renderWalk(); };
   }
 
-  // ---- Seasonal (What's out now) ---------------------------------------------
-  function renderNow() {
+  // ---- Home (landing: what's out now) ----------------------------------------
+  function renderHome() {
     var m = month(), names = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var flowering = SPECIES.filter(function (s) { return (s.season && s.season.flower || []).indexOf(m) >= 0; });
     var fruiting = SPECIES.filter(function (s) { return (s.season && s.season.fruit || []).indexOf(m) >= 0; });
@@ -271,16 +270,11 @@
         return '<button class="key-tile"' + (ph ? ' data-photo="' + esc(ph.id) + '"' : '') + '>' + (ph ? '<img loading="lazy" src="' + esc(ph.thumb || ph.src) + '" alt="' + esc(s.common) + '">' : '') + '<span>' + esc(s.common) + '</span></button>';
       }).join("") + '</div>';
     }
-    var poolIds = {}; flowering.concat(fruiting).forEach(function (s) { poolIds[s.id] = 1; });
-    APP.innerHTML = '<div class="wrap"><h1>What’s out now</h1><p class="sub">In NYC, ' + names[m] + ':</p>' +
+    APP.innerHTML = '<div class="wrap"><h1>NYC Trees</h1>' +
+      '<p class="sub">Learn the trees on your block. Here’s what’s out in ' + names[m] + '.</p>' +
       '<h3>Flowering</h3>' + grid(flowering, "flowering") +
       '<h3>Fruiting / nuts</h3>' + grid(fruiting, "fruiting") +
-      '<div class="row"><button class="btn primary" id="now-quiz">Quiz me on what’s out now</button></div></div>';
-    $("now-quiz").onclick = function () {
-      var pool = SPECIES.filter(function (s) { return poolIds[s.id]; });
-      if (pool.length < 4) pool = SPECIES;
-      startQuiz({ scope: "mixed", count: 8, speciesPool: pool, label: names[m] + " trees" });
-    };
+      '</div>';
   }
 
   // ---- Progress ---------------------------------------------------------------
@@ -292,9 +286,9 @@
     var weak = SPECIES.filter(function (s) { return speciesMastery(s.id) > 0 && speciesMastery(s.id) < 3; });
     APP.innerHTML = '<div class="wrap"><h1>Progress</h1>' +
       '<div class="kpis"><div class="kpi"><b>' + S.stats.streak.count + '</b><span>day streak</span></div>' +
-      '<div class="kpi"><b>' + (S.stats.seen || 0) + '</b><span>drilled</span></div>' +
+      '<div class="kpi"><b>' + (S.stats.seen || 0) + '</b><span>quizzed</span></div>' +
       '<div class="kpi"><b>' + SPECIES.filter(function (s) { return speciesMastery(s.id) >= 4; }).length + '/' + SPECIES.length + '</b><span>solid</span></div></div>' +
-      (weak.length ? '<div class="row"><button class="btn primary" id="pr-weak">Drill your ' + weak.length + ' weak spots</button></div>' : '') +
+      (weak.length ? '<div class="row"><button class="btn primary" id="pr-weak">Quiz your ' + weak.length + ' weak spots</button></div>' : '') +
       '<div class="pr-list">' + rows + '</div>' +
       '<div class="row"><button class="btn" id="pr-export">Export</button><button class="btn" id="pr-import">Import</button><button class="btn bad" id="pr-reset">Reset all</button></div></div>';
     if (weak.length) $("pr-weak").onclick = function () { startQuiz({ scope: "mixed", count: 10, speciesPool: weak, label: "Weak spots" }); };
@@ -314,17 +308,17 @@
   }
 
   // ---- router -----------------------------------------------------------------
-  var ROUTES = { home: renderHome, guide: renderGuide, key: renderKey, walk: renderWalk, now: renderNow, progress: renderProgress, credits: renderCredits };
+  var ROUTES = { home: renderHome, guide: renderGuide, key: renderKey, walk: renderWalk, quiz: renderQuiz, progress: renderProgress, credits: renderCredits };
   function route() {
     var name = (location.hash.replace(/^#\//, "") || "home").split("/")[0];
     if (!ROUTES[name]) name = "home";
-    if (name !== "home") QZ = null;
+    if (name !== "quiz") QZ = null;
     Array.prototype.forEach.call(document.querySelectorAll("#nav a"), function (a) { a.classList.toggle("active", a.getAttribute("data-route") === name); });
     ROUTES[name](); window.scrollTo(0, 0);
     track("mode_enter", { mode: name });
   }
   window.addEventListener("hashchange", route);
-  var fab = document.getElementById("fab"); if (fab) fab.onclick = function () { startQuiz({ scope: "mixed", count: 5, label: "Quick drill" }); };
+  var fab = document.getElementById("fab"); if (fab) fab.onclick = function () { startQuiz({ scope: "mixed", count: 5, label: "Quick quiz" }); };
 
   // ---- boot -------------------------------------------------------------------
   var fc = document.getElementById("foot-count"); if (fc) fc.textContent = SPECIES.length + " NYC trees";
