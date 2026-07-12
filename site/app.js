@@ -341,7 +341,7 @@
       '<p class="meta"><i>' + esc(s.scientific) + '</i> · ' + esc(s.family) + '</p></div>' +
       '<div class="card-actions">' +
         (ABOUT[s.id] ? '<button class="about-btn" data-about="' + esc(s.id) + '" title="About this tree" aria-label="About this tree">ⓘ</button>' : '') +
-        '<div class="mastery-dot m' + Math.round(speciesMastery(s.id)) + '" title="familiarity"></div></div></header>' +
+        '</div></header>' +
       '<div class="strip">' + strip + '</div>' +
       '<ul class="fastid">' + (s.fastId || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' +
       '<p class="traits meta">' + esc(t(tr.arrangement)) + ' · ' + esc(t(tr.leafType)) + ' · ' + esc(t(tr.margin)) + ' · ' + esc((tr.bark || []).map(function (b) { return t(b); }).join("/")) + ' ' + t("bark") + ' · ' + esc(t(tr.fruit.replace(/-/g, " "))) + '</p>' +
