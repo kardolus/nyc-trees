@@ -43,6 +43,26 @@ const UI = [
   "Photo credits", "source",
 ];
 
+// interpolated templates + values that render via t() in app.js (keep {placeholders})
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August",
+  "September", "October", "November", "December"];
+const FACTS = [
+  "Flowering & fruiting in {month}",
+  "NYC's most common tree is the {common} — about {count} of them, {pct}% of every tree in the city.",
+  "The {common} is NYC's #2 tree — {count} of them line the streets.",
+  "NYC's streets and parks are home to {n} different tree species.",
+  "NYC Parks maps about {n} living trees across the five boroughs.",
+  "{borough} has the most trees of any borough — around {n}.",
+  "In {borough}, the most common tree is the {common} — bucking the citywide trend.",
+  "The widest tree on record is a {common} with a {dbh}-inch trunk, in {borough}.",
+  "The most-planted tree in {year} was the {common} — {n} new ones went in.",
+  "NYC's biggest planting year lately was {year}, with {n} new trees.",
+  "Callery pear is one of NYC's most common trees, but it's no longer planted — it's now considered invasive.",
+];
+// census common names (in the top-species bars) + boroughs not already covered by species.js
+const EXTRA = ["Thornless honeylocust", "'Green leaf' Japanese flowering cherry", "swamp white oak",
+  "Japanese flowering cherry", "Queens", "Brooklyn", "Manhattan", "Staten Island", "Bronx", "the Bronx"];
+
 function loadSpecies() {
   const src = fs.readFileSync(path.join(__dirname, "..", "site", "species.js"), "utf8");
   const g = {};
@@ -92,7 +112,7 @@ async function translate(langName, strings) {
 }
 
 (async () => {
-  const strings = Array.from(new Set([...UI, ...loadSpecies(), ...loadWalkTargets()]));
+  const strings = Array.from(new Set([...UI, ...MONTHS, ...FACTS, ...EXTRA, ...loadSpecies(), ...loadWalkTargets()]));
   console.log(`translating ${strings.length} strings x ${LANGS.length} languages…`);
   const out = {};
   await Promise.all(LANGS.map(async ([code, name]) => {

@@ -96,7 +96,8 @@
     LANG = l; try { localStorage.setItem("lang", l); } catch (e) {}
     _applyDir();
     var sel = document.getElementById("lang-select"); if (sel) sel.value = l;
-    i18nApply(document.body);
+    route();                 // re-render so t()-based (interpolated) strings pick up the language
+    i18nApply(document.body); // translate the static shell + any English literals
   }
   window.setLang = setLang;
 
@@ -289,7 +290,7 @@
       var max = sp[0].count || 1;
       var kNum = function (n) { return n >= 1000 ? Math.round(n / 1000) + "k" : "" + n; };
       el.innerHTML = sp.map(function (x) {
-        return '<div class="bar-row"><span class="nm" title="' + esc(x.scientific || "") + '">' + x.rank + '. ' + esc(x.common || x.scientific) + '</span>' +
+        return '<div class="bar-row"><span class="nm" title="' + esc(x.scientific || "") + '">' + x.rank + '. ' + esc(t(x.common || x.scientific)) + '</span>' +
           '<span class="track"><i style="width:' + Math.max(2, 100 * x.count / max) + '%"></i></span>' +
           '<span class="val" title="' + x.count.toLocaleString() + ' trees">' + kNum(x.count) + ' · ' + x.pct + '%</span></div>';
       }).join("");
@@ -434,7 +435,7 @@
           secHero("💡", "Did you know?", "a new fact every day") +
           '<div class="card dyk-card"><p id="dyk-fact" class="dyk-fact">…</p></div>' +
         '</section>' +
-        '<section class="home-col">' + secHero("🌸", "Now", "Flowering &amp; fruiting in " + names[m]) +
+        '<section class="home-col">' + secHero("🌸", "Now", t("Flowering & fruiting in {month}", { month: t(names[m]) })) +
           '<h4 class="now-sub">Flowering</h4>' + grid(flowering, "flowering") +
           '<h4 class="now-sub">Fruiting / nuts</h4>' + grid(fruiting, "fruiting") +
           secHero("🌱", "Planting over time", "new trees recorded per year") +
@@ -455,7 +456,10 @@
     fetch("/atlas/api/facts").then(function (r) { return r.json(); }).then(function (o) {
       var f = (o && o.data) || []; if (!f.length) { el.textContent = ""; return; }
       var s = todayStr() + "dyk", h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
-      el.textContent = f[h % f.length];
+      var fact = f[h % f.length];
+      if (typeof fact === "string") { el.textContent = fact; return; }  // back-compat
+      var v = {}; for (var k in (fact.v || {})) v[k] = (k === "common" || k === "borough") ? t(fact.v[k]) : fact.v[k];
+      el.textContent = t(fact.t, v);
     }).catch(function () {});
   }
 
