@@ -266,7 +266,8 @@
     var fruiting = SPECIES.filter(function (s) { return (s.season && s.season.fruit || []).indexOf(m) >= 0; });
     function grid(list, label) {
       if (!list.length) return '<p class="meta">Nothing notable ' + label + ' in ' + names[m] + '.</p>';
-      return '<div class="now-grid">' + list.map(function (s) { var ph = photosFor(s.id, "fruit")[0] || heroPhoto(s.id);
+      var part = label === "flowering" ? "flower" : "fruit", alt = part === "flower" ? "fruit" : "flower";
+      return '<div class="now-grid">' + list.map(function (s) { var ph = photosFor(s.id, part)[0] || photosFor(s.id, alt)[0] || heroPhoto(s.id);
         return '<button class="key-tile"' + (ph ? ' data-photo="' + esc(ph.id) + '"' : '') + '>' + (ph ? '<img loading="lazy" src="' + esc(ph.thumb || ph.src) + '" alt="' + esc(s.common) + '">' : '') + '<span>' + esc(s.common) + '</span></button>';
       }).join("") + '</div>';
     }
