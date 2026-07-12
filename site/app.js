@@ -160,11 +160,22 @@
     track("drill_done", { pct: pct });
   }
 
-  // ---- Quiz (recognition) -----------------------------------------------------
+  // ---- Quiz (recognition) + Progress, as one tab with a segmented toggle ------
+  function segTabs(active) {
+    return '<div class="seg">' +
+      '<a href="#/quiz" class="seg-btn' + (active === "quiz" ? " active" : "") + '">Quiz</a>' +
+      '<a href="#/quiz/progress" class="seg-btn' + (active === "progress" ? " active" : "") + '">Progress</a>' +
+      '</div>';
+  }
   function renderQuiz() {
-    if (QZ && !QZ.done && QZ.i < QZ.qs.length) { drawQuiz(); return; }
+    var sub = (location.hash.split("/")[2] || "").toLowerCase();
+    // an in-progress quiz takes over the quiz sub-view, but you can still peek at Progress
+    if (sub !== "progress" && QZ && !QZ.done && QZ.i < QZ.qs.length) { drawQuiz(); return; }
+    if (sub === "progress") renderProgress(); else renderQuizStart();
+  }
+  function renderQuizStart() {
     var mastered = SPECIES.filter(function (s) { return speciesMastery(s.id) >= 4; }).length;
-    APP.innerHTML = '<div class="wrap home">' +
+    APP.innerHTML = '<div class="wrap home">' + segTabs("quiz") +
       '<h1>Recognition quiz</h1>' +
       '<p class="sub">Photo in, tree out. ' + SPECIES.length + ' common NYC trees · ' + mastered + ' well-known · ' + S.stats.streak.count + '-day streak.</p>' +
       '<div class="drill-cta"><button class="btn primary big" id="d-mixed">Start a 10-question quiz</button></div>' +
@@ -284,7 +295,7 @@
       return '<div class="pr-row"><span>' + esc(s.common) + '</span><div class="bar"><i style="width:' + pc + '%"></i></div><span class="meta mono">' + Math.round(m * 20) + '%</span></div>';
     }).join("");
     var weak = SPECIES.filter(function (s) { return speciesMastery(s.id) > 0 && speciesMastery(s.id) < 3; });
-    APP.innerHTML = '<div class="wrap"><h1>Progress</h1>' +
+    APP.innerHTML = '<div class="wrap">' + segTabs("progress") +
       '<div class="kpis"><div class="kpi"><b>' + S.stats.streak.count + '</b><span>day streak</span></div>' +
       '<div class="kpi"><b>' + (S.stats.seen || 0) + '</b><span>quizzed</span></div>' +
       '<div class="kpi"><b>' + SPECIES.filter(function (s) { return speciesMastery(s.id) >= 4; }).length + '/' + SPECIES.length + '</b><span>solid</span></div></div>' +
@@ -308,9 +319,10 @@
   }
 
   // ---- router -----------------------------------------------------------------
-  var ROUTES = { home: renderHome, guide: renderGuide, key: renderKey, walk: renderWalk, quiz: renderQuiz, progress: renderProgress, credits: renderCredits };
+  var ROUTES = { home: renderHome, guide: renderGuide, key: renderKey, walk: renderWalk, quiz: renderQuiz, credits: renderCredits };
   function route() {
     var name = (location.hash.replace(/^#\//, "") || "home").split("/")[0];
+    if (name === "progress") { location.hash = "#/quiz/progress"; return; }   // legacy deep link
     if (!ROUTES[name]) name = "home";
     if (name !== "quiz") QZ = null;
     Array.prototype.forEach.call(document.querySelectorAll("#nav a"), function (a) { a.classList.toggle("active", a.getAttribute("data-route") === name); });
