@@ -258,6 +258,10 @@ def main():
 
         pk = picks.get(sid, {}) or {}
         got, done = 0, set()
+        # photo_picks "inat_first": ["fruit", ...] — parts where the iNaturalist photo should be
+        # the PRIMARY (shown before the Commons photo of the same part). Commons normally emits
+        # first, so without this an iNat pick always lands second. Applied as a post-pass below.
+        inat_first = set(pk.get("inat_first", []))
         # 1. explicit photo_picks Commons overrides win for their part (incl. leaf/form)
         for part, titles in pk.items():
             if part not in PARTS:
@@ -310,6 +314,14 @@ def main():
                                 pass
             except Exception:
                 pass
+        # Post-pass: for parts flagged inat_first, reorder within the part's existing array slots
+        # so iNaturalist-sourced photos come before Commons ones (the app treats the first photo
+        # of a part as primary). Only swaps within the part; overall layout is untouched.
+        for part in inat_first:
+            idxs = [i for i, p in enumerate(photos) if p["speciesId"] == sid and p["part"] == part]
+            ordered = sorted((photos[i] for i in idxs), key=lambda p: 0 if p["source"] == "iNaturalist" else 1)
+            for i, e in zip(idxs, ordered):
+                photos[i] = e
         if not any(p["speciesId"] == sid and p["part"] == "leaf" for p in photos):
             misses.append(f"{sid}:leaf")
         print(f"  {sid:<26} {got} photos")
