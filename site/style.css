@@ -18,7 +18,7 @@ html.dark{
   --good:#22c47e;--warn:#e3b341;--bad:#f0796a;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{font-family:var(--font-body);max-width:1000px;margin:0 auto;padding:0 16px 60px;
   background:var(--bg);color:var(--fg);transition:background .2s,color .2s;line-height:1.55;overflow-wrap:break-word}
 img{max-width:100%}
