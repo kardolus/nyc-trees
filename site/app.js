@@ -314,6 +314,7 @@
     if (!ROUTES[name]) name = "home";
     if (name !== "quiz") QZ = null;
     Array.prototype.forEach.call(document.querySelectorAll("#nav a"), function (a) { a.classList.toggle("active", a.getAttribute("data-route") === name); });
+    var fabEl = document.getElementById("fab"); if (fabEl) fabEl.style.display = (name === "quiz") ? "none" : "";
     ROUTES[name](); window.scrollTo(0, 0);
     track("mode_enter", { mode: name });
   }
