@@ -370,10 +370,11 @@
         (sub ? '<p class="sec-sub">' + sub + '</p>' : '') + '</div></div>';
     }
     var mapPanel = '<div class="card"><div id="atlas-map"></div>' +
-      '<div class="legend"><span><b style="background:#1da46c"></b>biggest</span>' +
-      '<span><b style="background:#d98a00"></b>highest risk</span>' +
+      '<div class="map-legend"><span><b style="background:#1da46c"></b>biggest</span>' +
+      '<span><b style="background:#d98a00"></b>high-risk</span>' +
       '<span><b style="background:#8b949e"></b>dead standing</span></div>' +
-      '<p class="disclaimer">A curated sample of notable records — for a full per-tree map see the official ' +
+      '<p class="disclaimer">A curated sample: the widest trunks, trees NYC forestry has given its highest risk rating ' +
+      '(a maintenance flag — most likely to fail), and dead trees still standing. For a full per-tree map, see the official ' +
       '<a href="https://tree-map.nycgovparks.org" target="_blank" rel="noopener">NYC Tree Map</a>.</p></div>';
     APP.innerHTML = '<div class="wrap">' +
       '<div class="home-cols">' +
