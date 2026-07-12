@@ -339,21 +339,39 @@
     var tr = s.traits;
     return '<article class="sp-card"><header><div><h2>' + esc(s.common) + ' ' + statusTag(s) + '</h2>' +
       '<p class="meta"><i>' + esc(s.scientific) + '</i> · ' + esc(s.family) + '</p></div>' +
-      '<div class="mastery-dot m' + Math.round(speciesMastery(s.id)) + '" title="familiarity"></div></header>' +
+      '<div class="card-actions">' +
+        (ABOUT[s.id] ? '<button class="about-btn" data-about="' + esc(s.id) + '" title="About this tree" aria-label="About this tree">ⓘ</button>' : '') +
+        '<div class="mastery-dot m' + Math.round(speciesMastery(s.id)) + '" title="familiarity"></div></div></header>' +
       '<div class="strip">' + strip + '</div>' +
       '<ul class="fastid">' + (s.fastId || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' +
       '<p class="traits meta">' + esc(t(tr.arrangement)) + ' · ' + esc(t(tr.leafType)) + ' · ' + esc(t(tr.margin)) + ' · ' + esc((tr.bark || []).map(function (b) { return t(b); }).join("/")) + ' ' + t("bark") + ' · ' + esc(t(tr.fruit.replace(/-/g, " "))) + '</p>' +
       '<p class="census" data-census="' + esc((s.scientific || "").replace("×", "x").toLowerCase()) + '"></p>' +
       (conf ? '<details class="confuse"><summary>Don’t confuse with…</summary><ul>' + conf + '</ul></details>' : '') +
-      aboutBlock(s) +
       '</article>';
   }
-  function aboutBlock(s) {
-    var a = ABOUT[s.id]; if (!a) return "";
-    function row(label, txt) { return txt ? '<p class="about-row"><b>' + label + '</b> — <span>' + esc(txt) + '</span></p>' : ""; }
-    return '<details class="about"><summary><span class="about-i">ⓘ</span> About this tree</summary>' +
-      row("Name", a.name) + row("Family", a.relatives) + row("Fun fact", a.fact) + '</details>';
+  // "ⓘ About this tree" -> dismissible modal (backdrop / Esc / ✕). Reuses the lightbox-style overlay.
+  function openAbout(id) {
+    var s = byId[id], a = ABOUT[id]; if (!s || !a) return;
+    function row(l, x) { return x ? '<p class="about-row"><b>' + l + '</b> — <span>' + esc(x) + '</span></p>' : ""; }
+    var m = document.createElement("div");
+    m.className = "modal-scrim";
+    m.innerHTML = '<div class="modal" role="dialog" aria-modal="true">' +
+      '<button class="modal-close" aria-label="Close">✕</button>' +
+      '<p class="modal-eyebrow">About this tree</p>' +
+      '<h3>' + esc(s.common) + '</h3>' +
+      '<p class="meta"><i>' + esc(s.scientific) + '</i> · ' + esc(s.family) + '</p>' +
+      row("Name", a.name) + row("Family", a.relatives) + row("Fun fact", a.fact) + '</div>';
+    function close() { m.remove(); document.removeEventListener("keydown", onKey); }
+    function onKey(e) { if (e.key === "Escape") close(); }
+    m.addEventListener("click", function (e) { if (e.target === m || (e.target.closest && e.target.closest(".modal-close"))) close(); });
+    document.addEventListener("keydown", onKey);
+    document.body.appendChild(m);
+    i18nApply(m);   // modal lives outside #app, so translate it explicitly
   }
+  window.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest("[data-about]");
+    if (b) openAbout(b.getAttribute("data-about"));
+  });
 
   // ---- Compare (one feature across every tree) --------------------------------
   var CMP_PARTS = [["leaf", "Leaf"], ["bark", "Bark"], ["fruit", "Fruit"], ["flower", "Flower"], ["form", "Form / whole tree"]];
