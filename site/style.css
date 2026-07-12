@@ -345,7 +345,7 @@ html.dark .fab{color:#0d1117}
 .bar-row .nm { font-family: var(--font-ui); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .bar-row .track { height: 13px; background: var(--border); border-radius: 999px; overflow: hidden; }
 .bar-row .track i { display: block; height: 100%; background: var(--accent); }
-.bar-row .val { font-family: var(--font-mono); font-size: 11px; color: var(--meta); text-align: right; }
+.bar-row .val { font-family: var(--font-mono); font-size: 11px; color: var(--meta); text-align: right; white-space: nowrap; }
 .chartwrap { position: relative; height: 180px; }
 #atlas-map { height: 300px; border-radius: var(--radius-md); border: 1px solid var(--border); }
 .leaflet-container { background: var(--card); font-family: var(--font-body); }

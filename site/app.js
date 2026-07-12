@@ -236,10 +236,11 @@
       var sp = (o && o.data) || [], el = document.getElementById("atlas-species"); if (!el) return;
       if (!sp.length) { el.textContent = "—"; return; }
       var max = sp[0].count || 1;
+      var kNum = function (n) { return n >= 1000 ? Math.round(n / 1000) + "k" : "" + n; };
       el.innerHTML = sp.map(function (x) {
         return '<div class="bar-row"><span class="nm" title="' + esc(x.scientific || "") + '">' + x.rank + '. ' + esc(x.common || x.scientific) + '</span>' +
           '<span class="track"><i style="width:' + Math.max(2, 100 * x.count / max) + '%"></i></span>' +
-          '<span class="val">' + x.count.toLocaleString() + ' · ' + x.pct + '%</span></div>';
+          '<span class="val" title="' + x.count.toLocaleString() + ' trees">' + kNum(x.count) + ' · ' + x.pct + '%</span></div>';
       }).join("");
     }).catch(function () {});
     fetch("/atlas/api/planting").then(function (r) { return r.json(); }).then(function (o) { atlasPlanting((o && o.data) || []); }).catch(function () {});
