@@ -334,6 +334,17 @@ html.dark .fab{color:#0d1117}
 
 /* ============ NYC Trees additions ============ */
 .home h1, .wrap > h1 { margin: 4px 0 2px; }
+/* Home: fun section headers + desktop two-column (Tree of the day | Now) */
+.home-cols { display: grid; grid-template-columns: 1fr; gap: 4px 28px; }
+.sec-hero { display: flex; align-items: center; gap: 11px; margin: 22px 0 12px; }
+.sec-hero .sec-ico { flex: 0 0 auto; width: 40px; height: 40px; display: grid; place-items: center; font-size: 21px; background: var(--accent-soft); border-radius: 999px; }
+.sec-hero h2 { font-family: var(--font-ui); font-size: 19px; font-weight: 700; line-height: 1.15; }
+.sec-hero .sec-sub { font-family: var(--font-mono); font-size: 10.5px; color: var(--meta); text-transform: uppercase; letter-spacing: .06em; margin-top: 3px; }
+.now-sub { font-family: var(--font-ui); font-size: 12px; font-weight: 600; color: var(--meta); text-transform: uppercase; letter-spacing: .05em; margin: 16px 0 8px; }
+@media (min-width: 860px) {
+  .home-cols { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); align-items: start; }
+  .totd .strip { flex-wrap: wrap; overflow: visible; }
+}
 /* segmented control (Quiz | Progress) */
 .seg { display: inline-flex; gap: 2px; padding: 3px; margin: 2px 0 18px; background: var(--card); border: 1px solid var(--border-strong); border-radius: 999px; }
 .seg-btn { font-family: var(--font-ui); font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 999px; color: var(--meta); text-decoration: none; transition: background .15s, color .15s; }
@@ -399,7 +410,7 @@ html.dark .fab{color:#0d1117}
 .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 .count { margin: 6px 0; }
 .key-grid, .now-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
-.key-tile { padding: 0; border: 1px solid var(--border); background: var(--card); border-radius: var(--radius-sm); overflow: hidden; cursor: zoom-in; text-align: center; }
+.key-tile { padding: 0; border: 1px solid var(--border); background: var(--card); color: var(--fg); border-radius: var(--radius-sm); overflow: hidden; cursor: zoom-in; text-align: center; }
 .key-tile img { width: 100%; height: 110px; object-fit: cover; display: block; }
 .key-tile span { display: block; padding: 6px 4px; font-size: 12px; font-family: var(--font-ui); font-weight: 500; }
 
