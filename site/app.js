@@ -164,7 +164,7 @@
   function drawQuiz() {
     var q = QZ.qs[QZ.i];
     var body = '<div class="wrap quiz">';
-    body += '<div class="qz-top"><span class="meta mono">' + esc(QZ.label) + ' · ' + (QZ.i + 1) + '/' + QZ.qs.length + '</span>' +
+    body += '<div class="qz-top"><span class="meta mono">' + esc(t(QZ.label)) + ' · ' + (QZ.i + 1) + '/' + QZ.qs.length + '</span>' +
       '<span class="meta mono">✓ ' + QZ.right + ' · ✗ ' + QZ.wrong + '</span></div>';
     body += '<div class="qz-card"><h2 class="qz-q">' + esc(q.prompt) + '</h2>';
     if (q.photo) body += '<div class="qz-photo"><img loading="eager" src="' + esc(q.photo.src) + '" alt="tree photo"><span class="qz-cred meta">' + esc(q.photo.attribution || "") + '</span></div>';
@@ -230,7 +230,7 @@
     var mastered = SPECIES.filter(function (s) { return speciesMastery(s.id) >= 4; }).length;
     APP.innerHTML = '<div class="wrap home">' + seg(QUIZ_SEG, "quiz") +
       '<h1>Recognition quiz</h1>' +
-      '<p class="sub">Photo in, tree out. ' + SPECIES.length + ' common NYC trees · ' + mastered + ' well-known · ' + S.stats.streak.count + '-day streak.</p>' +
+      '<p class="sub">' + t("Photo in, tree out. {n} common NYC trees · {mastered} well-known · {streak}-day streak.", { n: SPECIES.length, mastered: mastered, streak: S.stats.streak.count }) + '</p>' +
       '<div class="drill-cta"><button class="btn primary big" id="d-mixed">Start a 10-question quiz</button></div>' +
       '<div class="drill-modes">' +
       '<button class="chip" id="d-conf">Look-alikes</button>' +
@@ -363,7 +363,7 @@
       '<p class="sub">See one feature across every tree, side by side.</p>' +
       '<div class="cmp-bar"><label class="cmp-l" for="cmp-sel">Compare</label>' +
       '<select id="cmp-sel" class="cmp-sel">' + opts + '</select>' +
-      '<span class="meta count">' + list.length + ' trees</span></div>' +
+      '<span class="meta count">' + t("{n} trees", { n: list.length }) + '</span></div>' +
       '<div class="key-grid">' + tiles + '</div></div>';
     $("cmp-sel").onchange = function () { CMP = this.value; renderCompare(); };
   }
@@ -386,7 +386,7 @@
   }
   function renderWalk() {
     var tg = walkTargets(), w = S.stats.walk || (S.stats.walk = {}), done = tg.filter(function (x) { return w[x.id]; }).length;
-    APP.innerHTML = '<div class="wrap"><h1>Tree walk</h1><p class="sub">Take this outside. Spot each one on a real NYC block or in a park — tap when you find it. ' + done + '/' + tg.length + ' this season.</p>' +
+    APP.innerHTML = '<div class="wrap"><h1>Tree walk</h1><p class="sub">' + t("Take this outside. Spot each one on a real NYC block or in a park — tap when you find it. {done}/{total} this season.", { done: done, total: tg.length }) + '</p>' +
       '<ul class="walk">' + tg.map(function (x) {
         var ph = x.pic && photosFor(x.pic[0], x.pic[1])[0];
         return '<li class="walk-item' + (w[x.id] ? " done" : "") + '" data-w="' + x.id + '"><span class="tick">' + (w[x.id] ? "✓" : "○") + '</span>' +
@@ -474,7 +474,7 @@
       '<div class="kpis"><div class="kpi"><b>' + S.stats.streak.count + '</b><span>day streak</span></div>' +
       '<div class="kpi"><b>' + (S.stats.seen || 0) + '</b><span>quizzed</span></div>' +
       '<div class="kpi"><b>' + SPECIES.filter(function (s) { return speciesMastery(s.id) >= 4; }).length + '/' + SPECIES.length + '</b><span>solid</span></div></div>' +
-      (weak.length ? '<div class="row"><button class="btn primary" id="pr-weak">Quiz your ' + weak.length + ' weak spots</button></div>' : '') +
+      (weak.length ? '<div class="row"><button class="btn primary" id="pr-weak">' + t("Quiz your {n} weak spots", { n: weak.length }) + '</button></div>' : '') +
       '<div class="pr-list">' + rows + '</div>' +
       '<div class="row"><button class="btn" id="pr-export">Export</button><button class="btn" id="pr-import">Import</button><button class="btn bad" id="pr-reset">Reset all</button></div></div>';
     if (weak.length) $("pr-weak").onclick = function () { startQuiz({ scope: "mixed", count: 10, speciesPool: weak, label: "Weak spots" }); };
@@ -518,7 +518,7 @@
     }).join("");
     langSel.onchange = function () { setLang(this.value); };
   }
-  var fc = document.getElementById("foot-count"); if (fc) fc.textContent = SPECIES.length + " NYC trees";
+  var fc = document.getElementById("foot-count"); if (fc) fc.textContent = t("{n} NYC trees", { n: SPECIES.length });
   if (!location.hash) location.hash = "#/home";
   _applyDir();
   route();

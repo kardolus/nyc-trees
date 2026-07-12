@@ -58,6 +58,9 @@ const FACTS = [
   "The most-planted tree in {year} was the {common} — {n} new ones went in.",
   "NYC's biggest planting year lately was {year}, with {n} new trees.",
   "Callery pear is one of NYC's most common trees, but it's no longer planted — it's now considered invasive.",
+  "Photo in, tree out. {n} common NYC trees · {mastered} well-known · {streak}-day streak.",
+  "Take this outside. Spot each one on a real NYC block or in a park — tap when you find it. {done}/{total} this season.",
+  "Quiz your {n} weak spots", "{n} NYC trees", "{n} trees", "Tree walk", "Weak spots",
 ];
 // census common names (in the top-species bars) + boroughs not already covered by species.js
 const EXTRA = ["Thornless honeylocust", "'Green leaf' Japanese flowering cherry", "swamp white oak",
