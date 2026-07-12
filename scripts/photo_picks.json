@@ -388,5 +388,25 @@
     "inat_first": [
       "fruit"
     ]
+  },
+  "aesculus-hippocastanum": {
+    "form": [
+      "File:Hagen Kattenohl 1a.JPG"
+    ],
+    "bark": [
+      "File:Aesculus hippocastanum bark 1.JPG"
+    ],
+    "fruit": [
+      "File:Horse chestnut-1698741.jpg"
+    ],
+    "flower": [
+      "File:Aesculus hippocastanum flower 2.jpg"
+    ],
+    "inat": {
+      "leaf": [
+        "https://www.inaturalist.org/observations/46298422",
+        "https://www.inaturalist.org/observations/161605943"
+      ]
+    }
   }
 }
