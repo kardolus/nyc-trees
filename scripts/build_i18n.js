@@ -83,8 +83,8 @@ const EXTRA = ["Thornless honeylocust", "'Green leaf' Japanese flowering cherry"
   // trait shorthand vocabulary (shown on the guide/tree-of-day cards)
   "alternate", "opposite", "simple", "compound", "needle", "scale", "fan",
   "toothed", "serrated", "lobed", "entire",
-  "smooth", "furrowed", "ridged", "scaly", "exfoliating", "lenticels", "plated", "diamond", "mottled",
-  "seed ball", "double samara", "acorn", "pod", "pome", "drupe", "nut", "samara", "capsule", "ginkgo seed"];
+  "smooth", "furrowed", "ridged", "scaly", "exfoliating", "lenticels", "plated", "diamond", "mottled", "fibrous",
+  "seed ball", "double samara", "acorn", "pod", "pome", "drupe", "nut", "samara", "capsule", "ginkgo seed", "cone"];
 
 function loadSpecies() {
   const src = fs.readFileSync(path.join(__dirname, "..", "site", "species.js"), "utf8");
@@ -157,14 +157,21 @@ async function _translate(langName, strings) {
   if (fs.existsSync(dst)) {
     try { global.window = {}; require(dst); Object.assign(out, window.NYCTREES_I18N || {}); } catch (e) {}
   }
-  console.log(`translating ${strings.length} strings x ${langs.length} languages…`);
+  // Incremental by default: only translate strings a language is missing, then merge — so adding
+  // one species costs a handful of strings, not a full 12-language re-translation (which would also
+  // churn every existing translation). I18N_FULL=1 forces a from-scratch rebuild.
+  const full = process.env.I18N_FULL === "1";
+  console.log(`${full ? "full" : "incremental"} translate: ${strings.length} strings x ${langs.length} languages…`);
   await Promise.all(langs.map(async ([code, name]) => {
     try {
-      const map = await translate(name, strings);
-      const clean = {};  // keep only keys we asked for (drop hallucinated extras / no-ops)
-      strings.forEach((s) => { if (map[s] && map[s] !== s) clean[s] = map[s]; });
-      out[code] = clean;
-      console.log(`  ${code} (${name}): ${Object.keys(clean).length}/${strings.length}`);
+      const existing = full ? {} : (out[code] || {});
+      const need = strings.filter((s) => !(s in existing));
+      if (!need.length) { out[code] = existing; console.log(`  ${code} (${name}): up to date`); return; }
+      const map = await translate(name, need);
+      const merged = { ...existing };
+      need.forEach((s) => { if (map[s] && map[s] !== s) merged[s] = map[s]; });
+      out[code] = merged;
+      console.log(`  ${code} (${name}): +${need.length} sent, ${Object.keys(merged).length} total`);
     } catch (e) {
       console.error(`  ${code} FAILED: ${e.message}`);
     }

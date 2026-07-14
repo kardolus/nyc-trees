@@ -597,6 +597,32 @@ window.NYCTREES_SPECIES = [
     ],
     fruitKeyword: "plum",
     inaturalistTaxonId: 55837
+  },
+  {
+    id: "taxodium-distichum",
+    common: "bald cypress",
+    scientific: "Taxodium distichum",
+    family: "Cupressaceae",
+    nycRank: 22,
+    nycStatus: ["street", "park"],
+    native: false,
+    fastId: [
+      "Soft, feathery DECIDUOUS conifer — needles turn rust-orange and drop in fall",
+      "Short flat needles set ALTERNATELY along the twig (dawn redwood's are opposite)",
+      "Round ~1-inch cones; old trees near water push up woody 'knees'"
+    ],
+    traits: {
+      arrangement: "alternate",
+      leafType: "needle",
+      margin: "entire",
+      lobing: "none",
+      bark: ["fibrous", "furrowed"],
+      fruit: "cone"
+    },
+    season: { flower: [3, 4], fruit: [10, 11] },
+    confusableWith: [],
+    fruitKeyword: "cone",
+    inaturalistTaxonId: 49666
   }
 ];
-// 21 species
+// 22 species

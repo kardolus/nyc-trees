@@ -104,5 +104,10 @@ window.NYCTREES_ABOUT = {
   "name": "Its scientific name, Prunus cerasifera, is Latin for 'cherry-bearing plum tree', a direct reference to its small, edible fruits that resemble both cherries and plums.",
   "relatives": "As a member of the Rosaceae (rose) family, it is closely related to other stone fruits like peaches, apricots, and almonds.",
   "fact": "Its tart fruit, known as the myrobalan plum, is the essential ingredient in tkemali, a traditional sour sauce from the country of Georgia."
+ },
+ "taxodium-distichum": {
+  "name": "The genus name *Taxodium* means \"yew-like\" in Greek, while *distichum* is Latin for \"in two ranks,\" describing its needle arrangement. It's called \"bald\" cypress because it is a deciduous conifer that drops its needles in winter.",
+  "relatives": "It belongs to the cypress family (Cupressaceae), alongside famous relatives like the giant sequoia and coast redwood.",
+  "fact": "In wet habitats, the tree grows distinctive woody \"knees\" (pneumatophores) that protrude from the ground, which may help anchor the tree in soft soil."
  }
 };
