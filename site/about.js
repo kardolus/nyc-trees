@@ -99,5 +99,10 @@ window.NYCTREES_ABOUT = {
   "name": "Aesculus was an ancient Latin name for a tree and was later applied to buckeyes and horse chestnuts. Hippocastanum combines Greek roots for horse and chestnut, linked to old uses or beliefs involving horses.",
   "relatives": "It is in Sapindaceae, related to buckeyes and, more distantly, maples and lychees.",
   "fact": "Its shiny seeds are the “conkers” used in a traditional British children’s game, but they are toxic if eaten."
+ },
+ "prunus-cerasifera": {
+  "name": "Its scientific name, Prunus cerasifera, is Latin for 'cherry-bearing plum tree', a direct reference to its small, edible fruits that resemble both cherries and plums.",
+  "relatives": "As a member of the Rosaceae (rose) family, it is closely related to other stone fruits like peaches, apricots, and almonds.",
+  "fact": "Its tart fruit, known as the myrobalan plum, is the essential ingredient in tkemali, a traditional sour sauce from the country of Georgia."
  }
 };
