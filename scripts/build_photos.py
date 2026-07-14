@@ -256,6 +256,22 @@ def main():
                            "source": source_label, "sourceUrl": c["sourceUrl"], "attribution": attribution})
             credits.append({"speciesId": sid, "part": part, "attribution": attribution, "sourceUrl": c["sourceUrl"]})
 
+        def emit_local(part, rel_path):
+            # A photo_picks entry "local:<path-relative-to-repo-root>" — the photographer's own
+            # image, re-encoded like any other source. Attributed under CC BY-SA 4.0.
+            n = partn[part] = partn.get(part, 0) + 1
+            base = os.path.join(IMGDIR, sid, f"{part}-{n:02d}")
+            with open(os.path.join(ROOT, rel_path), "rb") as fh:
+                to_webp(fh.read(), base + ".webp", base + ".thumb.webp")
+            creator, license_, source_label = "Guillermo Kardolus", "CC BY-SA 4.0", "own photo"
+            attribution = f"{creator}, {license_} (own photo)"
+            rel = f"img/photos/{sid}/{part}-{n:02d}"
+            photos.append({"id": f"{sid}-{part}-{n:02d}", "speciesId": sid, "part": part,
+                           "src": f"{rel}.webp?h={_fh(base + '.webp')}", "thumb": f"{rel}.thumb.webp?h={_fh(base + '.thumb.webp')}",
+                           "license": license_, "creator": creator,
+                           "source": source_label, "sourceUrl": "", "attribution": attribution})
+            credits.append({"speciesId": sid, "part": part, "attribution": attribution, "sourceUrl": ""})
+
         pk = picks.get(sid, {}) or {}
         got, done = 0, set()
         # photo_picks "inat_first": ["fruit", ...] — parts where the iNaturalist photo should be
@@ -267,6 +283,12 @@ def main():
             if part not in PARTS:
                 continue                                   # skip directives like "inat"
             for t in titles[:2]:
+                if t.startswith("local:"):
+                    try:
+                        emit_local(part, t[len("local:"):]); got += 1; done.add(part)
+                    except Exception as e:
+                        misses.append(f"{sid}:{part} local ({e})")
+                    continue
                 c = commons_by_title(t)
                 if not c:
                     misses.append(f"{sid}:{part} pick-not-found ({t})")

@@ -408,5 +408,17 @@
         "https://www.inaturalist.org/observations/161605943"
       ]
     }
+  },
+  "prunus-cerasifera": {
+    "form": [
+      "File:Prunus cerasifera Nigra tree.jpg",
+      "local:scripts/local_photos/prunus-cerasifera/form-01.jpg"
+    ],
+    "leaf": [
+      "local:scripts/local_photos/prunus-cerasifera/leaf-01.jpg"
+    ],
+    "bark": [
+      "File:GT Cherry Plum.jpg"
+    ]
   }
 }

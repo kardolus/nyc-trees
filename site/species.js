@@ -568,6 +568,35 @@ window.NYCTREES_SPECIES = [
     ],
     fruitKeyword: "conker",
     inaturalistTaxonId: 84298
+  },
+  {
+    id: "prunus-cerasifera",
+    common: "cherry plum",
+    scientific: "Prunus cerasifera",
+    family: "Rosaceae",
+    nycRank: 21,
+    nycStatus: ["street", "park", "ornamental"],
+    native: false,
+    fastId: [
+      "Small tree; leaves deep purple-maroon all summer (the 'purple-leaf plum')",
+      "Early-spring haze of pale-pink 5-petaled blossoms before the leaves",
+      "Small round cherry-plums about 1 inch, yellow to deep red"
+    ],
+    traits: {
+      arrangement: "alternate",
+      leafType: "simple",
+      margin: "serrated",
+      lobing: "none",
+      bark: ["smooth", "lenticels"],
+      fruit: "drupe"
+    },
+    season: { flower: [3, 4], fruit: [6, 7, 8] },
+    confusableWith: [
+      { id: "prunus-serotina", tell: "Cherry plum is a small purple-leaved ornamental with round plums and pink spring bloom; black cherry is a big green forest tree with drooping white flower racemes, black drupes, and burnt-cornflake bark" },
+      { id: "pyrus-calleryana", tell: "Both bloom early on small street trees, but callery pear is a white cloud with glossy green rounded leaves; cherry plum has pink-white blossoms and deep purple summer leaves" }
+    ],
+    fruitKeyword: "plum",
+    inaturalistTaxonId: 55837
   }
 ];
-// 20 species
+// 21 species
