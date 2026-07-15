@@ -460,18 +460,16 @@
           '<div class="species-list totd">' + guideCard(totd) + '</div>' +
           secHero("💡", "Did you know?", "a new fact every day") +
           '<div class="card dyk-card"><p id="dyk-fact" class="dyk-fact">…</p></div>' +
+          secHero("🥇", "Most common trees", "living, city-wide · share of all") +
+          '<div class="card"><div class="bars" id="atlas-species">…</div></div>' +
         '</section>' +
         '<section class="home-col">' + secHero("🌸", "Now", t("Flowering & fruiting in {month}", { month: t(names[m]) })) +
           '<h4 class="now-sub">Flowering</h4>' + grid(flowering, "flowering") +
           '<h4 class="now-sub">Fruiting / nuts</h4>' + grid(fruiting, "fruiting") +
           secHero("🌱", "Planting over time", "new trees recorded per year") +
           '<div class="card"><div class="chartwrap"><canvas id="atlas-planting"></canvas></div></div>' +
+          secHero("📍", "Biggest &amp; notable trees", "the city’s superlatives") + mapPanel +
         '</section>' +
-      '</div>' +
-      '<div class="data-cols">' +
-        '<section>' + secHero("🥇", "Most common trees", "living, city-wide · share of all") +
-          '<div class="card"><div class="bars" id="atlas-species">…</div></div></section>' +
-        '<section>' + secHero("📍", "Biggest &amp; notable trees", "the city’s superlatives") + mapPanel + '</section>' +
       '</div></div>';
     fillCensus();
     fillDyk();
