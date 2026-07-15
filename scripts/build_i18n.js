@@ -21,7 +21,8 @@ const UI = [
   "Tree of the day", "A new tree to learn every day", "Now", "Did you know?",
   "a new fact every day", "Most common trees", "living, city-wide · share of all",
   "Planting over time", "new trees recorded per year", "Biggest & notable trees",
-  "the city’s superlatives", "Flowering", "Fruiting / nuts",
+  "the city’s superlatives", "How big are the trees?", "trunk size across the whole city",
+  "Flowering", "Fruiting / nuts",
   "biggest", "high-risk", "dead standing",
   "A curated sample — “high-risk” is NYC forestry’s top risk rating (a maintenance flag). Full map:",
   // guide / compare

@@ -283,7 +283,7 @@
     });
   }
   // ---- Atlas panels on Home (compact charts + map from the live /atlas/api) ----
-  var _atlasChart = null, _atlasMap = null, _atlasTiles = null;
+  var _atlasChart = null, _atlasMap = null, _atlasTiles = null, _sizesChart = null;
   function renderAtlasPanels() {
     fetch("/atlas/api/species?limit=8").then(function (r) { return r.json(); }).then(function (o) {
       var sp = (o && o.data) || [], el = document.getElementById("atlas-species"); if (!el) return;
@@ -297,6 +297,7 @@
       }).join("");
     }).catch(function () {});
     fetch("/atlas/api/planting").then(function (r) { return r.json(); }).then(function (o) { atlasPlanting((o && o.data) || []); }).catch(function () {});
+    fetch("/atlas/api/sizes").then(function (r) { return r.json(); }).then(function (o) { atlasSizes((o && o.data) || []); }).catch(function () {});
     atlasMap();
   }
   function _cssvar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
@@ -307,6 +308,17 @@
       data: { labels: pl.map(function (x) { return x.yr; }), datasets: [{ data: pl.map(function (x) { return x.n; }), backgroundColor: _cssvar("--accent"), borderRadius: 4 }] },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
         scales: { x: { grid: { display: false }, ticks: { color: _cssvar("--meta"), maxRotation: 0 } }, y: { grid: { color: "#8884" }, ticks: { color: _cssvar("--meta") } } } } });
+  }
+  function atlasSizes(rows) {
+    var ctx = document.getElementById("atlas-sizes"); if (!ctx || !window.Chart) return;
+    if (_sizesChart) _sizesChart.destroy();
+    var kNum = function (n) { return n >= 1000 ? Math.round(n / 1000) + "k" : "" + n; };
+    _sizesChart = new Chart(ctx, { type: "bar",
+      data: { labels: rows.map(function (x) { return x.label; }), datasets: [{ data: rows.map(function (x) { return x.n; }), backgroundColor: _cssvar("--accent"), borderRadius: 4 }] },
+      options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { return c.parsed.y.toLocaleString() + " trees"; } } } },
+        scales: { x: { grid: { display: false }, ticks: { color: _cssvar("--meta"), maxRotation: 0 } },
+          y: { grid: { color: "#8884" }, ticks: { color: _cssvar("--meta"), callback: function (v) { return kNum(v); } } } } } });
   }
   function _tileUrl() { return document.documentElement.classList.contains("dark")
     ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
@@ -329,6 +341,7 @@
   window.addEventListener("themechange", function () {
     if (_atlasTiles) _atlasTiles.setUrl(_tileUrl());
     if (_atlasChart) fetch("/atlas/api/planting").then(function (r) { return r.json(); }).then(function (o) { atlasPlanting((o && o.data) || []); });
+    if (_sizesChart) fetch("/atlas/api/sizes").then(function (r) { return r.json(); }).then(function (o) { atlasSizes((o && o.data) || []); });
   });
   function guideCard(s) {
     var strip = PARTS.map(function (part) {
@@ -462,6 +475,8 @@
           '<div class="card dyk-card"><p id="dyk-fact" class="dyk-fact">…</p></div>' +
           secHero("🥇", "Most common trees", "living, city-wide · share of all") +
           '<div class="card"><div class="bars" id="atlas-species">…</div></div>' +
+          secHero("📏", "How big are the trees?", "trunk size across the whole city") +
+          '<div class="card"><div class="chartwrap"><canvas id="atlas-sizes"></canvas></div></div>' +
         '</section>' +
         '<section class="home-col">' + secHero("🌸", "Now", t("Flowering & fruiting in {month}", { month: t(names[m]) })) +
           '<h4 class="now-sub">Flowering</h4>' + grid(flowering, "flowering") +
