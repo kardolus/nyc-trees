@@ -1,444 +1,444 @@
 {
-  "platanus-acerifolia": {
-    "form": [
-      "File:Platanus x acerifolia 01 summer.jpg",
-      "File:Platanus London Plane Tree Main Street Marthas Vineyard Edgartown.jpg"
-    ],
-    "leaf": [
-      "File:(ms) Platanus × hispanica 10.jpg"
-    ],
-    "fruit": [
-      "File:(ms) Platanus × hispanica 1.jpg",
-      "File:(ms) Platanus × hispanica 7.jpg"
-    ]
-  },
-  "acer-platanoides": {
-    "form": [
-      "File:Acer platanoides Marki 2.JPG"
-    ],
-    "leaf": [
-      "File:Acer platanoides 2 RF.jpg"
-    ]
-  },
-  "pyrus-calleryana": {
-    "form": [
-      "File:Pyrus calleryana.JPG",
-      "File:Pyrus Calleryana tree.jpg"
-    ],
-    "leaf": [
-      "File:Pyrus calleryana leaf s2.jpg"
-    ],
-    "bark": [
-      "File:Pyrus Calleryana bark.jpg"
-    ],
-    "inat": {
-      "leaf": [
-        0
-      ],
-      "fruit": [
-        1
-      ],
-      "flower": [
-        3
-      ]
-    }
-  },
-  "gleditsia-triacanthos": {
-    "form": [
-      "File:Gleditsia triacanthos Maryhill Museum 01.jpg"
-    ],
-    "bark": [
-      "File:Gleditsia triacanthos bark.jpg"
-    ],
-    "leaf": [
-      "File:Gleditsia leaf.jpg"
-    ],
-    "inat": {
-      "leaf": [
-        0
-      ],
-      "form": [
-        1
-      ],
-      "fruit": [
-        3
-      ]
-    }
-  },
-  "quercus-palustris": {
-    "inat": {
-      "leaf": [
-        0,
-        3
-      ],
-      "form": [
-        2
-      ]
-    }
-  },
-  "tilia-cordata": {
-    "form": [
-      "File:Tilia cordata tree, Ada Ciganlija.jpg"
-    ],
-    "leaf": [
-      "File:2020 year. Herbarium. Tilia cordata. img-012.jpg",
-      "File:2020 year. Herbarium. Tilia cordata. img-008.jpg"
-    ],
-    "bark": [
-      "File:2021-03-04 11 15 31 Little-leaf Linden bark along Virginia Willow Drive in the Franklin Glen section of Chantilly, Fairfax County, Virginia.jpg"
-    ],
-    "flower": [
-      "File:Tilia cordata flowers.jpg"
-    ],
-    "fruit": [
-      "local:scripts/local_photos/tilia-cordata/fruit-01.jpg"
-    ],
-    "skip": [
-      "fruit"
-    ],
-    "inat": {
-      "fruit": [
-        "https://www.inaturalist.org/observations/73856345"
-      ],
-      "form": [
-        "https://www.inaturalist.org/observations/99783330"
-      ]
-    }
-  },
-  "fraxinus-pennsylvanica": {
-    "form": [
-      "File:Fraxinus pennsylvanica tree.jpg"
-    ],
-    "leaf": [
-      "File:Fraxinus pennsylvanica leaf.jpg"
-    ],
-    "bark": [
-      "File:2021-03-03 09 16 07 Green Ash bark along Terrace Boulevard in the Parkway Village section of Ewing Township, Mercer County, New Jersey.jpg"
-    ],
-    "fruit": [
-      "File:Fraxinus pennsylvanica foliage seed.jpg"
-    ],
-    "skip": [
-      "flower"
-    ],
-    "inat": {
-      "form": [
-        "https://www.inaturalist.org/observations/127667384"
-      ],
-      "bark": [
-        "https://www.inaturalist.org/observations/114060748"
-      ]
-    }
-  },
-  "acer-rubrum": {
-    "form": [
-      "File:Acer rubrum October Glory 5zz.jpg"
-    ],
-    "bark": [
-      "File:Acer rubrum(Bark).JPG"
-    ],
-    "fruit": [
-      "File:Acer rubrum seed keys.jpg"
-    ],
-    "skip": [
-      "flower"
-    ],
-    "inat": {
-      "leaf": [
-        "https://www.inaturalist.org/observations/34643990",
-        "https://www.inaturalist.org/observations/100358257"
-      ],
-      "form": [
-        "https://www.inaturalist.org/observations/33459054"
-      ]
-    }
-  },
-  "acer-saccharinum": {
-    "form": [
-      "File:Acer saccharinum habitus F of F Belgrade.jpg"
-    ],
-    "leaf": [
-      "File:Silver Maple Acer saccharinum leaf, St Louis MO.jpg"
-    ],
-    "bark": [
-      "File:Acer saccharinum bark.jpg"
-    ],
-    "fruit": [
-      "File:Acer saccharinum samaras Churchill Woods Glen Ellyn Illinois.jpg"
-    ],
-    "flower": [
-      "File:Acer-saccharinum-flowering.JPG"
-    ],
-    "inat": {
-      "bark": [
-        "https://www.inaturalist.org/observations/188364169"
-      ]
-    }
-  },
-  "ginkgo-biloba": {
-    "form": [
-      "File:A golden Ginkgo biloba in autumn.jpg"
-    ],
-    "bark": [
-      "File:2021-03-02 17 19 54 Ginkgo bark along White Barn Court in the Franklin Farm section of Oak Hill, Fairfax County, Virginia.jpg"
-    ],
-    "fruit": [
-      "File:Peeled ginkgo nuts.jpg"
-    ],
-    "flower": [
-      "File:Ginkgo biloba - female flower.JPG"
-    ],
-    "inat": {
-      "leaf": [
-        "https://www.inaturalist.org/observations/97018142",
-        "https://www.inaturalist.org/observations/29818974"
-      ],
-      "form": [
-        "https://www.inaturalist.org/observations/145577104"
-      ]
-    }
-  },
-  "zelkova-serrata": {
-    "form": [
-      "File:Zelkova serrata entire.jpg",
-      "File:Zelkova serrata in Golden Valley Tree Park, May 2022 01.jpg"
-    ],
-    "bark": [
-      "File:Zelkova serrata 09.jpg",
-      "File:Zelkova serrata 08.jpg"
-    ],
-    "fruit": [
-      "File:Zelkova leaves and seeds.jpg"
-    ],
-    "skip": [
-      "flower"
-    ],
-    "inat": {
-      "leaf": [
-        "https://www.inaturalist.org/observations/209875267",
-        "https://www.inaturalist.org/observations/80457006"
-      ]
-    }
-  },
-  "ulmus-americana": {
-    "form": [
-      "File:Img ulmus americana 2209.jpg"
-    ],
-    "leaf": [
-      "File:Ulmus americana (5102579562).jpg"
-    ],
-    "bark": [
-      "File:Bark of Ulmus americana.jpg"
-    ],
-    "fruit": [
-      "File:Ulmus americana seeds.jpg"
-    ],
-    "flower": [
-      "File:American Elm - Ulmus americana, Occoquan Regional Park, Lorton, Virginia.jpg"
-    ],
-    "inat": {
-      "form": [
-        "https://www.inaturalist.org/observations/152069762"
-      ]
-    }
-  },
-  "quercus-rubra": {
-    "form": [
-      "File:Quercus Rubra Sambuy.jpg"
-    ],
-    "bark": [
-      "File:Quercus rubra N red oak bark.jpg"
-    ],
-    "fruit": [
-      "File:Quercus rubra-Acorn R 84 k edit (23871483189).jpg"
-    ],
-    "flower": [
-      "File:Blooming of Red oak (Quercus rubra).jpg"
-    ],
-    "inat": {
-      "leaf": [
-        "https://www.inaturalist.org/observations/8477937"
-      ],
-      "form": [
-        "https://www.inaturalist.org/observations/21793178"
-      ]
-    }
-  },
-  "liquidambar-styraciflua": {
-    "form": [
-      "File:Liquidambar styraciflua in Golden Valley Tree Park, May 2022 02.jpg",
-      "File:Liquidambar styraciflua - La Hulpe (1).JPG"
-    ],
-    "leaf": [
-      "File:American sweetgum leaves, Brookfield Stream Reserve.jpg",
-      "File:Backlit American sweetgum (Liquidambar styraciflua) ref leaf, Lisbon, Portugal (approx. GPS location) julesvernex2.jpg"
-    ],
-    "bark": [
-      "File:American Sweetgum Liquidambar styraciflua Bark Closeup.JPG"
-    ],
-    "fruit": [
-      "File:Sweetgum fruits, West Park, 2022-01-13, 01.jpg"
-    ],
-    "flower": [
-      "File:Liquidambar styraciflua bloom.JPG"
-    ]
-  },
-  "styphnolobium-japonicum": {
-    "form": [
-      "File:Styphnolobium japonicum UW.JPG"
-    ],
-    "bark": [
-      "File:2024-01-27 14 58 42 Pagoda tree bark on the grounds of the Mountain View Golf Course in Ewing Township, Mercer County, New Jersey.jpg"
-    ],
-    "fruit": [
-      "File:2024-01-27 14 57 42 Pagoda tree fruit on the grounds of the Mountain View Golf Course in Ewing Township, Mercer County, New Jersey.jpg"
-    ],
-    "flower": [
-      "File:2023-07-21 16 08 58 Japanese pagoda tree flowers along Willis Drive in the Mountainview section of Ewing Township, Mercer County, New Jersey.jpg"
-    ],
-    "inat": {
-      "leaf": [
-        "https://www.inaturalist.org/observations/90724613"
-      ]
-    }
-  },
-  "acer-saccharum": {
-    "form": [
-      "File:Acer saccharum Tree - panoramio.jpg"
-    ],
-    "leaf": [
-      "File:Acer saccharum leaves.jpg",
-      "File:Acer saccharum (4976751017).jpg"
-    ],
-    "inat": {
-      "form": [
-        "https://www.inaturalist.org/observations/141023115"
-      ],
-      "bark": [
-        "https://www.inaturalist.org/observations/265289492"
-      ]
-    }
-  },
-  "cercis-canadensis": {
-    "form": [
-      "File:Eastern Redbud Cercis canadensis habit summer.jpg"
-    ],
-    "bark": [
-      "File:Eastern Redbud (Cercis canadensis) Bark and Blooms - Knoxville, Tennessee - April 10, 2020.jpg"
-    ],
-    "fruit": [
-      "File:2021-05-17 16 00 40 Eastern Redbud branch with a heavy load of immature seed pods along Old Dairy Road in the Franklin Farm section of Oak Hill, Fairfax County, Virginia.jpg"
-    ],
-    "flower": [
-      "File:Cercis canadensis tree trunk with flowers.jpg"
-    ],
-    "inat": {
-      "flower": [
-        "https://www.inaturalist.org/observations/72378649"
-      ],
-      "leaf": [
-        "https://www.inaturalist.org/observations/274013164"
-      ]
-    }
-  },
-  "ailanthus-altissima": {
-    "form": [
-      "File:Ailanthus altissima - geograph.org.uk - 6889522.jpg"
-    ],
-    "bark": [
-      "File:Heaventree Ailanthus altissima 150mm bark.jpg"
-    ],
-    "fruit": [
-      "File:Ailanthus altissima, samara.jpg"
-    ],
-    "flower": [
-      "File:Ailanthus altissima flowers (7601188730).jpg"
-    ],
-    "inat": {
-      "leaf": [
-        "https://www.inaturalist.org/observations/91361855",
-        "https://www.inaturalist.org/observations/127112855"
-      ],
-      "form": [
-        "https://www.inaturalist.org/observations/119405889"
-      ]
-    }
-  },
-  "prunus-serotina": {
-    "form": [
-      "File:Ruhland, Ortrander Str. 9d, Spätblühende Traubenkirsche auf dem Wohnhof Ortrander Str. 8-9, Herbst, 03.jpg",
-      "File:Prunus serotina kz19.jpg"
-    ],
-    "bark": [
-      "File:2021-03-02 17 13 34 Black Cherry bark along Apple Barrel Court in the Franklin Farm section of Oak Hill, Fairfax County, Virginia.jpg"
-    ],
-    "fruit": [
-      "File:Prunus serotina fruit, Netherlands.jpg"
-    ],
-    "flower": [
-      "File:Prunus-serotina-flowers.jpg"
-    ],
-    "inat": {
-      "leaf": [
-        "https://www.inaturalist.org/observations/284688686",
-        "https://www.inaturalist.org/observations/143902806"
-      ],
-      "fruit": [
-        "https://www.inaturalist.org/observations/90837784"
-      ]
-    },
-    "inat_first": [
-      "fruit"
-    ]
-  },
-  "aesculus-hippocastanum": {
-    "form": [
-      "File:Hagen Kattenohl 1a.JPG"
-    ],
-    "bark": [
-      "File:Aesculus hippocastanum bark 1.JPG"
-    ],
-    "fruit": [
-      "File:Horse chestnut-1698741.jpg"
-    ],
-    "flower": [
-      "File:Aesculus hippocastanum flower 2.jpg"
-    ],
-    "inat": {
-      "leaf": [
-        "https://www.inaturalist.org/observations/46298422",
-        "https://www.inaturalist.org/observations/161605943"
-      ]
-    }
-  },
-  "taxodium-distichum": {
-    "form": [
-      "File:Charlottenburg Schlosspark Sumpfzypresse-001.jpg",
-      "local:scripts/local_photos/taxodium-distichum/form-01.jpg"
-    ],
-    "leaf": [
-      "local:scripts/local_photos/taxodium-distichum/leaf-01.jpg"
-    ],
-    "bark": [
-      "File:Bald Cypress Taxodium distichum Bark Vertical.JPG"
-    ],
-    "fruit": [
-      "File:Taxodium distichum cones J2.jpg"
-    ],
-    "skip": [
-      "flower"
-    ]
-  },
-  "prunus-cerasifera": {
-    "form": [
-      "local:scripts/local_photos/prunus-cerasifera/form-01.jpg",
-      "File:Prunus cerasifera Nigra tree.jpg"
-    ],
-    "leaf": [
-      "local:scripts/local_photos/prunus-cerasifera/leaf-01.jpg"
-    ],
-    "bark": [
-      "File:GT Cherry Plum.jpg"
-    ]
+ "platanus-acerifolia": {
+  "form": [
+   "File:Platanus x acerifolia 01 summer.jpg",
+   "File:Platanus London Plane Tree Main Street Marthas Vineyard Edgartown.jpg"
+  ],
+  "leaf": [
+   "File:(ms) Platanus \u00d7 hispanica 10.jpg"
+  ],
+  "fruit": [
+   "File:(ms) Platanus \u00d7 hispanica 1.jpg",
+   "File:(ms) Platanus \u00d7 hispanica 7.jpg"
+  ]
+ },
+ "acer-platanoides": {
+  "form": [
+   "File:Acer platanoides Marki 2.JPG"
+  ],
+  "leaf": [
+   "File:Acer platanoides 2 RF.jpg"
+  ]
+ },
+ "pyrus-calleryana": {
+  "form": [
+   "File:Pyrus calleryana.JPG",
+   "File:Pyrus Calleryana tree.jpg"
+  ],
+  "leaf": [
+   "File:Pyrus calleryana leaf s2.jpg"
+  ],
+  "bark": [
+   "File:Pyrus Calleryana bark.jpg"
+  ],
+  "inat": {
+   "leaf": [
+    0
+   ],
+   "fruit": [
+    1
+   ],
+   "flower": [
+    3
+   ]
   }
+ },
+ "gleditsia-triacanthos": {
+  "form": [
+   "File:Gleditsia triacanthos Maryhill Museum 01.jpg"
+  ],
+  "bark": [
+   "File:Gleditsia triacanthos bark.jpg"
+  ],
+  "leaf": [
+   "File:Gleditsia leaf.jpg"
+  ],
+  "inat": {
+   "leaf": [
+    0
+   ],
+   "form": [
+    1
+   ],
+   "fruit": [
+    3
+   ]
+  }
+ },
+ "quercus-palustris": {
+  "inat": {
+   "leaf": [
+    0,
+    3
+   ],
+   "form": [
+    2
+   ]
+  }
+ },
+ "tilia-cordata": {
+  "form": [
+   "File:Tilia cordata tree, Ada Ciganlija.jpg"
+  ],
+  "leaf": [
+   "File:2020 year. Herbarium. Tilia cordata. img-012.jpg",
+   "File:2020 year. Herbarium. Tilia cordata. img-008.jpg"
+  ],
+  "bark": [
+   "File:2021-03-04 11 15 31 Little-leaf Linden bark along Virginia Willow Drive in the Franklin Glen section of Chantilly, Fairfax County, Virginia.jpg"
+  ],
+  "flower": [
+   "File:Tilia cordata flowers.jpg"
+  ],
+  "fruit": [
+   "local:scripts/local_photos/tilia-cordata/fruit-01.jpg"
+  ],
+  "skip": [
+   "fruit"
+  ],
+  "inat": {
+   "fruit": [
+    "https://www.inaturalist.org/observations/73856345"
+   ],
+   "form": [
+    "https://www.inaturalist.org/observations/99783330"
+   ]
+  }
+ },
+ "fraxinus-pennsylvanica": {
+  "form": [
+   "File:Fraxinus pennsylvanica tree.jpg"
+  ],
+  "leaf": [
+   "File:Fraxinus pennsylvanica leaf.jpg"
+  ],
+  "bark": [
+   "File:2021-03-03 09 16 07 Green Ash bark along Terrace Boulevard in the Parkway Village section of Ewing Township, Mercer County, New Jersey.jpg"
+  ],
+  "fruit": [
+   "File:Fraxinus pennsylvanica foliage seed.jpg"
+  ],
+  "skip": [
+   "flower"
+  ],
+  "inat": {
+   "form": [
+    "https://www.inaturalist.org/observations/127667384"
+   ],
+   "bark": [
+    "https://www.inaturalist.org/observations/114060748"
+   ]
+  }
+ },
+ "acer-rubrum": {
+  "form": [
+   "File:Acer rubrum October Glory 5zz.jpg"
+  ],
+  "bark": [
+   "File:Acer rubrum(Bark).JPG"
+  ],
+  "fruit": [
+   "File:Acer rubrum seed keys.jpg"
+  ],
+  "skip": [
+   "flower"
+  ],
+  "inat": {
+   "leaf": [
+    "https://www.inaturalist.org/observations/34643990",
+    "https://www.inaturalist.org/observations/100358257"
+   ],
+   "form": [
+    "https://www.inaturalist.org/observations/33459054"
+   ]
+  }
+ },
+ "acer-saccharinum": {
+  "form": [
+   "File:Acer saccharinum habitus F of F Belgrade.jpg"
+  ],
+  "leaf": [
+   "File:Silver Maple Acer saccharinum leaf, St Louis MO.jpg"
+  ],
+  "bark": [
+   "File:Acer saccharinum bark.jpg"
+  ],
+  "fruit": [
+   "File:Acer saccharinum samaras Churchill Woods Glen Ellyn Illinois.jpg"
+  ],
+  "flower": [
+   "File:Acer-saccharinum-flowering.JPG"
+  ],
+  "inat": {
+   "bark": [
+    "https://www.inaturalist.org/observations/188364169"
+   ]
+  }
+ },
+ "ginkgo-biloba": {
+  "form": [
+   "File:A golden Ginkgo biloba in autumn.jpg"
+  ],
+  "bark": [
+   "File:2021-03-02 17 19 54 Ginkgo bark along White Barn Court in the Franklin Farm section of Oak Hill, Fairfax County, Virginia.jpg"
+  ],
+  "fruit": [
+   "File:Peeled ginkgo nuts.jpg"
+  ],
+  "flower": [
+   "File:Ginkgo biloba - female flower.JPG"
+  ],
+  "inat": {
+   "leaf": [
+    "https://www.inaturalist.org/observations/97018142",
+    "https://www.inaturalist.org/observations/29818974"
+   ],
+   "form": [
+    "https://www.inaturalist.org/observations/145577104"
+   ]
+  }
+ },
+ "zelkova-serrata": {
+  "form": [
+   "File:Zelkova serrata entire.jpg",
+   "File:Zelkova serrata in Golden Valley Tree Park, May 2022 01.jpg"
+  ],
+  "bark": [
+   "File:Zelkova serrata 09.jpg",
+   "File:Zelkova serrata 08.jpg"
+  ],
+  "fruit": [
+   "File:Zelkova leaves and seeds.jpg"
+  ],
+  "skip": [
+   "flower"
+  ],
+  "inat": {
+   "leaf": [
+    "https://www.inaturalist.org/observations/209875267",
+    "https://www.inaturalist.org/observations/80457006"
+   ]
+  }
+ },
+ "ulmus-americana": {
+  "form": [
+   "File:Img ulmus americana 2209.jpg"
+  ],
+  "leaf": [
+   "File:Ulmus americana (5102579562).jpg"
+  ],
+  "bark": [
+   "File:Bark of Ulmus americana.jpg"
+  ],
+  "fruit": [
+   "File:Ulmus americana seeds.jpg"
+  ],
+  "flower": [
+   "File:American Elm - Ulmus americana, Occoquan Regional Park, Lorton, Virginia.jpg"
+  ],
+  "inat": {
+   "form": [
+    "https://www.inaturalist.org/observations/152069762"
+   ]
+  }
+ },
+ "quercus-rubra": {
+  "form": [
+   "File:Quercus Rubra Sambuy.jpg"
+  ],
+  "bark": [
+   "File:Quercus rubra N red oak bark.jpg"
+  ],
+  "fruit": [
+   "File:Quercus rubra-Acorn R 84 k edit (23871483189).jpg"
+  ],
+  "flower": [
+   "File:Blooming of Red oak (Quercus rubra).jpg"
+  ],
+  "inat": {
+   "leaf": [
+    "https://www.inaturalist.org/observations/8477937"
+   ],
+   "form": [
+    "https://www.inaturalist.org/observations/21793178"
+   ]
+  }
+ },
+ "liquidambar-styraciflua": {
+  "fruit": [
+   "local:scripts/local_photos/liquidambar-styraciflua/fruit-01.jpg"
+  ],
+  "form": [
+   "File:Liquidambar styraciflua in Golden Valley Tree Park, May 2022 02.jpg",
+   "File:Liquidambar styraciflua - La Hulpe (1).JPG"
+  ],
+  "leaf": [
+   "File:American sweetgum leaves, Brookfield Stream Reserve.jpg",
+   "local:scripts/local_photos/liquidambar-styraciflua/leaf-01.jpg"
+  ],
+  "bark": [
+   "File:American Sweetgum Liquidambar styraciflua Bark Closeup.JPG"
+  ],
+  "flower": [
+   "File:Liquidambar styraciflua bloom.JPG"
+  ]
+ },
+ "styphnolobium-japonicum": {
+  "form": [
+   "File:Styphnolobium japonicum UW.JPG"
+  ],
+  "bark": [
+   "File:2024-01-27 14 58 42 Pagoda tree bark on the grounds of the Mountain View Golf Course in Ewing Township, Mercer County, New Jersey.jpg"
+  ],
+  "fruit": [
+   "File:2024-01-27 14 57 42 Pagoda tree fruit on the grounds of the Mountain View Golf Course in Ewing Township, Mercer County, New Jersey.jpg"
+  ],
+  "flower": [
+   "File:2023-07-21 16 08 58 Japanese pagoda tree flowers along Willis Drive in the Mountainview section of Ewing Township, Mercer County, New Jersey.jpg"
+  ],
+  "inat": {
+   "leaf": [
+    "https://www.inaturalist.org/observations/90724613"
+   ]
+  }
+ },
+ "acer-saccharum": {
+  "form": [
+   "File:Acer saccharum Tree - panoramio.jpg"
+  ],
+  "leaf": [
+   "File:Acer saccharum leaves.jpg",
+   "File:Acer saccharum (4976751017).jpg"
+  ],
+  "inat": {
+   "form": [
+    "https://www.inaturalist.org/observations/141023115"
+   ],
+   "bark": [
+    "https://www.inaturalist.org/observations/265289492"
+   ]
+  }
+ },
+ "cercis-canadensis": {
+  "form": [
+   "File:Eastern Redbud Cercis canadensis habit summer.jpg"
+  ],
+  "bark": [
+   "File:Eastern Redbud (Cercis canadensis) Bark and Blooms - Knoxville, Tennessee - April 10, 2020.jpg"
+  ],
+  "fruit": [
+   "File:2021-05-17 16 00 40 Eastern Redbud branch with a heavy load of immature seed pods along Old Dairy Road in the Franklin Farm section of Oak Hill, Fairfax County, Virginia.jpg"
+  ],
+  "flower": [
+   "File:Cercis canadensis tree trunk with flowers.jpg"
+  ],
+  "inat": {
+   "flower": [
+    "https://www.inaturalist.org/observations/72378649"
+   ],
+   "leaf": [
+    "https://www.inaturalist.org/observations/274013164"
+   ]
+  }
+ },
+ "ailanthus-altissima": {
+  "form": [
+   "File:Ailanthus altissima - geograph.org.uk - 6889522.jpg"
+  ],
+  "bark": [
+   "File:Heaventree Ailanthus altissima 150mm bark.jpg"
+  ],
+  "fruit": [
+   "File:Ailanthus altissima, samara.jpg"
+  ],
+  "flower": [
+   "File:Ailanthus altissima flowers (7601188730).jpg"
+  ],
+  "inat": {
+   "leaf": [
+    "https://www.inaturalist.org/observations/91361855",
+    "https://www.inaturalist.org/observations/127112855"
+   ],
+   "form": [
+    "https://www.inaturalist.org/observations/119405889"
+   ]
+  }
+ },
+ "prunus-serotina": {
+  "form": [
+   "File:Ruhland, Ortrander Str. 9d, Sp\u00e4tbl\u00fchende Traubenkirsche auf dem Wohnhof Ortrander Str. 8-9, Herbst, 03.jpg",
+   "File:Prunus serotina kz19.jpg"
+  ],
+  "bark": [
+   "File:2021-03-02 17 13 34 Black Cherry bark along Apple Barrel Court in the Franklin Farm section of Oak Hill, Fairfax County, Virginia.jpg"
+  ],
+  "fruit": [
+   "File:Prunus serotina fruit, Netherlands.jpg"
+  ],
+  "flower": [
+   "File:Prunus-serotina-flowers.jpg"
+  ],
+  "inat": {
+   "leaf": [
+    "https://www.inaturalist.org/observations/284688686",
+    "https://www.inaturalist.org/observations/143902806"
+   ],
+   "fruit": [
+    "https://www.inaturalist.org/observations/90837784"
+   ]
+  },
+  "inat_first": [
+   "fruit"
+  ]
+ },
+ "aesculus-hippocastanum": {
+  "form": [
+   "File:Hagen Kattenohl 1a.JPG"
+  ],
+  "bark": [
+   "File:Aesculus hippocastanum bark 1.JPG"
+  ],
+  "fruit": [
+   "File:Horse chestnut-1698741.jpg"
+  ],
+  "flower": [
+   "File:Aesculus hippocastanum flower 2.jpg"
+  ],
+  "inat": {
+   "leaf": [
+    "https://www.inaturalist.org/observations/46298422",
+    "https://www.inaturalist.org/observations/161605943"
+   ]
+  }
+ },
+ "taxodium-distichum": {
+  "form": [
+   "File:Charlottenburg Schlosspark Sumpfzypresse-001.jpg",
+   "local:scripts/local_photos/taxodium-distichum/form-01.jpg"
+  ],
+  "leaf": [
+   "local:scripts/local_photos/taxodium-distichum/leaf-01.jpg"
+  ],
+  "bark": [
+   "File:Bald Cypress Taxodium distichum Bark Vertical.JPG"
+  ],
+  "fruit": [
+   "File:Taxodium distichum cones J2.jpg"
+  ],
+  "skip": [
+   "flower"
+  ]
+ },
+ "prunus-cerasifera": {
+  "form": [
+   "local:scripts/local_photos/prunus-cerasifera/form-01.jpg",
+   "File:Prunus cerasifera Nigra tree.jpg"
+  ],
+  "leaf": [
+   "local:scripts/local_photos/prunus-cerasifera/leaf-01.jpg"
+  ],
+  "bark": [
+   "File:GT Cherry Plum.jpg"
+  ]
+ }
 }
