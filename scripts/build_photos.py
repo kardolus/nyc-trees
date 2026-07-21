@@ -21,7 +21,7 @@ An optional scripts/photo_picks.json lets you override the auto-pick per (specie
 Run:  python3 scripts/build_photos.py            (add --limit N to test on a few species)
 """
 import hashlib, io, json, os, re, subprocess, sys, urllib.parse, urllib.request
-from PIL import Image
+from PIL import Image, ImageOps
 
 
 def _fh(path):
@@ -185,7 +185,10 @@ def inat_by_obs(url):
 
 
 def to_webp(raw, path_full, path_thumb):
-    im = Image.open(io.BytesIO(raw)).convert("RGB")
+    im = Image.open(io.BytesIO(raw))
+    # honor the EXIF orientation flag (phone photos are stored sideways + a
+    # rotation tag; without this the re-encoded WebP renders sideways)
+    im = ImageOps.exif_transpose(im).convert("RGB")
     for path, w in ((path_full, FULL_W), (path_thumb, THUMB_W)):
         c = im.copy()
         if c.width > w:
