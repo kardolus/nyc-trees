@@ -36,7 +36,7 @@ window.NYCTREES_SPECIES = [
     common: "Norway maple",
     scientific: "Acer platanoides",
     family: "Sapindaceae",
-    nycRank: 2,
+    nycRank: 7,
     nycStatus: ["street", "park", "invasive"],
     native: false,
     fastId: [
@@ -65,7 +65,7 @@ window.NYCTREES_SPECIES = [
     common: "Callery pear",
     scientific: "Pyrus calleryana",
     family: "Rosaceae",
-    nycRank: 3,
+    nycRank: 4,
     nycStatus: ["street", "ornamental", "invasive"],
     native: false,
     fastId: [
@@ -93,7 +93,7 @@ window.NYCTREES_SPECIES = [
     common: "honeylocust",
     scientific: "Gleditsia triacanthos",
     family: "Fabaceae",
-    nycRank: 4,
+    nycRank: 2,
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -122,7 +122,7 @@ window.NYCTREES_SPECIES = [
     common: "pin oak",
     scientific: "Quercus palustris",
     family: "Fagaceae",
-    nycRank: 5,
+    nycRank: 3,
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -178,7 +178,7 @@ window.NYCTREES_SPECIES = [
     common: "green ash",
     scientific: "Fraxinus pennsylvanica",
     family: "Oleaceae",
-    nycRank: 7,
+    nycRank: 13,
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -236,7 +236,7 @@ window.NYCTREES_SPECIES = [
     common: "silver maple",
     scientific: "Acer saccharinum",
     family: "Sapindaceae",
-    nycRank: 9,
+    nycRank: 16,
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -264,7 +264,7 @@ window.NYCTREES_SPECIES = [
     common: "ginkgo",
     scientific: "Ginkgo biloba",
     family: "Ginkgoaceae",
-    nycRank: 10,
+    nycRank: 9,
     nycStatus: ["street", "park", "ornamental"],
     native: false,
     fastId: [
@@ -292,7 +292,7 @@ window.NYCTREES_SPECIES = [
     common: "Japanese zelkova",
     scientific: "Zelkova serrata",
     family: "Ulmaceae",
-    nycRank: 11,
+    nycRank: 5,
     nycStatus: ["street", "park", "ornamental"],
     native: false,
     fastId: [
@@ -320,7 +320,7 @@ window.NYCTREES_SPECIES = [
     common: "American elm",
     scientific: "Ulmus americana",
     family: "Ulmaceae",
-    nycRank: 12,
+    nycRank: 14,
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -348,7 +348,7 @@ window.NYCTREES_SPECIES = [
     common: "northern red oak",
     scientific: "Quercus rubra",
     family: "Fagaceae",
-    nycRank: 13,
+    nycRank: 12,
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -376,7 +376,7 @@ window.NYCTREES_SPECIES = [
     common: "sweetgum",
     scientific: "Liquidambar styraciflua",
     family: "Altingiaceae",
-    nycRank: 14,
+    nycRank: 11,
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -404,7 +404,7 @@ window.NYCTREES_SPECIES = [
     common: "Japanese pagoda tree",
     scientific: "Styphnolobium japonicum",
     family: "Fabaceae",
-    nycRank: 15,
+    nycRank: 10,
     nycStatus: ["street", "park", "ornamental"],
     native: false,
     fastId: [
@@ -433,7 +433,7 @@ window.NYCTREES_SPECIES = [
     common: "sugar maple",
     scientific: "Acer saccharum",
     family: "Sapindaceae",
-    nycRank: 16,
+    nycRank: 23,
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -461,7 +461,7 @@ window.NYCTREES_SPECIES = [
     common: "eastern redbud",
     scientific: "Cercis canadensis",
     family: "Fabaceae",
-    nycRank: 17,
+    nycRank: 15,
     nycStatus: ["street", "park", "ornamental", "native"],
     native: true,
     fastId: [
@@ -489,7 +489,7 @@ window.NYCTREES_SPECIES = [
     common: "tree-of-heaven",
     scientific: "Ailanthus altissima",
     family: "Simaroubaceae",
-    nycRank: 18,
+    nycRank: 22,
     nycStatus: ["street", "park", "invasive"],
     native: false,
     fastId: [
@@ -546,7 +546,7 @@ window.NYCTREES_SPECIES = [
     common: "horse chestnut",
     scientific: "Aesculus hippocastanum",
     family: "Sapindaceae",
-    nycRank: 20,
+    nycRank: 24,
     nycStatus: ["park", "ornamental"],
     native: false,
     fastId: [
@@ -574,7 +574,7 @@ window.NYCTREES_SPECIES = [
     common: "cherry plum",
     scientific: "Prunus cerasifera",
     family: "Rosaceae",
-    nycRank: 21,
+    nycRank: 18,
     nycStatus: ["street", "park", "ornamental"],
     native: false,
     fastId: [
@@ -603,7 +603,7 @@ window.NYCTREES_SPECIES = [
     common: "bald cypress",
     scientific: "Taxodium distichum",
     family: "Cupressaceae",
-    nycRank: 22,
+    nycRank: 21,
     nycStatus: ["street", "park"],
     native: false,
     fastId: [
@@ -629,7 +629,7 @@ window.NYCTREES_SPECIES = [
     common: "dawn redwood",
     scientific: "Metasequoia glyptostroboides",
     family: "Cupressaceae",
-    nycRank: 34,
+    nycRank: 20,
     nycStatus: ["street", "park"],
     native: false,
     fastId: [
@@ -657,7 +657,7 @@ window.NYCTREES_SPECIES = [
     common: "Kentucky coffeetree",
     scientific: "Gymnocladus dioicus",
     family: "Fabaceae",
-    nycRank: 23,
+    nycRank: 17,
     nycStatus: ["street", "park"],
     native: true,
     fastId: [
