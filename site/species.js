@@ -9,6 +9,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Platanus × acerifolia",
     family: "Platanaceae",
     nycRank: 1,
+    nycCount: 100342,
+    nycPct: 11.16,
+    nycBorough: "Brooklyn",
     nycStatus: ["street", "park", "ornamental"],
     native: false,
     fastId: [
@@ -37,6 +40,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Acer platanoides",
     family: "Sapindaceae",
     nycRank: 7,
+    nycCount: 29303,
+    nycPct: 3.26,
+    nycBorough: "Queens",
     nycStatus: ["street", "park", "invasive"],
     native: false,
     fastId: [
@@ -66,6 +72,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Pyrus calleryana",
     family: "Rosaceae",
     nycRank: 4,
+    nycCount: 52655,
+    nycPct: 5.85,
+    nycBorough: "Staten Island",
     nycStatus: ["street", "ornamental", "invasive"],
     native: false,
     fastId: [
@@ -94,6 +103,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Gleditsia triacanthos",
     family: "Fabaceae",
     nycRank: 2,
+    nycCount: 77735,
+    nycPct: 8.64,
+    nycBorough: "Queens",
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -123,6 +135,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Quercus palustris",
     family: "Fagaceae",
     nycRank: 3,
+    nycCount: 66780,
+    nycPct: 7.43,
+    nycBorough: "Queens",
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -151,6 +166,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Tilia cordata",
     family: "Malvaceae",
     nycRank: 6,
+    nycCount: 29334,
+    nycPct: 3.26,
+    nycBorough: "Queens",
     nycStatus: ["street", "park", "ornamental"],
     native: false,
     fastId: [
@@ -179,6 +197,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Fraxinus pennsylvanica",
     family: "Oleaceae",
     nycRank: 13,
+    nycCount: 15703,
+    nycPct: 1.75,
+    nycBorough: "Queens",
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -208,6 +229,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Acer rubrum",
     family: "Sapindaceae",
     nycRank: 8,
+    nycCount: 24957,
+    nycPct: 2.77,
+    nycBorough: "Staten Island",
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -237,6 +261,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Acer saccharinum",
     family: "Sapindaceae",
     nycRank: 16,
+    nycCount: 9539,
+    nycPct: 1.06,
+    nycBorough: "Queens",
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -265,6 +292,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Ginkgo biloba",
     family: "Ginkgoaceae",
     nycRank: 9,
+    nycCount: 24561,
+    nycPct: 2.73,
+    nycBorough: "Manhattan",
     nycStatus: ["street", "park", "ornamental"],
     native: false,
     fastId: [
@@ -293,6 +323,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Zelkova serrata",
     family: "Ulmaceae",
     nycRank: 5,
+    nycCount: 40691,
+    nycPct: 4.52,
+    nycBorough: "Brooklyn",
     nycStatus: ["street", "park", "ornamental"],
     native: false,
     fastId: [
@@ -321,6 +354,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Ulmus americana",
     family: "Ulmaceae",
     nycRank: 14,
+    nycCount: 15604,
+    nycPct: 1.73,
+    nycBorough: "Brooklyn",
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -349,6 +385,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Quercus rubra",
     family: "Fagaceae",
     nycRank: 12,
+    nycCount: 15823,
+    nycPct: 1.76,
+    nycBorough: "Queens",
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -377,6 +416,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Liquidambar styraciflua",
     family: "Altingiaceae",
     nycRank: 11,
+    nycCount: 19218,
+    nycPct: 2.14,
+    nycBorough: "Staten Island",
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -405,6 +447,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Styphnolobium japonicum",
     family: "Fabaceae",
     nycRank: 10,
+    nycCount: 20749,
+    nycPct: 2.31,
+    nycBorough: "Brooklyn",
     nycStatus: ["street", "park", "ornamental"],
     native: false,
     fastId: [
@@ -434,6 +479,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Acer saccharum",
     family: "Sapindaceae",
     nycRank: 23,
+    nycCount: 2435,
+    nycPct: 0.27,
+    nycBorough: "Queens",
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -462,6 +510,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Cercis canadensis",
     family: "Fabaceae",
     nycRank: 15,
+    nycCount: 9603,
+    nycPct: 1.07,
+    nycBorough: "Queens",
     nycStatus: ["street", "park", "ornamental", "native"],
     native: true,
     fastId: [
@@ -490,6 +541,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Ailanthus altissima",
     family: "Simaroubaceae",
     nycRank: 22,
+    nycCount: 3109,
+    nycPct: 0.35,
+    nycBorough: "Queens",
     nycStatus: ["street", "park", "invasive"],
     native: false,
     fastId: [
@@ -519,6 +573,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Prunus serotina",
     family: "Rosaceae",
     nycRank: 19,
+    nycCount: 6047,
+    nycPct: 0.67,
+    nycBorough: "Brooklyn",
     nycStatus: ["street", "park", "native"],
     native: true,
     fastId: [
@@ -547,6 +604,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Aesculus hippocastanum",
     family: "Sapindaceae",
     nycRank: 24,
+    nycCount: 1396,
+    nycPct: 0.16,
+    nycBorough: "Queens",
     nycStatus: ["park", "ornamental"],
     native: false,
     fastId: [
@@ -575,6 +635,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Prunus cerasifera",
     family: "Rosaceae",
     nycRank: 18,
+    nycCount: 6378,
+    nycPct: 0.71,
+    nycBorough: "Queens",
     nycStatus: ["street", "park", "ornamental"],
     native: false,
     fastId: [
@@ -604,6 +667,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Taxodium distichum",
     family: "Cupressaceae",
     nycRank: 21,
+    nycCount: 3637,
+    nycPct: 0.4,
+    nycBorough: "Brooklyn",
     nycStatus: ["street", "park"],
     native: false,
     fastId: [
@@ -630,6 +696,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Metasequoia glyptostroboides",
     family: "Cupressaceae",
     nycRank: 20,
+    nycCount: 5516,
+    nycPct: 0.61,
+    nycBorough: "Brooklyn",
     nycStatus: ["street", "park"],
     native: false,
     fastId: [
@@ -658,6 +727,9 @@ window.NYCTREES_SPECIES = [
     scientific: "Gymnocladus dioicus",
     family: "Fabaceae",
     nycRank: 17,
+    nycCount: 9249,
+    nycPct: 1.03,
+    nycBorough: "Brooklyn",
     nycStatus: ["street", "park"],
     native: true,
     fastId: [

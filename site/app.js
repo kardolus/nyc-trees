@@ -256,7 +256,7 @@
     APP.innerHTML = '<div class="wrap">' + seg(LEARN_SEG, "guide") +
       '<p class="sub">The common trees, roughly by how often you’ll see them on NYC streets. Tap a photo to enlarge.</p>' +
       '<div class="species-list">' + list.map(guideCard).join("") + '</div></div>';
-    fillCensus();
+    // census now rendered inline from baked species data
   }
   // ---- Atlas (live NYC tree-census) hooks — degrade gracefully if /atlas is down ----
   var _census = null;
@@ -358,7 +358,7 @@
       '<div class="strip">' + strip + '</div>' +
       '<ul class="fastid">' + (s.fastId || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>' +
       '<p class="traits meta">' + esc(t(tr.arrangement)) + ' · ' + esc(t(tr.leafType)) + ' · ' + esc(t(tr.margin)) + ' · ' + esc((tr.bark || []).map(function (b) { return t(b); }).join("/")) + ' ' + t("bark") + ' · ' + esc(t(tr.fruit.replace(/-/g, " "))) + '</p>' +
-      '<p class="census" data-census="' + esc((s.scientific || "").replace("×", "x").toLowerCase()) + '"></p>' +
+      '<p class="census show">' + (s.nycCount ? esc(t("NYC census · {count} trees · #{rank} most common · {pct}% of city · most in {borough}", { count: s.nycCount.toLocaleString(), rank: s.nycRank, pct: s.nycPct, borough: t(s.nycBorough || "—") })) : "") + '</p>' +
       (conf ? '<details class="confuse"><summary>Don’t confuse with…</summary><ul>' + conf + '</ul></details>' : '') +
       '</article>';
   }
