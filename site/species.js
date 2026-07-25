@@ -651,6 +651,34 @@ window.NYCTREES_SPECIES = [
     ],
     fruitKeyword: "cone",
     inaturalistTaxonId: 69150
+  },
+  {
+    id: "gymnocladus-dioicus",
+    common: "Kentucky coffeetree",
+    scientific: "Gymnocladus dioicus",
+    family: "Fabaceae",
+    nycRank: 23,
+    nycStatus: ["street", "park"],
+    native: true,
+    fastId: [
+      "Huge BIPINNATELY compound leaves (leaflets on side-branches) with a pinkish rachis — among the largest leaves of any native tree",
+      "Thick, leathery, plump reddish-brown pods that hang on through winter (green + velvety when young)",
+      "Coarse, open winter silhouette with stout twigs; deeply ridged, scaly gray bark"
+    ],
+    traits: {
+      arrangement: "alternate",
+      leafType: "compound",
+      margin: "entire",
+      lobing: "none",
+      bark: ["ridged", "scaly"],
+      fruit: "pod"
+    },
+    season: { flower: [5, 6], fruit: [9, 11] },
+    confusableWith: [
+      { id: "styphnolobium-japonicum", tell: "Japanese pagoda tree has ONCE-pinnate leaves and beaded, necklace-like pods constricted between seeds; coffeetree's pods are thick and plump" }
+    ],
+    fruitKeyword: "pod",
+    inaturalistTaxonId: 163451
   }
 ];
 // 22 species

@@ -456,5 +456,22 @@
   "fruit": [
    "File:Metasequoia glyptostroboides female cones.jpg"
   ]
+ },
+ "gymnocladus-dioicus": {
+  "leaf": [
+   "local:scripts/local_photos/gymnocladus-dioicus/leaf-01.jpg"
+  ],
+  "fruit": [
+   "local:scripts/local_photos/gymnocladus-dioicus/fruit-01.jpg"
+  ],
+  "form": [
+   "File:Kentucky coffeetree on the campus of Haverford College, Haverford, PA, USA.jpg"
+  ],
+  "bark": [
+   "File:Kentucky Coffee Tree Gymnocladus dioicus Bark Vertical.jpg"
+  ],
+  "skip": [
+   "flower"
+  ]
  }
 }
