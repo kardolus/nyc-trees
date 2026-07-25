@@ -254,7 +254,7 @@
   function renderGuide() {
     var list = SPECIES.slice().sort(function (a, b) { return (a.nycRank || 99) - (b.nycRank || 99); });
     APP.innerHTML = '<div class="wrap">' + seg(LEARN_SEG, "guide") +
-      '<p class="sub">The common trees, roughly by how often you’ll see them on NYC streets. Tap a photo to enlarge.</p>' +
+      '<p class="sub">24 common NYC street trees, ordered by how often you’ll see them. The # is each tree’s rank in the full city census — gaps are common trees not yet in the guide. Tap a photo to enlarge.</p>' +
       '<div class="species-list">' + list.map(guideCard).join("") + '</div></div>';
     // census now rendered inline from baked species data
   }
