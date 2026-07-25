@@ -414,10 +414,11 @@
  },
  "taxodium-distichum": {
   "form": [
-   "File:Charlottenburg Schlosspark Sumpfzypresse-001.jpg"
+   "File:Charlottenburg Schlosspark Sumpfzypresse-001.jpg",
+   "local:scripts/local_photos/taxodium-distichum/form-01.jpg"
   ],
   "leaf": [
-   "File:Baldcypress, Taxodium distichum, Foliage.jpg"
+   "local:scripts/local_photos/taxodium-distichum/leaf-01.jpg"
   ],
   "bark": [
    "File:Bald Cypress Taxodium distichum Bark Vertical.JPG"
