@@ -673,7 +673,7 @@ window.NYCTREES_SPECIES = [
       bark: ["ridged", "scaly"],
       fruit: "pod"
     },
-    season: { flower: [5, 6], fruit: [9, 11] },
+    season: { flower: [5, 6], fruit: [7, 8, 9, 10, 11, 12, 1, 2, 3] },
     confusableWith: [
       { id: "styphnolobium-japonicum", tell: "Japanese pagoda tree has ONCE-pinnate leaves and beaded, necklace-like pods constricted between seeds; coffeetree's pods are thick and plump" }
     ],
