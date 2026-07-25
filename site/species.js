@@ -782,6 +782,37 @@ window.NYCTREES_SPECIES = [
     ],
     fruitKeyword: "cherry",
     inaturalistTaxonId: 125742
+  },
+  {
+    id: "koelreuteria-paniculata",
+    common: "goldenrain tree",
+    scientific: "Koelreuteria paniculata",
+    family: "Sapindaceae",
+    nycRank: 29,
+    nycCount: 6258,
+    nycPct: 0.70,
+    nycBorough: "Queens",
+    nycStatus: ["street", "park"],
+    native: false,
+    fastId: [
+      "Papery, inflated 3-sided LANTERN seed capsules in hanging clusters (green → tan) — unmistakable in late summer",
+      "Big pinnately compound leaves with coarsely toothed, often irregularly lobed leaflets",
+      "Loose sprays of small YELLOW flowers in June–July — one of few trees blooming in high summer"
+    ],
+    traits: {
+      arrangement: "alternate",
+      leafType: "compound",
+      margin: "serrate",
+      lobing: "none",
+      bark: ["ridged", "furrowed"],
+      fruit: "capsule"
+    },
+    season: { flower: [6, 7], fruit: [7, 8, 9, 10] },
+    confusableWith: [
+      { id: "ailanthus-altissima", tell: "Tree-of-heaven also has big pinnate leaves but smooth-edged leaflets with a basal gland, a rank smell, and twisted papery samaras — not goldenrain’s inflated lanterns" }
+    ],
+    fruitKeyword: "capsule",
+    inaturalistTaxonId: 58320
   }
 ];
 // 22 species

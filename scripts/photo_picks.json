@@ -491,5 +491,23 @@
   "skip": [
    "fruit"
   ]
+ },
+ "koelreuteria-paniculata": {
+  "fruit": [
+   "local:scripts/local_photos/koelreuteria-paniculata/fruit-01.jpg"
+  ],
+  "flower": [
+   "File:Koelreuteria paniculata inflorescence.jpg"
+  ],
+  "leaf": [
+   "File:Koelreuteria paniculata Roztrzeplin wiechowaty 2024-05-26 01.jpg"
+  ],
+  "bark": [
+   "File:Koelreuteria paniculata- Trunk.JPG"
+  ],
+  "skip": [
+   "form"
+  ],
+  "inat": {}
  }
 }
