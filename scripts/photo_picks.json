@@ -441,5 +441,20 @@
   "bark": [
    "File:GT Cherry Plum.jpg"
   ]
+ },
+ "metasequoia-glyptostroboides": {
+  "leaf": [
+   "local:scripts/local_photos/metasequoia-glyptostroboides/leaf-01.jpg"
+  ],
+  "form": [
+   "File:Metasequoia glyptostroboides mature habit.jpg",
+   "local:scripts/local_photos/metasequoia-glyptostroboides/form-01.jpg"
+  ],
+  "bark": [
+   "File:Metasequoia glyptostroboides bark.jpg"
+  ],
+  "fruit": [
+   "File:Metasequoia glyptostroboides female cones.jpg"
+  ]
  }
 }

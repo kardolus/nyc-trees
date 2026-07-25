@@ -623,6 +623,34 @@ window.NYCTREES_SPECIES = [
     confusableWith: [],
     fruitKeyword: "cone",
     inaturalistTaxonId: 49666
+  },
+  {
+    id: "metasequoia-glyptostroboides",
+    common: "dawn redwood",
+    scientific: "Metasequoia glyptostroboides",
+    family: "Cupressaceae",
+    nycRank: 34,
+    nycStatus: ["street", "park"],
+    native: false,
+    fastId: [
+      "Soft, feathery DECIDUOUS conifer — a living fossil, rust-orange before dropping in fall",
+      "Flat needles set OPPOSITE (in pairs) along the twig — the clincher vs. bald cypress",
+      "Straight, strongly conical central leader; fluted trunk with reddish shredding bark"
+    ],
+    traits: {
+      arrangement: "opposite",
+      leafType: "needle",
+      margin: "entire",
+      lobing: "none",
+      bark: ["fibrous", "shredding", "fluted"],
+      fruit: "cone"
+    },
+    season: { flower: [2, 3], fruit: [10, 11] },
+    confusableWith: [
+      { id: "taxodium-distichum", tell: "Bald cypress needles are ALTERNATE (staggered); dawn redwood's are OPPOSITE (paired), with a notch above each branchlet pair" }
+    ],
+    fruitKeyword: "cone",
+    inaturalistTaxonId: 69150
   }
 ];
 // 22 species
