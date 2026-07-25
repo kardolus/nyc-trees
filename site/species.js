@@ -751,6 +751,37 @@ window.NYCTREES_SPECIES = [
     ],
     fruitKeyword: "pod",
     inaturalistTaxonId: 163451
+  },
+  {
+    id: "prunus-serrulata",
+    common: "Japanese flowering cherry",
+    scientific: "Prunus serrulata",
+    family: "Rosaceae",
+    nycRank: 6,
+    nycCount: 31675,
+    nycPct: 3.51,
+    nycBorough: "Queens",
+    nycStatus: ["street", "park"],
+    native: false,
+    fastId: [
+      "The cherry-blossom tree — a burst of showy pink (often double 'Kanzan') or white flowers in mid-April, before the leaves",
+      "Smooth reddish-brown bark banded with horizontal LENTICELS (raised dashes) — a dead giveaway for cherries",
+      "Alternate, oval, finely SERRATED leaves; short vase-shaped trunk. Ornamental cultivars set little or no fruit"
+    ],
+    traits: {
+      arrangement: "alternate",
+      leafType: "simple",
+      margin: "serrate",
+      lobing: "none",
+      bark: ["smooth", "banded"],
+      fruit: "drupe"
+    },
+    season: { flower: [4], fruit: [6, 7] },
+    confusableWith: [
+      { id: "prunus-cerasifera", tell: "Cherry plum has dark PURPLE leaves, blooms earlier with small simple flowers, and sets plums; flowering cherry has GREEN serrated leaves and showy clustered (often double) blossoms" }
+    ],
+    fruitKeyword: "cherry",
+    inaturalistTaxonId: 125742
   }
 ];
 // 22 species
