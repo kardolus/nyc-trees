@@ -105,6 +105,11 @@ window.NYCTREES_ABOUT = {
   "relatives": "As a member of the Rosaceae (rose) family, it is closely related to other stone fruits like peaches, apricots, and almonds.",
   "fact": "Its tart fruit, known as the myrobalan plum, is the essential ingredient in tkemali, a traditional sour sauce from the country of Georgia."
  },
+ "syringa-reticulata": {
+  "name": "Syringa comes from the Greek syrinx, meaning pipe or tube, traditionally linked to lilacs’ hollow stems. Reticulata means net-veined, referring to the leaf venation.",
+  "relatives": "It is in Oleaceae, the olive family, related to common lilac, ash, privet, and olive.",
+  "fact": "Unlike the familiar shrubby lilacs, Japanese tree lilac develops a single trunk and a rounded tree crown, flowering after most other lilacs have finished."
+ },
  "taxodium-distichum": {
   "name": "The genus name *Taxodium* means \"yew-like\" in Greek, while *distichum* is Latin for \"in two ranks,\" describing its needle arrangement. It's called \"bald\" cypress because it is a deciduous conifer that drops its needles in winter.",
   "relatives": "It belongs to the cypress family (Cupressaceae), alongside famous relatives like the giant sequoia and coast redwood.",

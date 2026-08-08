@@ -15,7 +15,7 @@ the flightdeck design system + Leitner spaced-repetition pattern.
 - **Progress**: mastery per species, streak, weak-spot drills, export/import.
 
 ## Data
-- `site/species.js` — hand-authored botany (`window.NYCTREES_SPECIES`): 20 species with
+- `site/species.js` — hand-authored botany (`window.NYCTREES_SPECIES`): 27 species with
   traits, confusable pairs, seasonality, iNaturalist taxon IDs.
 - `site/photos.js` — **generated** by `scripts/build_photos.py` (`window.NYCTREES_PHOTOS` +
   `NYCTREES_CREDITS`). Photos: Wikimedia Commons (leaf/bark/fruit/flower — the filename names

@@ -813,6 +813,37 @@ window.NYCTREES_SPECIES = [
     ],
     fruitKeyword: "capsule",
     inaturalistTaxonId: 58320
+  },
+  {
+    id: "syringa-reticulata",
+    common: "Japanese tree lilac",
+    scientific: "Syringa reticulata",
+    family: "Oleaceae",
+    nycRank: 25,
+    nycCount: 7652,
+    nycPct: 0.85,
+    nycBorough: "Queens",
+    nycStatus: ["street", "park", "ornamental"],
+    native: false,
+    fastId: [
+      "Large upright sprays of creamy-white, strongly scented flowers in late May–June",
+      "OPPOSITE pairs of broad oval leaves with smooth, entire edges and pointed tips",
+      "Dense clusters of pointed green capsules that turn tan and can persist into winter; young bark has cherry-like horizontal lenticels"
+    ],
+    traits: {
+      arrangement: "opposite",
+      leafType: "simple",
+      margin: "entire",
+      lobing: "none",
+      bark: ["smooth", "lenticels", "scaly"],
+      fruit: "capsule"
+    },
+    season: { flower: [5, 6], fruit: [7, 8, 9, 10, 11, 12, 1, 2] },
+    confusableWith: [
+      { id: "prunus-serotina", tell: "Both can have cherry-like horizontal bark marks, but tree lilac has OPPOSITE smooth-edged leaves and dry pointed capsules; black cherry has ALTERNATE serrated leaves and dark fleshy cherries" }
+    ],
+    fruitKeyword: "capsule",
+    inaturalistTaxonId: 135416
   }
 ];
-// 22 species
+// 27 species
